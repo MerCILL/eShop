@@ -16,5 +16,7 @@ public class CatalogDbContext : DbContext
         builder.ApplyConfiguration(new TypeConfiguration());
         builder.ApplyConfiguration(new BrandConfiguration());
         builder.ApplyConfiguration(new ItemConfiguration());
+
+        CatalogDbSeed.Seed(builder);
     }
 }
