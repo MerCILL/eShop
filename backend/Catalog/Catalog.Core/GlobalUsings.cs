@@ -4,6 +4,8 @@ global using Catalog.Data.Infrastructure;
 global using Catalog.Core.Interfaces;
 global using Catalog.Core.Repositories;
 global using static Catalog.Core.Infrastructure.UnitOfWork;
+global using Catalog.Domain.Requests;
+
 
 
 global using Microsoft.EntityFrameworkCore;

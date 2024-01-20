@@ -12,17 +12,27 @@ public class CatalogTypeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetTypes()
+    public async Task<IActionResult> GetTypes(int page = 1, int size = 3)
     {
-        var types = await _catalogTypeService.Get();
+        var types = await _catalogTypeService.Get(page, size);
 
         var response = types.Select(type => new CatalogTypeGetResponse(
-           type.Id, 
+           type.Id,
            type.Title,
            type.CreatedAt,
            type.UpdatedAt));
 
-        return Ok(response);
+        var total = await _catalogTypeService.Count(); 
+
+        var paginatedResponse = new PaginatedResponse<CatalogTypeGetResponse>(
+            page,
+            size,
+            total,
+            (int)Math.Ceiling(total / (double)size),
+            response
+        );
+
+        return Ok(paginatedResponse);
     }
 
     [HttpGet("{id}")]
@@ -62,7 +72,7 @@ public class CatalogTypeController : ControllerBase
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateType(int id, [FromBody] CatalogTypeRequest request)
     {
-        var type = await _catalogTypeService.Update(id, request.Title);
+        var type = await _catalogTypeService.Update(id, request);
 
         var response = new CatalogTypeGetResponse(
             type.Id,

@@ -11,9 +11,9 @@ public class CatalogTypeService : ICatalogTypeService
         _catalogTypeRepository = _unitOfWork.GetRepository<CatalogTypeEntity>();
     }
 
-    public async Task<IEnumerable<CatalogType>> Get()
+    public async Task<IEnumerable<CatalogType>> Get(int page, int size)
     {
-        var typesEntities = await _catalogTypeRepository.Get();
+        var typesEntities = await _catalogTypeRepository.Get(page, size);
 
         var types = typesEntities.Select(type =>
         new CatalogType(
@@ -59,12 +59,12 @@ public class CatalogTypeService : ICatalogTypeService
         return typeEntity.Id;
     }
 
-    public async Task<CatalogType> Update(int id, string title)
+    public async Task<CatalogType> Update(int id, CatalogTypeRequest request)
     {
         var typeEntity = new CatalogTypeEntity
         {
             Id = id,
-            Title = title,
+            Title = request.Title,
             UpdatedAt = DateTime.UtcNow
         };
 
@@ -86,5 +86,10 @@ public class CatalogTypeService : ICatalogTypeService
         _unitOfWork.Commit();
 
         return result;
+    }
+
+    public async Task<int> Count() 
+    { 
+        return await _catalogTypeRepository.Count();
     }
 }

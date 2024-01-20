@@ -11,9 +11,13 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         _dbSet = _dbContext.Set<TEntity>();
     }
 
-    public virtual async Task<IEnumerable<TEntity>> Get()
+    public virtual async Task<IEnumerable<TEntity>> Get(int page, int size)
     {
-        var entities = await _dbSet.AsNoTracking().ToListAsync();
+        var entities = await _dbSet
+            .AsNoTracking()
+            .Skip((page - 1) * size)
+            .Take(size)
+            .ToListAsync();
         return entities;
     }
 
@@ -44,5 +48,10 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
             .ExecuteDeleteAsync();
 
         return id;
+    }
+
+    public virtual async Task<int> Count()
+    {
+        return await _dbSet.CountAsync();
     }
 }
