@@ -6,6 +6,7 @@ global using Catalog.Core.Repositories;
 global using Catalog.Core.Services;
 global using Catalog.Domain.Requests;
 global using Catalog.Domain.Models;
+global using Catalog.Core.Infrastructure;
 
 
 //packages

@@ -1,56 +1,22 @@
 ﻿namespace Catalog.Core.Repositories;
 
-public class CatalogTypeRepository : ICatalogTypeRepository
+public class CatalogTypeRepository : GenericRepository<CatalogTypeEntity>, ICatalogTypeRepository
 {
-    private readonly CatalogDbContext _dbContext;
-
-    public CatalogTypeRepository(CatalogDbContext dbContext)
+    public CatalogTypeRepository(CatalogDbContext dbContext) : base(dbContext)
     {
-        _dbContext = dbContext;
     }
 
-    public async Task<IEnumerable<CatalogTypeEntity>> Get()
-    {
-        var typesEntities = await _dbContext.Types.AsNoTracking().ToListAsync();
-
-        return typesEntities;
-    }
-
-    public async Task<CatalogTypeEntity> GetById(int id)
-    {
-        var typeEntity = await _dbContext.Types.AsNoTracking().FirstOrDefaultAsync(type => type.Id == id);
-
-        return typeEntity;
-    }
-
-    public async Task<int> Add(CatalogTypeEntity typeEntity)
-    {
-        await _dbContext.AddAsync(typeEntity);
-        await _dbContext.SaveChangesAsync();
-
-        return typeEntity.Id;
-    }
-
-    public async Task<CatalogTypeEntity> Update(int id, string title)
+    public override async Task<CatalogTypeEntity> Update(CatalogTypeEntity entity)
     {
         await _dbContext.Types
-            .Where(type => type.Id == id)
+            .Where(type => type.Id == entity.Id)
             .ExecuteUpdateAsync(sp => sp
-            .SetProperty(p => p.Title, p => title)
+            .SetProperty(p => p.Title, p => entity.Title)
             .SetProperty(p => p.UpdatedAt, p => DateTime.UtcNow));
 
-        var type = await _dbContext.Types
-            .FirstOrDefaultAsync(type => type.Id == id);
+        var updatedEntity = await _dbContext.Types
+            .FirstOrDefaultAsync(type => type.Id == entity.Id);
 
-        return type;
-    }
-
-    public async Task<int> Delete(int id)
-    {
-        var type = await _dbContext.Types
-            .Where(type => type.Id == id)
-            .ExecuteDeleteAsync();
-
-        return id;
+        return updatedEntity;
     }
 }

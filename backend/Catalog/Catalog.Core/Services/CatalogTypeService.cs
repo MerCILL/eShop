@@ -2,11 +2,13 @@
 
 public class CatalogTypeService : ICatalogTypeService
 {
-    private readonly ICatalogTypeRepository _catalogTypeRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IGenericRepository<CatalogTypeEntity> _catalogTypeRepository;
 
-    public CatalogTypeService(ICatalogTypeRepository catalogTypeRepository)
+    public CatalogTypeService(IUnitOfWork unitOfWork)
     {
-        _catalogTypeRepository = catalogTypeRepository;
+        _unitOfWork = unitOfWork;
+        _catalogTypeRepository = _unitOfWork.GetRepository<CatalogTypeEntity>();
     }
 
     public async Task<IEnumerable<CatalogType>> Get()
@@ -52,13 +54,22 @@ public class CatalogTypeService : ICatalogTypeService
         };
 
         await _catalogTypeRepository.Add(typeEntity);
+        _unitOfWork.Commit();
 
         return typeEntity.Id;
     }
 
     public async Task<CatalogType> Update(int id, string title)
     {
-        var typeEntity =  await _catalogTypeRepository.Update(id, title);
+        var typeEntity = new CatalogTypeEntity
+        {
+            Id = id,
+            Title = title,
+            UpdatedAt = DateTime.UtcNow
+        };
+
+        typeEntity = await _catalogTypeRepository.Update(typeEntity);
+        _unitOfWork.Commit();
 
         var type = new CatalogType(
             typeEntity.Id,
@@ -71,6 +82,9 @@ public class CatalogTypeService : ICatalogTypeService
 
     public async Task<int> Delete(int id)
     {
-        return await _catalogTypeRepository.Delete(id);
+        var result = await _catalogTypeRepository.Delete(id);
+        _unitOfWork.Commit();
+
+        return result;
     }
 }

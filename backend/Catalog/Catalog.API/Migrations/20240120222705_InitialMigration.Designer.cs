@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Catalog.API.Migrations
 {
     [DbContext(typeof(CatalogDbContext))]
-    [Migration("20240120180806_InitialMigration")]
+    [Migration("20240120222705_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -52,13 +52,13 @@ namespace Catalog.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8086),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7630),
                             Title = "Nike"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8087),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7633),
                             Title = "Adidas"
                         });
                 });
@@ -113,7 +113,7 @@ namespace Catalog.API.Migrations
                         {
                             Id = 1,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8094),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7643),
                             Description = "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with classic details and throwback hoops flair. ",
                             PictureFile = "nike-dunk-low-retro-premium.png",
                             Price = 100m,
@@ -124,7 +124,7 @@ namespace Catalog.API.Migrations
                         {
                             Id = 2,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8097),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7648),
                             Description = "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with crisp leather and and classic \"Panda\" color blocking.",
                             PictureFile = "nike-dunk-mid.png",
                             Price = 120m,
@@ -135,7 +135,7 @@ namespace Catalog.API.Migrations
                         {
                             Id = 3,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8099),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7650),
                             Description = "Meet your new go-to hoodie. Heavyweight fleece feels super soft, and the comfy, relaxed fit will have you reaching for it again and again.",
                             PictureFile = "jordan-flight-fleece.png",
                             Price = 100m,
@@ -146,7 +146,7 @@ namespace Catalog.API.Migrations
                         {
                             Id = 4,
                             BrandId = 2,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8100),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7652),
                             Description = "These are not just sneakers, but a real symbol of the era. The adidas Forum model appeared in 1984 and won love not only on basketball courts, but also in show business.",
                             PictureFile = "forum-low.png",
                             Price = 110m,
@@ -157,7 +157,7 @@ namespace Catalog.API.Migrations
                         {
                             Id = 5,
                             BrandId = 2,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8101),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7654),
                             Description = "For your team. For your planet. Created with grassroots football in mind, the Entrada 22 range gives you everything you need to make your game feel and look more beautiful. ",
                             PictureFile = "entrada-22-sweat-hoodie.png",
                             Price = 60m,
@@ -168,7 +168,7 @@ namespace Catalog.API.Migrations
                         {
                             Id = 6,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8104),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7658),
                             Description = "Ja Morant became the superstar he is today by repeatedly sinking jumpers on crooked rims, jumping on tractor tires and dribbling through traffic cones in steamy South Carolina summers.",
                             PictureFile = "ja-1.png",
                             Price = 130m,
@@ -179,7 +179,7 @@ namespace Catalog.API.Migrations
                         {
                             Id = 7,
                             BrandId = 1,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8105),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7708),
                             Description = "Feel unbeatable, from the tee box to the final putt. Inspired by one of the most iconic sneakers of all time, the Air Jordan 1 G is an instant classic on the course. ",
                             PictureFile = "air-jordan-i-high.png",
                             Price = 190m,
@@ -215,13 +215,13 @@ namespace Catalog.API.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8080),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7623),
                             Title = "Shoes"
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8083),
+                            CreatedAt = new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7627),
                             Title = "Hoodie"
                         });
                 });

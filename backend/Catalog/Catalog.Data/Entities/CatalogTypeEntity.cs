@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Data.Entities;
 
-public class CatalogTypeEntity
+public class CatalogTypeEntity : IEntity
 {
     public int Id { get; set; }
     public string Title { get; set; } 

@@ -32,7 +32,7 @@ public class CatalogTypeController : ControllerBase
 
         if (type == null)
         {
-            return Ok("null");
+            return BadRequest($"Type with id = {id} doesn't exist");
         }
 
         var response = new CatalogTypeGetResponse(

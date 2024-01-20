@@ -81,8 +81,8 @@ namespace Catalog.API.Migrations
                 columns: new[] { "Id", "CreatedAt", "Title", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8086), "Nike", null },
-                    { 2, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8087), "Adidas", null }
+                    { 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7630), "Nike", null },
+                    { 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7633), "Adidas", null }
                 });
 
             migrationBuilder.InsertData(
@@ -90,8 +90,8 @@ namespace Catalog.API.Migrations
                 columns: new[] { "Id", "CreatedAt", "Title", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8080), "Shoes", null },
-                    { 2, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8083), "Hoodie", null }
+                    { 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7623), "Shoes", null },
+                    { 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7627), "Hoodie", null }
                 });
 
             migrationBuilder.InsertData(
@@ -99,13 +99,13 @@ namespace Catalog.API.Migrations
                 columns: new[] { "Id", "BrandId", "CreatedAt", "Description", "PictureFile", "Price", "Title", "TypeId", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8094), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with classic details and throwback hoops flair. ", "nike-dunk-low-retro-premium.png", 100m, "Nike Dunk Low Retro Premium", 1, null },
-                    { 2, 1, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8097), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with crisp leather and and classic \"Panda\" color blocking.", "nike-dunk-mid.png", 120m, "Nike Dunk Mid", 1, null },
-                    { 3, 1, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8099), "Meet your new go-to hoodie. Heavyweight fleece feels super soft, and the comfy, relaxed fit will have you reaching for it again and again.", "jordan-flight-fleece.png", 100m, "Jordan Flight Fleece", 2, null },
-                    { 4, 2, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8100), "These are not just sneakers, but a real symbol of the era. The adidas Forum model appeared in 1984 and won love not only on basketball courts, but also in show business.", "forum-low.png", 110m, "Forum Low", 1, null },
-                    { 5, 2, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8101), "For your team. For your planet. Created with grassroots football in mind, the Entrada 22 range gives you everything you need to make your game feel and look more beautiful. ", "entrada-22-sweat-hoodie.png", 60m, "ENTRADA 22 SWEAT HOODIE", 2, null },
-                    { 6, 1, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8104), "Ja Morant became the superstar he is today by repeatedly sinking jumpers on crooked rims, jumping on tractor tires and dribbling through traffic cones in steamy South Carolina summers.", "ja-1.png", 130m, "Ja 1", 1, null },
-                    { 7, 1, new DateTime(2024, 1, 20, 18, 8, 5, 873, DateTimeKind.Utc).AddTicks(8105), "Feel unbeatable, from the tee box to the final putt. Inspired by one of the most iconic sneakers of all time, the Air Jordan 1 G is an instant classic on the course. ", "air-jordan-i-high.png", 190m, "Air Jordan I High G", 1, null }
+                    { 1, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7643), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with classic details and throwback hoops flair. ", "nike-dunk-low-retro-premium.png", 100m, "Nike Dunk Low Retro Premium", 1, null },
+                    { 2, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7648), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with crisp leather and and classic \"Panda\" color blocking.", "nike-dunk-mid.png", 120m, "Nike Dunk Mid", 1, null },
+                    { 3, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7650), "Meet your new go-to hoodie. Heavyweight fleece feels super soft, and the comfy, relaxed fit will have you reaching for it again and again.", "jordan-flight-fleece.png", 100m, "Jordan Flight Fleece", 2, null },
+                    { 4, 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7652), "These are not just sneakers, but a real symbol of the era. The adidas Forum model appeared in 1984 and won love not only on basketball courts, but also in show business.", "forum-low.png", 110m, "Forum Low", 1, null },
+                    { 5, 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7654), "For your team. For your planet. Created with grassroots football in mind, the Entrada 22 range gives you everything you need to make your game feel and look more beautiful. ", "entrada-22-sweat-hoodie.png", 60m, "ENTRADA 22 SWEAT HOODIE", 2, null },
+                    { 6, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7658), "Ja Morant became the superstar he is today by repeatedly sinking jumpers on crooked rims, jumping on tractor tires and dribbling through traffic cones in steamy South Carolina summers.", "ja-1.png", 130m, "Ja 1", 1, null },
+                    { 7, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7708), "Feel unbeatable, from the tee box to the final putt. Inspired by one of the most iconic sneakers of all time, the Air Jordan 1 G is an instant classic on the course. ", "air-jordan-i-high.png", 190m, "Air Jordan I High G", 1, null }
                 });
 
             migrationBuilder.CreateIndex(
