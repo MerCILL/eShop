@@ -45,47 +45,75 @@ public class CatalogTypeService : ICatalogTypeService
 
     public async Task<int> Add(CatalogType type)
     {
-        var typeEntity = new CatalogTypeEntity
+        try
         {
-            Id = type.Id,
-            Title = type.Title,
-            CreatedAt = type.CreatedAt,
-            UpdatedAt = type.UpdatedAt,
-        };
 
-        await _catalogTypeRepository.Add(typeEntity);
-        _unitOfWork.Commit();
+            var typeEntity = new CatalogTypeEntity
+            {
+                Id = type.Id,
+                Title = type.Title,
+                CreatedAt = type.CreatedAt,
+                UpdatedAt = type.UpdatedAt,
+            };
 
-        return typeEntity.Id;
+            await _catalogTypeRepository.Add(typeEntity);
+            _unitOfWork.Commit();
+
+            return typeEntity.Id;
+        }
+
+        catch
+        {
+            _unitOfWork.Rollback();
+            throw;
+        }
     }
 
     public async Task<CatalogType> Update(int id, CatalogTypeRequest request)
     {
-        var typeEntity = new CatalogTypeEntity
+        try
         {
-            Id = id,
-            Title = request.Title,
-            UpdatedAt = DateTime.UtcNow
-        };
+            var typeEntity = new CatalogTypeEntity
+            {
+                Id = id,
+                Title = request.Title,
+                UpdatedAt = DateTime.UtcNow
+            };
 
-        typeEntity = await _catalogTypeRepository.Update(typeEntity);
-        _unitOfWork.Commit();
+            typeEntity = await _catalogTypeRepository.Update(typeEntity);
+            _unitOfWork.Commit();
 
-        var type = new CatalogType(
-            typeEntity.Id,
-            typeEntity.Title,
-            typeEntity.CreatedAt,
-            typeEntity.UpdatedAt);
+            var type = new CatalogType(
+                typeEntity.Id,
+                typeEntity.Title,
+                typeEntity.CreatedAt,
+                typeEntity.UpdatedAt);
 
-        return type;
+            return type;
+        }
+
+        catch
+        {
+            _unitOfWork.Rollback();
+            throw;
+        }
     }
 
     public async Task<int> Delete(int id)
     {
-        var result = await _catalogTypeRepository.Delete(id);
-        _unitOfWork.Commit();
+        try
+        {
+            var result = await _catalogTypeRepository.Delete(id);
+            _unitOfWork.Commit();
 
-        return result;
+            return result;
+        }
+
+        catch
+        {
+            _unitOfWork.Rollback();
+            throw;
+        }
     }
 
     public async Task<int> Count() 
