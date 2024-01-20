@@ -1,10 +1,10 @@
-﻿namespace Catalog.DataAccess.Configurations;
+﻿namespace Catalog.Data.Configurations;
 
-public class ItemConfiguration : IEntityTypeConfiguration<ItemEntity>
+public class CatalogItemConfiguration : IEntityTypeConfiguration<CatalogItemEntity>
 {
-    public void Configure(EntityTypeBuilder<ItemEntity> builder)
+    public void Configure(EntityTypeBuilder<CatalogItemEntity> builder)
     {
-        builder.ToTable("Item");
+        builder.ToTable("CatalogItem");
 
         builder.HasKey(item => item.Id);
 

@@ -1,6 +1,6 @@
 ﻿//files
-global using Catalog.DataAccess.Entities;
-global using Catalog.DataAccess.Configurations; 
+global using Catalog.Data.Entities;
+global using Catalog.Data.Configurations;
 
 
 //packages

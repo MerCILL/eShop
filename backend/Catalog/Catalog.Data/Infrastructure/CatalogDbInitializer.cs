@@ -1,4 +1,4 @@
-﻿namespace Catalog.DataAccess;
+﻿namespace Catalog.Data.Infrastructure;
 
 public class CatalogDbInitializer
 {

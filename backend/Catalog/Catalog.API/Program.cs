@@ -1,9 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Catalog.API")));
+
+builder.Services.AddScoped<ICatalogTypeRepository, CatalogTypeRepository>();
+builder.Services.AddScoped<ICatalogTypeService, CatalogTypeService>();
 
 builder.Services.AddControllers();
 

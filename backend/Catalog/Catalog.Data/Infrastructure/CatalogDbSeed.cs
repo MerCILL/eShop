@@ -1,24 +1,24 @@
-﻿namespace Catalog.DataAccess;
+﻿namespace Catalog.Data.Infrastructure;
 
 public class CatalogDbSeed
 {
     public static void Seed(ModelBuilder builder)
     {
-        var types = new List<TypeEntity>
+        var types = new List<CatalogTypeEntity>
         {
-            new TypeEntity { Id = 1, Title = "Shoes", CreatedAt = DateTimeOffset.Now, UpdatedAt = null },
-            new TypeEntity { Id = 2, Title = "Hoodie", CreatedAt = DateTimeOffset.Now, UpdatedAt = null }
+            new CatalogTypeEntity { Id = 1, Title = "Shoes", CreatedAt = DateTime.UtcNow, UpdatedAt = null },
+            new CatalogTypeEntity { Id = 2, Title = "Hoodie", CreatedAt = DateTime.UtcNow, UpdatedAt = null }
         };
 
-        var brands = new List<BrandEntity>
+        var brands = new List<CatalogBrandEntity>
         {
-            new BrandEntity { Id = 1, Title = "Nike", CreatedAt = DateTimeOffset.Now, UpdatedAt = null },
-            new BrandEntity { Id = 2, Title = "Adidas", CreatedAt = DateTimeOffset.Now, UpdatedAt = null }
+            new CatalogBrandEntity { Id = 1, Title = "Nike", CreatedAt = DateTime.UtcNow, UpdatedAt = null },
+            new CatalogBrandEntity { Id = 2, Title = "Adidas", CreatedAt = DateTime.UtcNow, UpdatedAt = null }
         };
 
-        var items = new List<ItemEntity>
+        var items = new List<CatalogItemEntity>
         {
-            new ItemEntity
+            new CatalogItemEntity
             {
                 Id = 1,
                 Title = "Nike Dunk Low Retro Premium",
@@ -29,11 +29,11 @@ public class CatalogDbSeed
                 PictureFile = "nike-dunk-low-retro-premium.png",
                 TypeId = 1,
                 BrandId = 1,
-                CreatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new ItemEntity
+            new CatalogItemEntity
             {
                 Id = 2,
                 Title = "Nike Dunk Mid",
@@ -44,11 +44,11 @@ public class CatalogDbSeed
                 PictureFile = "nike-dunk-mid.png",
                 TypeId = 1,
                 BrandId = 1,
-                CreatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new ItemEntity
+            new CatalogItemEntity
             {
                 Id = 3,
                 Title = "Jordan Flight Fleece",
@@ -59,11 +59,11 @@ public class CatalogDbSeed
                 PictureFile = "jordan-flight-fleece.png",
                 TypeId = 2,
                 BrandId = 1,
-                CreatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new ItemEntity
+            new CatalogItemEntity
             {
                 Id = 4,
                 Title = "Forum Low",
@@ -74,11 +74,11 @@ public class CatalogDbSeed
                 PictureFile = "forum-low.png",
                 TypeId = 1,
                 BrandId = 2,
-                CreatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new ItemEntity
+            new CatalogItemEntity
             {
                 Id = 5,
                 Title = "ENTRADA 22 SWEAT HOODIE",
@@ -90,11 +90,11 @@ public class CatalogDbSeed
                 PictureFile = "entrada-22-sweat-hoodie.png",
                 TypeId = 2,
                 BrandId = 2,
-                CreatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new ItemEntity
+            new CatalogItemEntity
             {
                 Id = 6,
                 Title = "Ja 1",
@@ -106,11 +106,11 @@ public class CatalogDbSeed
                 PictureFile = "ja-1.png",
                 TypeId = 1,
                 BrandId = 1,
-                CreatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
 
-            new ItemEntity
+            new CatalogItemEntity
             {
                 Id = 7,
                 Title = "Air Jordan I High G",
@@ -122,14 +122,14 @@ public class CatalogDbSeed
                 PictureFile = "air-jordan-i-high.png",
                 TypeId = 1,
                 BrandId = 1,
-                CreatedAt = DateTimeOffset.Now,
+                CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null,
             },
         };
 
-        builder.Entity<TypeEntity>().HasData(types);
-        builder.Entity<BrandEntity>().HasData(brands);
-        builder.Entity<ItemEntity>().HasData(items);
+        builder.Entity<CatalogTypeEntity>().HasData(types);
+        builder.Entity<CatalogBrandEntity>().HasData(brands);
+        builder.Entity<CatalogItemEntity>().HasData(items);
 
     }
 }
