@@ -1,4 +1,4 @@
-﻿namespace Catalog.Core.Interfaces;
+﻿namespace Catalog.Core.Interfaces.IServices;
 
 public interface ICatalogTypeService
 {

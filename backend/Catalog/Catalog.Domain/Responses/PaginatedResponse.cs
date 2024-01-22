@@ -1,9 +1,9 @@
 ﻿namespace Catalog.Domain.Responses;
 
 public record PaginatedResponse<TModel>(
-    int page,
-    int perPage,
-    int total,
-    int totalPages,
+    int Page,
+    int PerPage,
+    int Total,
+    int TotalPages,
     IEnumerable<TModel> Data
 );

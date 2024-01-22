@@ -7,6 +7,9 @@ global using Catalog.Core.Services;
 global using Catalog.Domain.Requests;
 global using Catalog.Domain.Models;
 global using Catalog.Core.Infrastructure;
+global using Catalog.Core.Interfaces.IServices;
+global using Catalog.Core.Interfaces.IRepositories;
+global using Catalog.Data.Entities;
 
 
 //packages

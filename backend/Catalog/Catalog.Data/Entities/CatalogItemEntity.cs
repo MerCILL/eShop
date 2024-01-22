@@ -8,10 +8,10 @@ public class CatalogItemEntity : IEntity
     public decimal Price { get; set; }
     public string PictureFile { get; set; }
 
-    public int TypeId { get; set; }
+    public int? TypeId { get; set; }
     public CatalogTypeEntity Type { get; set; }
 
-    public int BrandId { get; set; }
+    public int? BrandId { get; set; }
     public CatalogBrandEntity Brand { get; set; } 
 
     public DateTime CreatedAt { get; set; }

@@ -16,7 +16,7 @@ public class CatalogTypeController : ControllerBase
     {
         var types = await _catalogTypeService.Get(page, size);
 
-        var response = types.Select(type => new CatalogTypeGetResponse(
+        var response = types.Select(type => new CatalogTypeResponse(
            type.Id,
            type.Title,
            type.CreatedAt,
@@ -24,7 +24,7 @@ public class CatalogTypeController : ControllerBase
 
         var total = await _catalogTypeService.Count(); 
 
-        var paginatedResponse = new PaginatedResponse<CatalogTypeGetResponse>(
+        var paginatedResponse = new PaginatedResponse<CatalogTypeResponse>(
             page,
             size,
             total,
@@ -45,7 +45,7 @@ public class CatalogTypeController : ControllerBase
             return BadRequest($"Type with id = {id} doesn't exist");
         }
 
-        var response = new CatalogTypeGetResponse(
+        var response = new CatalogTypeResponse(
             type.Id,
             type.Title,
             type.CreatedAt,
@@ -58,11 +58,12 @@ public class CatalogTypeController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddType([FromBody] CatalogTypeRequest request)
     {
-        var type = new CatalogType(
-            request.Title,
-            DateTime.UtcNow,
-            null
-            );
+        var type = new CatalogType
+        {
+            Title = request.Title,
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = null
+        };
 
         var id = await _catalogTypeService.Add(type);
 
@@ -74,14 +75,14 @@ public class CatalogTypeController : ControllerBase
     {
         var type = await _catalogTypeService.Update(id, request);
 
-        var response = new CatalogTypeGetResponse(
+        var response = new CatalogTypeResponse(
             type.Id,
             type.Title,
             type.CreatedAt,
             type.UpdatedAt
         );
 
-        return Ok($"Update type with id = {response.Id}: {response.Title}, {response.CreatedAt}, {response.UpdatedAt}");
+        return Ok($"Updated type with id = {response.Id}: {response.Title}, {response.CreatedAt}, {response.UpdatedAt}");
     }
 
     [HttpDelete("{id}")]

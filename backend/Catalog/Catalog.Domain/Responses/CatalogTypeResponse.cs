@@ -1,6 +1,6 @@
 ﻿namespace Catalog.Domain.Responses;
 
-public record CatalogTypeGetResponse(
+public record CatalogTypeResponse(
     int Id,
     string Title,
     DateTime CreatedAt,

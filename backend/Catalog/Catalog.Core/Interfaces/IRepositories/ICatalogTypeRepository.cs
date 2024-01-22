@@ -1,4 +1,4 @@
-﻿namespace Catalog.Core.Interfaces;
+﻿namespace Catalog.Core.Interfaces.IRepositories;
 
 public interface ICatalogTypeRepository : IGenericRepository<CatalogTypeEntity>
 {

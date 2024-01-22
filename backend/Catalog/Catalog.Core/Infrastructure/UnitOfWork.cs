@@ -3,12 +3,14 @@
 public class UnitOfWork : IUnitOfWork
 {
     private readonly CatalogDbContext _context;
-    private Dictionary<Type, object> _repositories;
-    private IDbContextTransaction _transaction;
+    private readonly IServiceProvider _serviceProvider;
+    private readonly Dictionary<Type, object> _repositories;
+    private readonly IDbContextTransaction _transaction;
 
-    public UnitOfWork(CatalogDbContext context)
+    public UnitOfWork(CatalogDbContext context, IServiceProvider serviceProvider)
     {
         _context = context;
+        _serviceProvider = serviceProvider;
         _repositories = new Dictionary<Type, object>();
         _transaction = _context.Database.BeginTransaction();
     }
@@ -31,7 +33,8 @@ public class UnitOfWork : IUnitOfWork
             return (IGenericRepository<TEntity>)_repositories[typeof(TEntity)];
         }
 
-        var repository = new GenericRepository<TEntity>(_context);
+        var factory = (IRepositoryFactory)_serviceProvider.GetService(typeof(IRepositoryFactory))!;
+        var repository = factory.CreateRepository<TEntity>();
         _repositories.Add(typeof(TEntity), repository);
         return repository;
     }

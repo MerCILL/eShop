@@ -17,6 +17,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
             .AsNoTracking()
             .Skip((page - 1) * size)
             .Take(size)
+            .OrderBy(unit => unit.Id)
             .ToListAsync();
         return entities;
     }

@@ -16,11 +16,13 @@ public class CatalogTypeService : ICatalogTypeService
         var typesEntities = await _catalogTypeRepository.Get(page, size);
 
         var types = typesEntities.Select(type =>
-        new CatalogType(
-            type.Id,
-            type.Title,
-            type.CreatedAt,
-            type.UpdatedAt));
+        new CatalogType
+        {
+            Id = type.Id,
+            Title = type.Title,
+            CreatedAt = type.CreatedAt,
+            UpdatedAt = type.UpdatedAt
+        });
 
         return types;
     }
@@ -34,11 +36,13 @@ public class CatalogTypeService : ICatalogTypeService
             return null;
         }
 
-        var type = new CatalogType(
-            typeEntity.Id,
-            typeEntity.Title,
-            typeEntity.CreatedAt,
-            typeEntity.UpdatedAt);
+        var type = new CatalogType
+        {
+            Id = typeEntity.Id,
+            Title = typeEntity.Title,
+            CreatedAt = typeEntity.CreatedAt,
+            UpdatedAt = typeEntity.UpdatedAt
+        };
 
         return type;
     }
@@ -83,11 +87,13 @@ public class CatalogTypeService : ICatalogTypeService
             typeEntity = await _catalogTypeRepository.Update(typeEntity);
             _unitOfWork.Commit();
 
-            var type = new CatalogType(
-                typeEntity.Id,
-                typeEntity.Title,
-                typeEntity.CreatedAt,
-                typeEntity.UpdatedAt);
+            var type = new CatalogType
+            {
+                Id = typeEntity.Id,
+                Title = typeEntity.Title,
+                CreatedAt = typeEntity.CreatedAt,
+                UpdatedAt = typeEntity.UpdatedAt,
+            };
 
             return type;
         }
@@ -95,7 +101,7 @@ public class CatalogTypeService : ICatalogTypeService
         catch
         {
             _unitOfWork.Rollback();
-            throw;
+            throw new Exception("Update item error");
         }
     }
 
