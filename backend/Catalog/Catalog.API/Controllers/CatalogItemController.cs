@@ -24,6 +24,7 @@ public class CatalogItemController : Controller
            item.PictureFile,
            item.Type.Title,
            item.Brand.Title,
+           item.Quantity,
            item.CreatedAt,
            item.UpdatedAt));
 
@@ -59,6 +60,7 @@ public class CatalogItemController : Controller
             item.PictureFile,
             item.Type.Title,
             item.Brand.Title,
+            item.Quantity,
             item.CreatedAt,
             item.UpdatedAt
         );
@@ -80,13 +82,22 @@ public class CatalogItemController : Controller
                 PictureFile = request.PictureFile,
                 Type = new CatalogType { Title = request.Type.Title },
                 Brand = new CatalogBrand { Title = request.Brand.Title },
+                Quantity = request.Quantity,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = null
             };
 
             var id = await _catalogItemService.Add(item);
 
-            return Ok($"Item with id = {id} was successfully created");
+            var existingItem = await _catalogItemService.GetById(id);
+            if (existingItem.Quantity > 1)
+            {
+                return Ok($"Item with id = {id} was successfully updated and its quantity is now {existingItem.Quantity}");
+            }
+            else
+            {
+                return Ok($"Item with id = {id} was successfully created");
+            }
         }
         catch (Exception ex)
         {

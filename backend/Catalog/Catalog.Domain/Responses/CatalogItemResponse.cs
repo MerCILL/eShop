@@ -8,5 +8,6 @@ public record CatalogItemResponse(
     string PictureFile,
     string Type,
     string Brand,
+    int Quantity,
     DateTime CreatedAt,
     DateTime? UpdatedAt);

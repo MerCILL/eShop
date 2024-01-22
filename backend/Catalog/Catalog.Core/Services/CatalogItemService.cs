@@ -3,12 +3,12 @@
 public class CatalogItemService : ICatalogItemService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IGenericRepository<CatalogItemEntity> _catalogItemRepository;
+    private readonly ICatalogItemRepository _catalogItemRepository;
 
     public CatalogItemService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _catalogItemRepository = _unitOfWork.GetRepository<CatalogItemEntity>();
+        _catalogItemRepository = (ICatalogItemRepository)_unitOfWork.GetRepository<CatalogItemEntity>();
     }
 
     public async Task<IEnumerable<CatalogItem>> Get(int page, int size)
@@ -23,8 +23,9 @@ public class CatalogItemService : ICatalogItemService
             Description = item.Description,
             Price = item.Price,
             PictureFile = item.PictureFile,
-            Type = new CatalogType { Id = item.Type.Id, Title = item.Type.Title, CreatedAt = item.CreatedAt, UpdatedAt = item.UpdatedAt},
-            Brand = new CatalogBrand { Id = item.Brand.Id, Title = item.Brand.Title, CreatedAt = item.CreatedAt, UpdatedAt = item.UpdatedAt },
+            Type = new CatalogType { Id = item.Type.Id, Title = item.Type.Title, CreatedAt = item.Type.CreatedAt, UpdatedAt = item.Type.UpdatedAt},
+            Brand = new CatalogBrand { Id = item.Brand.Id, Title = item.Brand.Title, CreatedAt = item.Brand.CreatedAt, UpdatedAt = item.Brand.UpdatedAt },
+            Quantity = item.Quantity,
             CreatedAt = item.CreatedAt,
             UpdatedAt = item.UpdatedAt,
         });
@@ -43,8 +44,21 @@ public class CatalogItemService : ICatalogItemService
             Description = itemEntity.Description,
             Price = itemEntity.Price,
             PictureFile = itemEntity.PictureFile,
-            Type = new CatalogType { Title = itemEntity.Type.Title },
-            Brand = new CatalogBrand { Title = itemEntity.Brand.Title },
+            Type = new CatalogType 
+            { 
+                Id = itemEntity.Type.Id,
+                Title = itemEntity.Type.Title,
+                CreatedAt = itemEntity.Type.CreatedAt,
+                UpdatedAt = itemEntity.Type.UpdatedAt 
+            },
+            Brand = new CatalogBrand 
+            { 
+                Id = itemEntity.Brand.Id,
+                Title = itemEntity.Brand.Title,
+                CreatedAt = itemEntity.Brand.CreatedAt,
+                UpdatedAt = itemEntity.Brand.UpdatedAt 
+            },
+            Quantity = itemEntity.Quantity,
             CreatedAt = itemEntity.CreatedAt,
             UpdatedAt = itemEntity.UpdatedAt,
         };
@@ -56,22 +70,39 @@ public class CatalogItemService : ICatalogItemService
     {
         try
         {
-            var itemEntity = new CatalogItemEntity
+            var existingItem = await _catalogItemRepository.GetByTitleAndPicture(item.Title, item.PictureFile);
+
+            if (existingItem != null)
             {
-                Title = item.Title,
-                Description = item.Description,
-                Price = item.Price,
-                PictureFile = item.PictureFile,
-                Type = new CatalogTypeEntity { Title = item.Type.Title },
-                Brand = new CatalogBrandEntity { Title = item.Brand.Title },
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = null
-            };
+                existingItem.Quantity += item.Quantity;
+                await _catalogItemRepository.UpdateQuantity(existingItem);
+                _unitOfWork.Commit();
 
-            var id = await _catalogItemRepository.Add(itemEntity);
-            _unitOfWork.Commit();
+                return existingItem.Id;
+            }
+            else
+            {
+                var typeEntity = await _catalogItemRepository.GetTypeByTitle(item.Type.Title);
+                var brandEntity = await _catalogItemRepository.GetBrandByTitle(item.Brand.Title);
 
-            return id;
+                var itemEntity = new CatalogItemEntity
+                {
+                    Title = item.Title,
+                    Description = item.Description,
+                    Price = item.Price,
+                    PictureFile = item.PictureFile,
+                    TypeId = typeEntity.Id,
+                    BrandId = brandEntity.Id,
+                    Quantity = item.Quantity,
+                    CreatedAt = DateTime.UtcNow,
+                    UpdatedAt = null
+                };
+
+                var id = await _catalogItemRepository.Add(itemEntity);
+                _unitOfWork.Commit();
+
+                return id;
+            }
         }
         catch (Exception ex)
         {

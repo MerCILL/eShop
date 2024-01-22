@@ -10,4 +10,7 @@ public class CatalogItemRequest
     public CatalogTypeRequest Type { get; set; }
     public CatalogBrandRequest Brand { get; set; }
 
+    [DefaultValue(1)]
+    public int Quantity { get; set; } = 1;
+
 }

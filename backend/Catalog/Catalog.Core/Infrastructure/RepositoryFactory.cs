@@ -2,12 +2,12 @@
 
 public class RepositoryFactory : IRepositoryFactory
 {
-    private readonly CatalogDbContext _context;
+    private readonly CatalogDbContext _dbContext;
     private readonly Dictionary<Type, Func<CatalogDbContext, object>> _factories;
 
-    public RepositoryFactory(CatalogDbContext context)
+    public RepositoryFactory(CatalogDbContext dbContext)
     {
-        _context = context;
+        _dbContext = dbContext;
         _factories = new Dictionary<Type, Func<CatalogDbContext, object>>
         {
             { typeof(CatalogTypeEntity), ctx => new CatalogTypeRepository(ctx) },
@@ -20,9 +20,9 @@ public class RepositoryFactory : IRepositoryFactory
     {
         if (_factories.TryGetValue(typeof(TEntity), out var factory))
         {
-            return (IGenericRepository<TEntity>)factory(_context);
+            return (IGenericRepository<TEntity>)factory(_dbContext);
         }
 
-        return new GenericRepository<TEntity>(_context);
+        return new GenericRepository<TEntity>(_dbContext);
     }
 }

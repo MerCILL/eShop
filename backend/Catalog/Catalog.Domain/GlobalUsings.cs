@@ -1,1 +1,1 @@
-﻿global using Catalog.Data.Entities;
+﻿global using System.ComponentModel;

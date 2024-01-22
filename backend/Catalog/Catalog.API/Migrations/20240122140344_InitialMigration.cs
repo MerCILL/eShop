@@ -56,6 +56,7 @@ namespace Catalog.API.Migrations
                     PictureFile = table.Column<string>(type: "text", nullable: false),
                     TypeId = table.Column<int>(type: "integer", nullable: false),
                     BrandId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -81,8 +82,8 @@ namespace Catalog.API.Migrations
                 columns: new[] { "Id", "CreatedAt", "Title", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7630), "Nike", null },
-                    { 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7633), "Adidas", null }
+                    { 1, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8198), "Nike", null },
+                    { 2, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8200), "Adidas", null }
                 });
 
             migrationBuilder.InsertData(
@@ -90,22 +91,22 @@ namespace Catalog.API.Migrations
                 columns: new[] { "Id", "CreatedAt", "Title", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7623), "Shoes", null },
-                    { 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7627), "Hoodie", null }
+                    { 1, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8190), "Shoes", null },
+                    { 2, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8194), "Hoodie", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "CatalogItem",
-                columns: new[] { "Id", "BrandId", "CreatedAt", "Description", "PictureFile", "Price", "Title", "TypeId", "UpdatedAt" },
+                columns: new[] { "Id", "BrandId", "CreatedAt", "Description", "PictureFile", "Price", "Quantity", "Title", "TypeId", "UpdatedAt" },
                 values: new object[,]
                 {
-                    { 1, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7643), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with classic details and throwback hoops flair. ", "nike-dunk-low-retro-premium.png", 100m, "Nike Dunk Low Retro Premium", 1, null },
-                    { 2, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7648), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with crisp leather and and classic \"Panda\" color blocking.", "nike-dunk-mid.png", 120m, "Nike Dunk Mid", 1, null },
-                    { 3, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7650), "Meet your new go-to hoodie. Heavyweight fleece feels super soft, and the comfy, relaxed fit will have you reaching for it again and again.", "jordan-flight-fleece.png", 100m, "Jordan Flight Fleece", 2, null },
-                    { 4, 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7652), "These are not just sneakers, but a real symbol of the era. The adidas Forum model appeared in 1984 and won love not only on basketball courts, but also in show business.", "forum-low.png", 110m, "Forum Low", 1, null },
-                    { 5, 2, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7654), "For your team. For your planet. Created with grassroots football in mind, the Entrada 22 range gives you everything you need to make your game feel and look more beautiful. ", "entrada-22-sweat-hoodie.png", 60m, "ENTRADA 22 SWEAT HOODIE", 2, null },
-                    { 6, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7658), "Ja Morant became the superstar he is today by repeatedly sinking jumpers on crooked rims, jumping on tractor tires and dribbling through traffic cones in steamy South Carolina summers.", "ja-1.png", 130m, "Ja 1", 1, null },
-                    { 7, 1, new DateTime(2024, 1, 20, 22, 27, 4, 896, DateTimeKind.Utc).AddTicks(7708), "Feel unbeatable, from the tee box to the final putt. Inspired by one of the most iconic sneakers of all time, the Air Jordan 1 G is an instant classic on the course. ", "air-jordan-i-high.png", 190m, "Air Jordan I High G", 1, null }
+                    { 1, 1, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8208), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with classic details and throwback hoops flair. ", "nike-dunk-low-retro-premium.png", 100m, 5, "Nike Dunk Low Retro Premium", 1, null },
+                    { 2, 1, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8211), "Created for the hardwood but taken to the streets, the '80s b-ball icon returns with crisp leather and and classic \"Panda\" color blocking.", "nike-dunk-mid.png", 120m, 10, "Nike Dunk Mid", 1, null },
+                    { 3, 1, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8212), "Meet your new go-to hoodie. Heavyweight fleece feels super soft, and the comfy, relaxed fit will have you reaching for it again and again.", "jordan-flight-fleece.png", 100m, 15, "Jordan Flight Fleece", 2, null },
+                    { 4, 2, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8214), "These are not just sneakers, but a real symbol of the era. The adidas Forum model appeared in 1984 and won love not only on basketball courts, but also in show business.", "forum-low.png", 110m, 6, "Forum Low", 1, null },
+                    { 5, 2, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8216), "For your team. For your planet. Created with grassroots football in mind, the Entrada 22 range gives you everything you need to make your game feel and look more beautiful. ", "entrada-22-sweat-hoodie.png", 60m, 10, "ENTRADA 22 SWEAT HOODIE", 2, null },
+                    { 6, 1, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8219), "Ja Morant became the superstar he is today by repeatedly sinking jumpers on crooked rims, jumping on tractor tires and dribbling through traffic cones in steamy South Carolina summers.", "ja-1.png", 130m, 2, "Ja 1", 1, null },
+                    { 7, 1, new DateTime(2024, 1, 22, 14, 3, 43, 830, DateTimeKind.Utc).AddTicks(8220), "Feel unbeatable, from the tee box to the final putt. Inspired by one of the most iconic sneakers of all time, the Air Jordan 1 G is an instant classic on the course. ", "air-jordan-i-high.png", 190m, 5, "Air Jordan I High G", 1, null }
                 });
 
             migrationBuilder.CreateIndex(

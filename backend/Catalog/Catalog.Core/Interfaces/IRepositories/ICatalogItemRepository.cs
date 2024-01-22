@@ -4,6 +4,10 @@ public interface ICatalogItemRepository : IGenericRepository<CatalogItemEntity>
 {
     Task<IEnumerable<CatalogItemEntity>> Get(int page, int size);
     Task<CatalogItemEntity> GetById(int id);
+    Task<CatalogItemEntity> GetByTitleAndPicture(string title, string pictureFile);
+    Task<CatalogTypeEntity> GetTypeByTitle(string title);
+    Task<CatalogBrandEntity> GetBrandByTitle(string title);
     Task<int> Add(CatalogItemEntity entity);
     Task<CatalogItemEntity> Update(CatalogItemEntity entity);
+    Task<CatalogItemEntity> UpdateQuantity(CatalogItemEntity entity);
 }
