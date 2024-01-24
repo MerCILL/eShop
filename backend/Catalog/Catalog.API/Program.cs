@@ -3,16 +3,25 @@ var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Catalog.API")));
 
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IRepositoryFactory, RepositoryFactory>();
 
-builder.Services.AddScoped<IGenericRepository<CatalogTypeEntity>, CatalogTypeRepository>();
-builder.Services.AddScoped<IGenericRepository<CatalogBrandEntity>, CatalogBrandRepository>();
-builder.Services.AddScoped<IGenericRepository<CatalogItemEntity>, CatalogItemRepository>();
-
+builder.Services.AddScoped<ICatalogTypeRepository<CatalogTypeEntity>, CatalogTypeRepository>();
 builder.Services.AddScoped<ICatalogTypeService, CatalogTypeService>();
+
+builder.Services.AddScoped<ICatalogBrandRepository<CatalogBrandEntity>, CatalogBrandRepository>();
 builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
+
+builder.Services.AddScoped<ICatalogItemRepository<CatalogItemEntity>, CatalogItemRepository>();
 builder.Services.AddScoped<ICatalogItemService, CatalogItemService>();
+
+
+builder.Services.AddAutoMapper(
+    typeof(EntityToModelMapperProfile),
+    typeof(ModelToResponseMapperProfile),
+    typeof(RequestToModelMapperProfile));
+
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<CatalogTypeRequestValidator>();
 
 builder.Services.AddControllers();
 
@@ -26,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 
