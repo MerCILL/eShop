@@ -1,8 +1,17 @@
 var builder = WebApplication.CreateBuilder(args);
 
+
+var serilogConfig = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("serilog.json")
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(serilogConfig)
+    .CreateLogger();
+
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Catalog.API")));
-
 
 builder.Services.AddScoped<ICatalogTypeRepository<CatalogTypeEntity>, CatalogTypeRepository>();
 builder.Services.AddScoped<ICatalogTypeService, CatalogTypeService>();
@@ -12,7 +21,6 @@ builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
 
 builder.Services.AddScoped<ICatalogItemRepository<CatalogItemEntity>, CatalogItemRepository>();
 builder.Services.AddScoped<ICatalogItemService, CatalogItemService>();
-
 
 builder.Services.AddAutoMapper(
     typeof(EntityToModelMapperProfile),
@@ -27,6 +35,9 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddLogging(loggingBuilder =>
+    loggingBuilder.AddSerilog(dispose: true));
 
 var app = builder.Build();
 
@@ -45,5 +56,3 @@ app.MapControllers();
 CatalogDbInitializer.EnsureDatabaseCreated(app.Services);
 
 app.Run();
-
-

@@ -1,9 +1,9 @@
-﻿namespace Catalog.Data.Entities;
+﻿namespace Catalog.DataAccess.Entities;
 
-public class CatalogItemEntity : IEntity
+public class CatalogItemEntity
 {
     public int Id { get; set; }
-    public string Title { get; set; } 
+    public string Title { get; set; } = string.Empty;
     public string Description { get; set; } 
     public decimal Price { get; set; }
     public string PictureFile { get; set; }

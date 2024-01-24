@@ -70,6 +70,7 @@ public class CatalogTypeController : ControllerBase
         return Ok(response);
     }
 
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteType(int id)
     {

@@ -22,3 +22,4 @@ global using AutoMapper;
 global using FluentValidation;
 global using Newtonsoft.Json;
 global using FluentValidation.AspNetCore;
+global using Serilog;

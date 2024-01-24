@@ -2,11 +2,8 @@
 
 public class CatalogBrandRequestValidator : AbstractValidator<CatalogBrandRequest>
 {
-    private readonly ICatalogBrandService _catalogBrandService;
-
-    public CatalogBrandRequestValidator(ICatalogBrandService catalogBrandService)
+    public CatalogBrandRequestValidator()
     {
-        _catalogBrandService = catalogBrandService;
 
         RuleFor(brand => brand.Title)
             .NotEmpty().WithMessage("Title is required")

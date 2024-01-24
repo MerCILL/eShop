@@ -2,12 +2,8 @@
 
 public class CatalogTypeRequestValidator : AbstractValidator<CatalogTypeRequest>
 {
-    private readonly ICatalogTypeService _catalogTypeService;
-
-    public CatalogTypeRequestValidator(ICatalogTypeService catalogTypeService)
+    public CatalogTypeRequestValidator()
     {
-        _catalogTypeService = catalogTypeService;
-
         RuleFor(type => type.Title)
             .NotEmpty().WithMessage("Title is required")
             .Length(3, 50).WithMessage("Title has to be length between 3 and 50 characters")
