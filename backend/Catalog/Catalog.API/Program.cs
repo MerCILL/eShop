@@ -1,14 +1,54 @@
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        options.Authority = "https://localhost:5001";
 
-var serilogConfig = new ConfigurationBuilder()
-    .SetBasePath(Directory.GetCurrentDirectory())
-    .AddJsonFile("serilog.json")
-    .Build();
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ValidateAudience = false,
+        };
+    });
 
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(serilogConfig)
-    .CreateLogger();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CatalogApiScope", policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim("scope", "CatalogAPI");
+    });
+});
+
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.OAuth2,
+        Flows = new OpenApiOAuthFlows
+        {
+            Implicit = new OpenApiOAuthFlow // Changed from AuthorizationCode to Implicit for Swagger
+            {
+                AuthorizationUrl = new Uri("https://localhost:5001/connect/authorize"),
+                Scopes = new Dictionary<string, string>
+                {
+                    {  "CatalogAPI", "API - full access" },
+                },
+            },
+        },
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "oauth2" }
+            },
+            new[] { "CatalogAPI" }
+        }
+    });
+});
 
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Catalog.API")));
@@ -44,15 +84,27 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        options.OAuthUsePkce();
+    });
 }
 
 app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization("CatalogApiScope");
 
 CatalogDbInitializer.EnsureDatabaseCreated(app.Services);
+
+var serilogConfig = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile("serilog.json")
+    .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(serilogConfig)
+    .CreateLogger();
 
 app.Run();
