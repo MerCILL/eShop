@@ -2,7 +2,7 @@
 
 [ApiController]
 [Route("/api/v1/catalog/brands")]
-[Authorize]
+[Authorize("CatalogApiScope")]
 public class CatalogBrandController : ControllerBase
 {
     private readonly ICatalogBrandService _catalogBrandService;

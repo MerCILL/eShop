@@ -1,4 +1,5 @@
-﻿using Duende.IdentityServer.Models;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Models;
 
 namespace IdentityServer;
 
@@ -15,18 +16,22 @@ public static class Config
         new ApiScope[]
         {
             new ApiScope("CatalogAPI"),
+
+            new ApiScope("WebBffAPI"),
         };
 
     public static IEnumerable<Client> Clients =>
      new List<Client>
      {
+
+         //Catalog API Client
         new Client
         {
             ClientId = "catalog_api_swagger",
             ClientName = "Swagger UI for Catalog API",
             ClientSecrets = { new Secret("catalog_api_secret".Sha256()) },
 
-            AllowedGrantTypes = GrantTypes.Implicit, // Changed from GrantTypes.Code for Swagger
+            AllowedGrantTypes = GrantTypes.Implicit, 
 
             RedirectUris = { "http://localhost:5000/swagger/oauth2-redirect.html" },
             AllowedCorsOrigins = { "http://localhost:5000" },
@@ -35,21 +40,59 @@ public static class Config
                 "CatalogAPI"
             },
 
-            AllowAccessTokensViaBrowser = true, // was removed
+            AllowAccessTokensViaBrowser = true, 
         },
 
-        // was removed client
         new Client
         {
             ClientId = "catalog_api_client",
             ClientName = "Client for Catalog API",
             ClientSecrets = { new Secret("catalog_api_client_secret".Sha256()) },
 
-            AllowedGrantTypes = GrantTypes.ClientCredentials, // for communication MSS -> MSS
+            AllowedGrantTypes = GrantTypes.ClientCredentials, 
 
             AllowedScopes = new List<string>
             {
                 "CatalogAPI"
+            },
+        },
+
+        // Web Bff Api Client
+        new Client
+        {
+            ClientId = "webbff_api_swagger",
+            ClientName = "Swagger UI for Web Bff API",
+            ClientSecrets = {new Secret("webbff_api_secret".Sha256())},
+
+            AllowedGrantTypes = GrantTypes.Code,
+
+            RedirectUris = { "http://localhost:5002/swagger/oauth2-redirect.html" },
+
+            AllowedCorsOrigins = { "http://localhost:5002" },
+            AllowedScopes = new List<string>
+            {
+                "WebBffAPI"
+            }
+        },
+
+        // NextJs Client
+        new Client
+        {
+            ClientId = "nextjs_web_app",
+            ClientName = "NextJs Web App",
+            ClientSecrets = { new Secret("secret".Sha256()) },
+
+            AllowedGrantTypes = new[] { GrantType.AuthorizationCode },
+
+            RedirectUris = { "http://localhost:3000/api/auth/callback/sample-identity-server" },
+            PostLogoutRedirectUris = { "http://localhost:3000" },
+
+            AllowedCorsOrigins= { "http://localhost:3000" },
+            AllowedScopes = new List<string>
+            {
+                IdentityServerConstants.StandardScopes.OpenId,
+                IdentityServerConstants.StandardScopes.Profile,
+                "WebBffAPI"
             },
         },
      };

@@ -2,6 +2,7 @@
 
 [ApiController]
 [Route("/api/v1/catalog/items")]
+[Authorize("CatalogApiScope")]
 public class CatalogItemController : Controller
 {
     private readonly ICatalogItemService _catalogItemService;

@@ -2,6 +2,7 @@
 
 [ApiController]
 [Route("/api/v1/catalog/types")]
+[Authorize("CatalogApiScope")]
 public class CatalogTypeController : ControllerBase
 {
     private readonly ICatalogTypeService _catalogTypeService;
