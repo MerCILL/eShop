@@ -19,17 +19,31 @@ public class CatalogBrandController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetBrands(int page = 1, int size = 3)
     {
+        //var brands = await _catalogBrandService.Get(page, size);
+        //var response = _mapper.Map<IEnumerable<CatalogBrandResponse>>(brands);
+
+        //var total = await _catalogBrandService.Count();
+
+        //var paginatedResponse = new PaginatedResponse<CatalogBrandResponse>(
+        //    page,
+        //    size,
+        //    total,
+        //    (int)Math.Ceiling(total / (double)size),
+        //    response
+        //);
+
+        //return Ok(paginatedResponse);
+
         var brands = await _catalogBrandService.Get(page, size);
-        var response = _mapper.Map<IEnumerable<CatalogBrandResponse>>(brands);
 
         var total = await _catalogBrandService.Count();
 
-        var paginatedResponse = new PaginatedResponse<CatalogBrandResponse>(
+        var paginatedResponse = new PaginatedResponse<CatalogBrand>(
             page,
             size,
             total,
             (int)Math.Ceiling(total / (double)size),
-            response
+            brands
         );
 
         return Ok(paginatedResponse);

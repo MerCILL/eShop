@@ -49,8 +49,7 @@ public static class Config
             ClientName = "Client for Catalog API",
             ClientSecrets = { new Secret("catalog_api_client_secret".Sha256()) },
 
-            //AllowedGrantTypes = GrantTypes.ClientCredentials, 
-             AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+             AllowedGrantTypes = GrantTypes.ClientCredentials, 
 
             AllowedScopes = new List<string>
             {
@@ -72,7 +71,7 @@ public static class Config
             AllowedCorsOrigins = { "http://localhost:5002" },
             AllowedScopes = new List<string>
             {
-                "WebBffAPI"
+                "WebBffAPI",
             }
         },
 

@@ -25,6 +25,7 @@ builder.Services.AddAuthentication(options =>
     options.SaveTokens = true;
 });
 
+
 builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();

@@ -2,11 +2,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddHttpClient();
+
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString));
 
-builder.Services.AddScoped<ICatalogBrandService, CatalogBrandService>();
-builder.Services.AddScoped<ICatalogBrandRepository<CatalogBrandEntity>, CatalogBrandRepository>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -31,10 +31,6 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("scope", "WebBffAPI");
     });
 });
-
-
-
-
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -71,7 +67,6 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
-
 
 var app = builder.Build();
 

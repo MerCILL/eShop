@@ -39,10 +39,11 @@ public class LoginService : ILoginService
     public async Task SignInAsync(HttpContext httpContext, UserInfoResponse userInfoResponse, TokenResponse tokenResponse)
     {
         var claims = new List<Claim>
-            {
-                new Claim("access_token", tokenResponse.AccessToken),
-                new Claim("id_token", tokenResponse.IdentityToken ?? string.Empty)
-            };
+    {
+        new Claim("access_token", tokenResponse.AccessToken),
+        new Claim("id_token", tokenResponse.IdentityToken ?? string.Empty),
+        new Claim(ClaimTypes.Name, userInfoResponse.Claims.FirstOrDefault(c => c.Type == "preferred_username")?.Value)
+    };
 
         claims.AddRange(userInfoResponse.Claims);
 
