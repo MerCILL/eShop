@@ -1,85 +1,57 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using IdentityModel.Client;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebApp.Models;
-using static System.Net.WebRequestMethods;
+using WebApp.Services.Abstractions;
 
 namespace WebApp.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly ILoginService _loginService;
         private readonly IHttpClientFactory _httpClientFactory;
 
-        public LoginController(IHttpClientFactory httpClientFactory)
+        public LoginController(IHttpClientFactory httpClientFactory, ILoginService loginService)
         {
             _httpClientFactory = httpClientFactory;
+            _loginService = loginService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Login()
         {
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Index(LoginModel model)
+        public async Task<IActionResult> Login(LoginModel model)
         {
             var client = _httpClientFactory.CreateClient();
 
-            var discoveryDocument = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
+            var discoveryDocument = await _loginService.GetDiscoveryDocumentAsync(client);
 
             if (discoveryDocument.IsError)
             {
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
 
-            var tokenResponse = await client.RequestPasswordTokenAsync(new PasswordTokenRequest
-            {
-                Address = discoveryDocument.TokenEndpoint,
-                ClientId = "mvc_client",
-                ClientSecret = "mvc_secret",
-                Scope = "openid profile CatalogAPI WebBffAPI",
-                UserName = model.Login,
-                Password = model.Password
-            });
+            var tokenResponse = await _loginService.RequestPasswordTokenAsync(client, discoveryDocument, model);
 
             if (tokenResponse.IsError)
             {
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
 
-            var userInfoResponse = await client.GetUserInfoAsync(new UserInfoRequest
-            {
-                Address = discoveryDocument.UserInfoEndpoint,
-                Token = tokenResponse.AccessToken
-            });
+            var userInfoResponse = await _loginService.GetUserInfoAsync(client, discoveryDocument, tokenResponse);
 
             if (userInfoResponse.IsError)
             {
                 return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
 
-            var claims = new List<Claim>
-            {
-                new Claim("access_token", tokenResponse.AccessToken),
-                new Claim("id_token", tokenResponse.IdentityToken ?? string.Empty)
-            };
-
-            claims.AddRange(userInfoResponse.Claims);
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
-            var authProperties = new AuthenticationProperties();
-
-            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
+            await _loginService.SignInAsync(HttpContext, userInfoResponse, tokenResponse);
 
             return RedirectToAction("Index", "Home");
         }

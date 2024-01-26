@@ -1,3 +1,6 @@
+using WebApp.Services;
+using WebApp.Services.Abstractions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,6 +24,8 @@ builder.Services.AddAuthentication(options =>
 
     options.SaveTokens = true;
 });
+
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 

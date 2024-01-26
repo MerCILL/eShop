@@ -82,7 +82,11 @@ public static class Config
              ClientName = "MVC Client",
              ClientSecrets = { new Secret("mvc_secret".Sha256()) },
 
-             AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
+             AllowedGrantTypes = new[]
+             {
+                 GrantType.ResourceOwnerPassword,
+                 GrantType.ClientCredentials,
+             },
 
              RedirectUris = { "http://localhost:5003/signin-oidc" },
              FrontChannelLogoutUri = "http://localhost:5003/signout-oidc",
