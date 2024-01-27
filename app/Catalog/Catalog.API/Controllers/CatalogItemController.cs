@@ -20,16 +20,15 @@ public class CatalogItemController : Controller
     public async Task<IActionResult> GetItems(int page = 1, int size = 3)
     {
         var items = await _catalogItemService.Get(page, size);
-        var response = _mapper.Map<IEnumerable<CatalogItemResponse>>(items);
 
         var total = await _catalogItemService.Count();
 
-        var paginatedResponse = new PaginatedResponse<CatalogItemResponse>(
+        var paginatedResponse = new PaginatedResponse<CatalogItem>(
             page,
             size,
             total,
             (int)Math.Ceiling(total / (double)size),
-            response
+            items
         );
 
         return Ok(paginatedResponse);

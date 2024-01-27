@@ -1,5 +1,4 @@
 ﻿global using Catalog.Core.Abstractions.Services;
-global using Catalog.Application.Services;
 global using Catalog.Core.Abstractions.Repositories;
 global using Catalog.Data.Infrastructure;
 global using Catalog.DataAccess.Entities;

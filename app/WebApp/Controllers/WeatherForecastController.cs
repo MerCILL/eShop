@@ -1,61 +1,32 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 using WebApp.Models;
-using IdentityModel.Client;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using WebApp.Services.Abstractions;
 
-namespace WebApp.Controllers
+namespace WebApp.Controllers;
+
+public class WeatherForecastController : Controller
 {
-    public class WeatherForecastController : Controller
+    private readonly IWeatherForecastService _weatherForecastService;
+
+    public WeatherForecastController(IWeatherForecastService weatherForecastService)
     {
-        private readonly IHttpClientFactory _clientFactory;
+        _weatherForecastService = weatherForecastService;
+    }
 
-        public WeatherForecastController(IHttpClientFactory clientFactory)
+    [Authorize]
+    public async Task<IActionResult> WeatherForecast()
+    {
+        try
         {
-            _clientFactory = clientFactory;
+            var weatherForecasts = await _weatherForecastService.GetWeatherForecast();
+            return View(weatherForecasts);
         }
-
-        [Authorize]
-        public async Task<IActionResult> WeatherForecast()
+        catch (Exception)
         {
-            var httpClient = _clientFactory.CreateClient();
-
-            var disco = await httpClient.GetDiscoveryDocumentAsync("https://localhost:5001");
-            if (disco.IsError)
-            {
-                return View("Error");
-            }
-
-            var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = "mvc_client",
-                ClientSecret = "mvc_secret",
-                Scope = "WebBffAPI"
-            });
-
-            if (tokenResponse.IsError)
-            {
-                return View("Error");
-            }
-
-            httpClient.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = await httpClient.GetAsync("http://localhost:5002/weather");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var weatherForecasts = await response.Content.ReadFromJsonAsync<IEnumerable<WeatherForecast>>();
-                return View(weatherForecasts);
-            }
-            else
-            {
-                return View("Error");
-            }
+            return View("Error",new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
     }
 }
+

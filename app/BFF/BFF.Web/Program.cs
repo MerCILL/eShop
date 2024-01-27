@@ -1,3 +1,6 @@
+using BFF.Web.Services;
+using BFF.Web.Services.Abstractions;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,7 @@ builder.Services.AddHttpClient();
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString));
 
+builder.Services.AddScoped<ICatalogService, CatalogService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

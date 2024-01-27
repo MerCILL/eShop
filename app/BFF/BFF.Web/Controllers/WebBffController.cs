@@ -1,4 +1,5 @@
-﻿using Catalog.API.Responses;
+﻿using BFF.Web.Services.Abstractions;
+using Catalog.API.Responses;
 using Catalog.Domain.Models;
 using IdentityModel.Client;
 using Newtonsoft.Json;
@@ -11,13 +12,11 @@ namespace BFF.Web.Controllers;
 [Authorize(Policy = "ApiScope")]
 public class WebBffController : ControllerBase
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly ILogger<WebBffController> _logger;
+    private readonly ICatalogService _catalogService;
 
-    public WebBffController(IHttpClientFactory httpClientFactory, ILogger<WebBffController> logger)
+    public WebBffController(ICatalogService catalogService)
     {
-        _httpClientFactory = httpClientFactory;
-        _logger = logger;
+        _catalogService = catalogService;
     }
 
     [HttpGet("brands")]
@@ -25,49 +24,41 @@ public class WebBffController : ControllerBase
     {
         try
         {
-            var client = _httpClientFactory.CreateClient();
-            var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-            if (disco.IsError)
-            {
-                _logger.LogError(disco.Error);
-                return StatusCode(500); 
-            }
-
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = "catalog_api_client",
-                ClientSecret = "catalog_api_client_secret",
-                Scope = "CatalogAPI"
-            });
-
-            if (tokenResponse.IsError)
-            {
-                _logger.LogError(tokenResponse.Error);
-                return StatusCode(500); 
-            }
-
-            var apiClient = _httpClientFactory.CreateClient();
-            apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = await apiClient.GetAsync($"http://localhost:5000/api/v1/catalog/brands?page={page}&size={size}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var brands = JsonConvert.DeserializeObject<PaginatedResponse<CatalogBrand>>(content);
-                return Ok(brands);
-            }
-            else
-            {
-                _logger.LogError($"WebBff API request failed with status code: {response.StatusCode}");
-                return StatusCode((int)response.StatusCode);
-            }
+            var brands = await _catalogService.GetBrands(page, size);
+            return Ok(brands);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            _logger.LogError($"An error occurred in GetBrands: {ex.Message}");
-            return StatusCode(500); 
+            return StatusCode(500);
         }
     }
+
+    [HttpGet("types")]
+    public async Task<IActionResult> GetTypes(int page = 1, int size = 3)
+    {
+        try
+        {
+            var types = await _catalogService.GetTypes(page, size);
+            return Ok(types);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500);
+        }
+    }
+
+    [HttpGet("items")]
+    public async Task<IActionResult> GetItems(int page = 1, int size = 10)
+    {
+        try
+        {
+            var items = await _catalogService.GetItems(page, size);
+            return Ok(items);
+        }
+        catch (Exception)
+        {
+            return StatusCode(500);
+        }
+    }
+ 
 }
