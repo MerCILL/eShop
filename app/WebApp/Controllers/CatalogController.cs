@@ -16,28 +16,24 @@ public class CatalogController : Controller
         _catalogService = catalogService;
     }
 
-    public async Task<IActionResult> Catalog(int page = 1, int size = 5, string sort = "name")
+    public async Task<IActionResult> Catalog(int page = 1, int size = 5, string sort = "name", List<int> types = null, List<int> brands = null)
     {
-        try
-        {
-            if (!string.IsNullOrEmpty(sort))
-            {
-                HttpContext.Response.Cookies.Append("Sort", sort);
-            }
+        var catalogItems = await _catalogService.GetCatalogItems(page, size, sort, types, brands);
+        var catalogTypes = await _catalogService.GetCatalogTypes();
+        var catalogBrands = await _catalogService.GetCatalogBrands();
 
-            else if (Request.Cookies["Sort"] != null)
-            {
-                sort = Request.Cookies["Sort"];
-            }
-
-            var catalogItems = await _catalogService.GetCatalogItems(page, size, sort);
-            ViewBag.Page = page;
-            ViewBag.Size = size;
-            return View(catalogItems);
-        }
-        catch (Exception)
+        var model = new CatalogViewModel
         {
-            return View("Error", new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+            CatalogItems = catalogItems,
+            CatalogTypes = catalogTypes,
+            CatalogBrands = catalogBrands
+        };
+
+        ViewBag.Page = page;
+        ViewBag.Size = size;
+        ViewBag.Types = types;
+        ViewBag.Brands = brands;
+        return View(model);
     }
 }
+

@@ -22,9 +22,9 @@
     font-weight: bold;
 }
 
-    #sidebarOpen:hover {
-        border-color: black;
-    }
+#sidebarOpen:hover {
+    border-color: black;
+}
 
 .btn-pagination {
     background-color: #DDDDDD;
@@ -55,6 +55,15 @@
     color: #6c757d;
     background-color: transparent;
     border-color: #6c757d;
+}
+
+.btn-type {
+    background-color: lightgray;
+    color: black;
+    padding: 10px 20px;
+    margin-right: 20px;
+    font-size: 20px;
+    font-weight: 500;
 }
 
 .card-img-top {
