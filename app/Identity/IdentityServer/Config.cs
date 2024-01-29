@@ -17,6 +17,8 @@ public static class Config
         {
             new ApiScope("CatalogAPI"),
 
+            new ApiScope("BasketAPI"),
+
             new ApiScope("WebBffAPI"),
         };
 
@@ -57,6 +59,38 @@ public static class Config
             },
         },
 
+        //Basket API Client
+        new Client
+        {
+            ClientId = "basket_api_swagger",
+            ClientName = "Swagger UI for Basket API",
+            ClientSecrets = { new Secret("basket_api_secret".Sha256()) },
+
+            AllowedGrantTypes = GrantTypes.Implicit,
+
+            RedirectUris = { "http://localhost:5004/swagger/oauth2-redirect.html" },
+            AllowedCorsOrigins = { "http://localhost:5004" },
+            AllowedScopes = new List<string>
+            {
+                "BasketAPI"
+            },
+            AllowAccessTokensViaBrowser = true,
+        },
+
+        new Client
+        {
+            ClientId = "basket_api_client",
+            ClientName = "Client for Basket API",
+            ClientSecrets = { new Secret("basket_api_client_secret".Sha256()) },
+
+            AllowedGrantTypes = GrantTypes.ClientCredentials,
+
+            AllowedScopes = new List<string>
+            {
+                "BasketAPI"
+            },
+        },
+
         // Web Bff Api Client
         new Client
         {
@@ -75,6 +109,7 @@ public static class Config
             }
         },
 
+        // WebApp MVC Client
         new Client
          {
              ClientId = "mvc_client",
