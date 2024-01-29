@@ -39,9 +39,7 @@ public class CatalogItemController : Controller
     {
         var item = await _catalogItemService.GetById(id);
 
-        var response = _mapper.Map<CatalogItemResponse>(item);
-
-        return Ok(response);
+        return Ok(item);
     }
 
     [HttpPost]

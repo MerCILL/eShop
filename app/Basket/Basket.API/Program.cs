@@ -1,7 +1,24 @@
+using Basket.API.Services;
+using Basket.API.Services.Abstractions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<ICatalogService, CatalogService>();
+builder.Services.AddScoped<ICacheService, CacheService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
+
+builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
+{
+    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+    return ConnectionMultiplexer.Connect(configuration);
+});
+
+builder.Services.AddScoped<ICacheService,CacheService>();
 
 // Add services to the container.
 builder.Services.AddAuthentication("Bearer")
@@ -55,6 +72,7 @@ builder.Services.AddSwaggerGen(options =>
         }
     });
 });
+
 
 var app = builder.Build();
 
