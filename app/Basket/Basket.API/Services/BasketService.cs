@@ -8,17 +8,25 @@ public class BasketService : IBasketService
 {
     private readonly ICatalogService _catalogService;
     private readonly ICacheService _cacheService;
+    private readonly IUserService _userService;
 
     public BasketService(
         ICatalogService catalogService,
-        ICacheService cacheService)
+        ICacheService cacheService,
+        IUserService userService)
     {
         _catalogService = catalogService;
         _cacheService = cacheService;
+        _userService = userService;
     }
 
     public async Task<Models.Basket> GetBasket(string userId)
     {
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new ArgumentException("User ID cannot be null or empty", nameof(userId));
+        }
+
         var data = await _cacheService.Get(userId);
         if (data == null)
         {

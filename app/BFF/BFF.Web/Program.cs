@@ -1,5 +1,7 @@
 using BFF.Web.Services;
 using BFF.Web.Services.Abstractions;
+using StackExchange.Redis;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +12,15 @@ builder.Services.AddHttpClient();
 var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
 builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString));
 
+//builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
+//{
+//    var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
+//    return ConnectionMultiplexer.Connect(configuration);
+//});
+
 builder.Services.AddScoped<ICatalogService, CatalogService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IBasketService, BasketService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -23,8 +33,9 @@ builder.Services.AddAuthentication("Bearer")
         // Our API app will call to the IdentityServer to get the authority
         options.TokenValidationParameters = new TokenValidationParameters()
         {
-            ValidateAudience = false, 
-            //ValidAudiences = new List<string> { "https://localhost:5001/resources" }
+            ValidateAudience = false,
+            NameClaimType = ClaimTypes.NameIdentifier,
+            RoleClaimType = ClaimTypes.Role
         };
     });
 builder.Services.AddAuthorization(options =>
@@ -84,6 +95,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers().RequireAuthorization("ApiScope");

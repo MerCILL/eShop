@@ -26,10 +26,16 @@ public class BasketController : ControllerBase
 
     }
 
-    [HttpGet]
-    public async Task<IActionResult> GetBasket()
+    [HttpGet("id")]
+    public async Task<IActionResult> GetUserId()
     {
         var userId = _userService.GetUserId(User);
+        return Ok(userId);
+    }
+
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> GetBasket(string userId)
+    {
         var basket = await _basketService.GetBasket(userId);
 
         if (basket == null)

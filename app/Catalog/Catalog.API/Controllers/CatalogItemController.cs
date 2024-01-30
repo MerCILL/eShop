@@ -38,7 +38,6 @@ public class CatalogItemController : Controller
     public async Task<IActionResult> GetItemById(int id)
     {
         var item = await _catalogItemService.GetById(id);
-
         return Ok(item);
     }
 

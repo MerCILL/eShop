@@ -1,5 +1,6 @@
 ﻿using Duende.IdentityServer;
 using Duende.IdentityServer.Models;
+using System.Security.Claims;
 
 namespace IdentityServer;
 
@@ -75,6 +76,13 @@ public static class Config
                 "BasketAPI"
             },
             AllowAccessTokensViaBrowser = true,
+
+            Claims = new List<ClientClaim>
+            {
+                new ClientClaim(ClaimTypes.NameIdentifier, "userId")
+            }
+
+
         },
 
         new Client
@@ -89,6 +97,12 @@ public static class Config
             {
                 "BasketAPI"
             },
+
+             Claims = new List<ClientClaim>
+            {
+                new ClientClaim(ClaimTypes.NameIdentifier, "userId")
+            }
+
         },
 
         // Web Bff Api Client
@@ -106,6 +120,11 @@ public static class Config
             AllowedScopes = new List<string>
             {
                 "WebBffAPI",
+            },
+
+            Claims = new List<ClientClaim>
+            {
+                new ClientClaim(ClaimTypes.NameIdentifier, "userId")
             }
         },
 
