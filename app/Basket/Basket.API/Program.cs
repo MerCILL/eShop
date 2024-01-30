@@ -1,5 +1,5 @@
 using Basket.API.Services;
-using Basket.API.Services.Abstractions;
+using Basket.Core.Abstractions;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;

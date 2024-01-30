@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace Basket.API.Services.Abstractions;
+namespace Basket.Core.Abstractions;
 
 public interface IUserService
 {

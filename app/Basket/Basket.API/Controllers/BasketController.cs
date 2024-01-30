@@ -1,5 +1,4 @@
-﻿using Basket.API.Models;
-using Basket.API.Services.Abstractions;
+﻿using Basket.Core.Abstractions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Basket.API.Controllers;
@@ -47,7 +46,7 @@ public class BasketController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<IActionResult> AddItem(int itemId)
+    public async Task<IActionResult> AddItem([FromBody] int itemId)
     {
         try
         {

@@ -1,5 +1,5 @@
-﻿using Basket.API.Responses;
-using Basket.API.Services.Abstractions;
+﻿using Basket.Core.Abstractions;
+using Basket.Domain.Models;
 using IdentityModel.Client;
 using Newtonsoft.Json;
 
@@ -13,9 +13,9 @@ namespace Basket.API.Services
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<CatalogItemResponse> GetItemById(int id)
+        public async Task<CatalogItem> GetItemById(int id)
         {
-            var itemResponse = await GetCatalogResponseById<CatalogItemResponse>("items", id);
+            var itemResponse = await GetCatalogResponseById("items", id);
 
             if (itemResponse == null || itemResponse.Id == 0)
             {
@@ -25,7 +25,7 @@ namespace Basket.API.Services
             return itemResponse;
         }
 
-        private async Task<T> GetCatalogResponseById<T>(string endpoint, int id)
+        private async Task<CatalogItem> GetCatalogResponseById(string endpoint, int id)
         {
             var client = _httpClientFactory.CreateClient();
             var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -44,7 +44,7 @@ namespace Basket.API.Services
             var response = await apiClient.GetAsync($"http://localhost:5000/api/v1/catalog/{endpoint}/{id}");
 
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<T>(content);
+            var result = JsonConvert.DeserializeObject<CatalogItem>(content);
             return result;
         }
     }

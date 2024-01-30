@@ -1,5 +1,5 @@
-﻿using System.Security.Claims;
-using Basket.API.Services.Abstractions;
+﻿using Basket.Core.Abstractions;
+using System.Security.Claims;
 
 namespace Basket.API.Services;
 

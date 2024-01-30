@@ -89,4 +89,14 @@ public class WebBffController : ControllerBase
         else
             return Ok(userId);
     }
+
+    //[HttpPost("basket/item")]
+    //public async Task<IActionResult> AddItem([FromBody] int itemId)
+    //{
+    //        var userId = _userService.GetUserId(User);
+    //        var createdItem = await _basketService.AddBasketItem(userId, itemId);
+    //        return Ok(createdItem);
+    //}
+
+
 }

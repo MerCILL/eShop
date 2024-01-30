@@ -1,5 +1,4 @@
-﻿namespace Basket.API.Models;
-
+﻿namespace Basket.Domain.Models;
 public class Basket
 {
     public string UserId { get; set; }

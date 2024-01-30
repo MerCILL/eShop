@@ -1,4 +1,4 @@
-﻿namespace Basket.API.Services.Abstractions;
+﻿namespace Basket.Core.Abstractions;
 
 public interface ICacheService
 {

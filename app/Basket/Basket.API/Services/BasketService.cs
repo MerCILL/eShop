@@ -1,5 +1,5 @@
-﻿using Basket.API.Models;
-using Basket.API.Services.Abstractions;
+﻿using Basket.Core.Abstractions;
+using Basket.Domain.Models;
 using Newtonsoft.Json;
 
 namespace Basket.API.Services;
@@ -20,7 +20,7 @@ public class BasketService : IBasketService
         _userService = userService;
     }
 
-    public async Task<Models.Basket> GetBasket(string userId)
+    public async Task<Domain.Models.Basket> GetBasket(string userId)
     {
         if (string.IsNullOrEmpty(userId))
         {
@@ -32,7 +32,7 @@ public class BasketService : IBasketService
         {
             return await CreateBasket(userId);
         }
-        return JsonConvert.DeserializeObject<Models.Basket>(data);
+        return JsonConvert.DeserializeObject<Domain.Models.Basket>(data);
     }
 
     public async Task<BasketItem> AddItem(string userId, int id)
@@ -85,9 +85,9 @@ public class BasketService : IBasketService
         return basketItem;
     }
 
-    private async Task<Models.Basket> CreateBasket(string userId)
+    private async Task<Domain.Models.Basket> CreateBasket(string userId)
     {
-        Models.Basket newBasket = new Models.Basket
+        Domain.Models.Basket newBasket = new Domain.Models.Basket
         {
             UserId = userId,
         };
@@ -96,7 +96,7 @@ public class BasketService : IBasketService
         return newBasket;
     }
 
-    private async Task<Models.Basket> UpdateBasket(Models.Basket basket)
+    private async Task<Domain.Models.Basket> UpdateBasket(Domain.Models.Basket basket)
     {
         var createdBasket = await _cacheService.Set(
             basket.UserId,

@@ -1,4 +1,4 @@
-﻿using Basket.API.Services.Abstractions;
+﻿using Basket.Core.Abstractions;
 using Newtonsoft.Json;
 using StackExchange.Redis;
 using System.Security.Claims;
