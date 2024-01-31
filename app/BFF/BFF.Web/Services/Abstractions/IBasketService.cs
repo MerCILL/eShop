@@ -5,5 +5,6 @@ namespace BFF.Web.Services.Abstractions;
 public interface IBasketService
 {
     Task<Basket> GetBasket(string userId);
-    //Task<int> AddBasketItem(string userId, int itemId);
+    Task<int> AddBasketItem(ItemRequest item);
+    Task<int> DeleteBasketItem(string userId, int itemId);
 }

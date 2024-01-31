@@ -1,4 +1,5 @@
-﻿using BFF.Web.Services.Abstractions;
+﻿using BFF.Web.Services;
+using BFF.Web.Services.Abstractions;
 using System.Security.Claims;
 
 namespace BFF.Web.Controllers;
@@ -80,7 +81,7 @@ public class WebBffController : ControllerBase
         return Ok(basket);
     }
 
-    [HttpGet("user/id")]
+    [HttpGet("basket/id")]
     public async Task<IActionResult> GetUserId()
     {
         var userId = _userService.GetUserId(User);
@@ -90,13 +91,27 @@ public class WebBffController : ControllerBase
             return Ok(userId);
     }
 
-    //[HttpPost("basket/item")]
-    //public async Task<IActionResult> AddItem([FromBody] int itemId)
-    //{
-    //        var userId = _userService.GetUserId(User);
-    //        var createdItem = await _basketService.AddBasketItem(userId, itemId);
-    //        return Ok(createdItem);
-    //}
+    [HttpPost("basket")]
+    public async Task<IActionResult> AddItem([FromBody] ItemRequest itemRequest)
+    {
+        itemRequest.UserId = _userService.GetUserId(User);
+        var addedItem = await _basketService.AddBasketItem(itemRequest);
+        return Ok(addedItem);
+    }
 
+    [HttpDelete("basket/{itemId}")]
+    public async Task<IActionResult> DeleteItem(int itemId)
+    {
+        var userId = _userService.GetUserId(User);
+        var deletedItemId = await _basketService.DeleteBasketItem(userId, itemId);
+        return Ok(deletedItemId);
+    }
+
+    //[HttpDelete("basket/{userId}/{itemId}")]
+    //public async Task<IActionResult> DeleteItem(string userId, int itemId)
+    //{
+    //    var deletedItemId = await _basketService.DeleteBasketItem(userId, itemId);
+    //    return Ok(deletedItemId);
+    //}
 
 }

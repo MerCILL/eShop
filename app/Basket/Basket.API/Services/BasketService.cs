@@ -35,12 +35,12 @@ public class BasketService : IBasketService
         return JsonConvert.DeserializeObject<Domain.Models.Basket>(data);
     }
 
-    public async Task<BasketItem> AddItem(string userId, int id)
+    public async Task<BasketItem> AddItem(string userId, ItemRequest itemRequest)
     {
-        var item = await _catalogService.GetItemById(id);
+        var item = await _catalogService.GetItemById(itemRequest.ItemId);
         if (item == null)
         {
-            throw new ArgumentException($"Item with id = {id} not found");
+            throw new ArgumentException($"Item with id = {itemRequest.ItemId} not found");
         }
 
         var basket = await GetBasket(userId);
@@ -106,3 +106,6 @@ public class BasketService : IBasketService
     }
 
 }
+
+
+
