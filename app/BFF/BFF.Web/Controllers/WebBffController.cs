@@ -24,6 +24,8 @@ public class WebBffController : ControllerBase
 
     }
 
+
+    // catalog
     [HttpGet("catalog/brands")]
     public async Task<IActionResult> GetBrands(int page = 1, int size = 3)
     {
@@ -73,15 +75,8 @@ public class WebBffController : ControllerBase
         return Ok(item);
     }
 
-    [HttpGet("basket")]
-    public async Task<IActionResult> GetBasket()
-    {
-        var userId = _userService.GetUserId(User);
-        var basket = await _basketService.GetBasket(userId);
-        return Ok(basket);
-    }
-
-    [HttpGet("basket/id")]
+    //user
+    [HttpGet("user/id")]
     public async Task<IActionResult> GetUserId()
     {
         var userId = _userService.GetUserId(User);
@@ -91,6 +86,17 @@ public class WebBffController : ControllerBase
             return Ok(userId);
     }
 
+    //basket
+    //with id query
+    [HttpGet("basket/{userId}")]
+    public async Task<IActionResult> GetBasket(string userId)
+    {
+        //userId = _userService.GetUserId(User);
+        var basket = await _basketService.GetBasket(userId);
+        return Ok(basket);
+    }
+
+
     [HttpPost("basket")]
     public async Task<IActionResult> AddItem([FromBody] ItemRequest itemRequest)
     {
@@ -99,17 +105,28 @@ public class WebBffController : ControllerBase
         return Ok(addedItem);
     }
 
-    [HttpDelete("basket/{itemId}")]
-    public async Task<IActionResult> DeleteItem(int itemId)
+    [HttpDelete("basket/{userId}/{itemId}")]
+    public async Task<IActionResult> DeleteItem(string userId, int itemId)
     {
-        var userId = _userService.GetUserId(User);
         var deletedItemId = await _basketService.DeleteBasketItem(userId, itemId);
         return Ok(deletedItemId);
     }
 
-    //[HttpDelete("basket/{userId}/{itemId}")]
-    //public async Task<IActionResult> DeleteItem(string userId, int itemId)
+    //without id
+    //with id query
+
+    //[HttpGet("basket")]
+    //public async Task<IActionResult> GetBasket()
     //{
+    //    var userId = _userService.GetUserId(User);
+    //    var basket = await _basketService.GetBasket(userId);
+    //    return Ok(basket);
+    //}
+
+    //[HttpDelete("basket/{userId}/{itemId}")]
+    //public async Task<IActionResult> DeleteItem(int itemId)
+    //{
+    //    var userId = _userService.GetUserId(User);
     //    var deletedItemId = await _basketService.DeleteBasketItem(userId, itemId);
     //    return Ok(deletedItemId);
     //}
