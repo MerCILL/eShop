@@ -28,7 +28,11 @@ public static class Config
             {
                 Name = "OrderAPI",
                 DisplayName = "Order API",
-                UserClaims = new List<string> { JwtClaimTypes.Name, JwtClaimTypes.Email }
+                UserClaims = new List<string> 
+                {
+                    JwtClaimTypes.Name,
+                    JwtClaimTypes.Email 
+                }
             }
         };
 
@@ -104,7 +108,7 @@ public static class Config
 
             AllowedScopes = new List<string>
             {
-                "BasketAPI"
+                "BasketAPI",
             },
 
              Claims = new List<ClientClaim>

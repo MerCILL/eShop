@@ -19,8 +19,12 @@ builder.Services.AddDbContext<OrderDbContext>(options => options.UseNpgsql(conne
 builder.Services.AddScoped<IUserRepository<UserEntity>, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddScoped<IOrderRepository<OrderEntity>, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+
 
 builder.Services.AddHttpClient();
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddAuthentication("Bearer")
     .AddJwtBearer("Bearer", options =>

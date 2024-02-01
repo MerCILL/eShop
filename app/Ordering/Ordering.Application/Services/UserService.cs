@@ -1,4 +1,5 @@
-﻿using IdentityModel;
+﻿using AutoMapper;
+using IdentityModel;
 using Ordering.Core.Abstractions.Repositories;
 using Ordering.DataAccess.Entities;
 using Ordering.Domain.Models;
@@ -9,10 +10,14 @@ namespace Ordering.Application.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository<UserEntity> _userRepository;
+    private readonly IMapper _mapper;
 
-    public UserService(IUserRepository<UserEntity> userRepository)
+    public UserService(
+        IUserRepository<UserEntity> userRepository,
+        IMapper mapper)
     {
         _userRepository = userRepository;
+        _mapper = mapper;
     }
 
     public async Task<IEnumerable<User>> Get(int page, int size)
@@ -60,6 +65,15 @@ public class UserService : IUserService
             UserName = userEntity.UserName,
             UserEmail = userEntity.UserEmail
         };
+
+        return user;
+    }
+
+    public async Task<User> GetUserById(string userId)
+    {
+        var existedUserEntity = await _userRepository.GetUserById(userId);
+
+        var user = _mapper.Map<User>(existedUserEntity);
 
         return user;
     }

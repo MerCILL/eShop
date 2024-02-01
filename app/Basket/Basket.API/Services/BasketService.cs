@@ -80,9 +80,26 @@ public class BasketService : IBasketService
         if (basketItem.Quantity > 1) basketItem.Quantity--;
         else basket.Items.Remove(basketItem);
 
-        await UpdateBasket(basket);
+        if (!basket.Items.Any())
+        {
+            await DeleteBasket(userId);
+        }
+        else
+        {
+            await UpdateBasket(basket);
+        }
 
         return basketItem;
+    }
+
+    public async Task<bool> DeleteBasket(string userId)
+    {
+        if (string.IsNullOrEmpty(userId))
+        {
+            throw new ArgumentException("User ID cannot be null or empty", nameof(userId));
+        }
+
+        return await _cacheService.Delete(userId);
     }
 
     private async Task<Domain.Models.Basket> CreateBasket(string userId)

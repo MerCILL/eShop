@@ -7,4 +7,5 @@ public interface IUserService
 {
     Task<IEnumerable<User>> Get(int page, int size);
     Task<User> Add(ClaimsPrincipal userClaims);
+    Task<User> GetUserById(string userId);
 }

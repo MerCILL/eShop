@@ -28,8 +28,6 @@ public class UserController : ControllerBase
     {
         try
         {
-            //var name = User.FindFirst(JwtClaimTypes.Name)?.Value;
-            //var email = User.FindFirst(JwtClaimTypes.Email)?.Value;
             var user = await _userService.Add(User);
             return Ok(user.UserId);
         }

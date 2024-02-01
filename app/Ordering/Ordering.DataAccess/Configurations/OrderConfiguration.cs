@@ -23,5 +23,6 @@ public class OrderConfiguration : IEntityTypeConfiguration<OrderEntity>
         builder.HasMany(order => order.OrderItems)
             .WithOne(orderEntity => orderEntity.OrderEntity)
             .HasForeignKey(order => order.Id);
+
     }
 }
