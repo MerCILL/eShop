@@ -35,32 +35,10 @@ public class OrderController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddOrder(OrderRequest orderRequest)
     {
-        try
-        {
-            var userClaims = User;
+        var order = new Order { Address = orderRequest.Address };
 
-            var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userName = userClaims.FindFirst(JwtClaimTypes.Name)?.Value;
-            var userEmail = userClaims.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+        var createdOrder = await _orderService.Add(order, User);
 
-            var order = new Order
-            {
-                User = new User
-                {
-                    UserId = userId,
-                    UserName = userName,
-                    UserEmail = userEmail
-                },
-                Address = orderRequest.Address,
-                OrderDate = DateTime.UtcNow
-            };
-
-            var result = await _orderService.Add(order, userClaims);
-            return Ok(result);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }      
+        return Ok(createdOrder.Id);
     }
 }

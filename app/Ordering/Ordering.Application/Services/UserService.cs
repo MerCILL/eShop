@@ -57,7 +57,7 @@ public class UserService : IUserService
 
         if (existedUserEntity != null) throw new Exception("User already exists");
 
-        await _userRepository.Add(userEntity);
+        var userEnttiy2 = await _userRepository.Add(userEntity);
 
         var user = new User
         {

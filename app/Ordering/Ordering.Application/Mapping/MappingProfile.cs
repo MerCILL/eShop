@@ -8,17 +8,13 @@ public class MappingProfile : Profile
 {
     public MappingProfile()
     {
+        CreateMap<UserEntity, User>().ReverseMap();
+
         CreateMap<OrderEntity, Order>()
-            .ForMember(dest => dest.User, opt => opt.MapFrom(src => src.User));
+            .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Items.Sum(i => i.Price * i.Quantity)))
+            .ReverseMap();
 
-        CreateMap<OrderItemEntity, OrderItem>();
+        CreateMap<OrderItemEntity, OrderItem>().ReverseMap();
 
-        CreateMap<Order, OrderEntity>()
-            .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.User.UserId));
-
-        CreateMap<OrderItem, OrderItemEntity>();
-
-        CreateMap<User, UserEntity>();
-        CreateMap<UserEntity, User>();
     }
 }

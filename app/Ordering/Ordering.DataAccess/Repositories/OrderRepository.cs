@@ -17,13 +17,13 @@ public class OrderRepository : IOrderRepository<OrderEntity>
     public async Task<IEnumerable<OrderEntity>> Get(int page, int size)
     {
         return await _dbContext.Orders
-            .Include(order => order.User)
-            .Include(order => order.OrderItems)
-            .AsNoTracking()
-            .Skip((page - 1) * size)
-            .Take(size)
-            .OrderBy(order => order.Id)
-            .ToListAsync();
+          .Include(order => order.User)
+          .Include(order => order.Items)
+          .AsNoTracking()
+          .Skip((page - 1) * size)
+          .Take(size)
+          .OrderBy(order => order.Id)
+          .ToListAsync();
     }
 
     public async Task<IEnumerable<OrderEntity>> GetByUser(string userId, int page, int size)
@@ -31,27 +31,23 @@ public class OrderRepository : IOrderRepository<OrderEntity>
         return await _dbContext.Orders
             .Where(order => order.UserId == userId)
             .Include(order => order.User)
-            .Include(order => order.OrderItems)
-            .AsNoTracking()
+            .Include(order => order.Items)
             .Skip((page - 1) * size)
             .Take(size)
             .OrderBy(order => order.Id)
             .ToListAsync();
-
     }
 
     public async Task<OrderEntity> GetById(int id)
     {
         return await _dbContext.Orders
             .Include(order => order.User)
-            .Include(order => order.OrderItems)
-            .AsNoTracking()
+            .Include(order => order.Items)
             .FirstOrDefaultAsync(order => order.Id == id);
     }
 
     public async Task<OrderEntity> Add(OrderEntity order)
     {
-        _dbContext.Users.Attach(order.User);
         await _dbContext.Orders.AddAsync(order);
         await _dbContext.SaveChangesAsync();
         return order;
@@ -59,7 +55,8 @@ public class OrderRepository : IOrderRepository<OrderEntity>
 
     public async Task<OrderEntity> Update(OrderEntity order)
     {
-        _dbContext.Orders.Update(order);
+        //_dbContext.Orders.Update(order);
+        _dbContext.Entry(order).State = EntityState.Modified;
         await _dbContext.SaveChangesAsync();
         return order;
     }

@@ -89,10 +89,10 @@ public class WebBffController : ControllerBase
     //basket
     //with id query
     [HttpGet("basket/{userId}")]
-    public async Task<IActionResult> GetBasket()
+    public async Task<IActionResult> GetBasket(string userId)
     {
         //userId = _userService.GetUserId(User);
-        var basket = await _basketService.GetBasket();
+        var basket = await _basketService.GetBasket(userId);
         return Ok(basket);
     }
 

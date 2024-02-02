@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IdentityModel;
 using IdentityModel.Client;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -58,7 +59,7 @@ public class OrderService : IOrderService
 
     public async Task<Order> Add(Order order, ClaimsPrincipal userClaims)
     {
-        var orderEntity = _mapper.Map<OrderEntity>(order);
+        var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
 
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -74,7 +75,7 @@ public class OrderService : IOrderService
         var apiClient = _httpClientFactory.CreateClient();
         apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-        var getBasketResponse = await apiClient.GetAsync($"http://localhost:5004/api/v1/basket/{orderEntity.UserId}");
+        var getBasketResponse = await apiClient.GetAsync($"http://localhost:5004/api/v1/basket/{userId}");
 
         var getBasketcontent = await getBasketResponse.Content.ReadAsStringAsync();
         var basket = JsonConvert.DeserializeObject<Basket>(getBasketcontent);
@@ -84,28 +85,29 @@ public class OrderService : IOrderService
             throw new Exception("Basket is empty");
         }
 
-        orderEntity.OrderItems = basket.Items.Select(basketItem => new OrderItemEntity
+        var orderEntity = _mapper.Map<OrderEntity>(order);
+        orderEntity.UserId = userId;
+        orderEntity.OrderDate = DateTime.UtcNow;
+        orderEntity.Items = basket.Items.Select(item => new OrderItemEntity
         {
-            ItemId = basketItem.ItemId,
-            Title = basketItem.ItemTitle,
-            Price = basketItem.ItemPrice,
-            PictureUrl = basketItem.PictureUrl,
-            Quantity = basketItem.Quantity,
-            OrderId = orderEntity.Id
+            ItemId = item.ItemId,
+            Title = item.ItemTitle,
+            Price = item.ItemPrice,
+            Quantity = item.Quantity,
+            PictureUrl = item.PictureUrl,
         }).ToList();
 
-        //var deleteBasketResponse = await apiClient.DeleteAsync($"http://localhost:5004/api/v1/basket/{orderEntity.UserId}");
+        var createdOrder = await _orderRepository.Add(orderEntity);
 
-        //var user = _userService.Add(userClaims);
-
-        var addedOrderEntity = await _orderRepository.Add(orderEntity);
-        
-        var addedOrder = _mapper.Map<Order>(addedOrderEntity);
-
-        return addedOrder;
-
+        return _mapper.Map<Order>(createdOrder);
     }
 }
+
+
+
+//var deleteBasketResponse = await apiClient.DeleteAsync($"http://localhost:5004/api/v1/basket/{orderEntity.UserId}");
+
+//var user = _userService.Add(userClaims);
 
 public class Basket
 {
