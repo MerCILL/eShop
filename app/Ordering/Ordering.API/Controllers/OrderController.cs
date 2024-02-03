@@ -1,7 +1,8 @@
-﻿using IdentityModel;
+﻿using AutoMapper;
+using IdentityModel;
 using Microsoft.AspNetCore.Mvc;
 using Ordering.API.Requests;
-using Ordering.Application.Services;
+using Ordering.Core.Abstractions.Services;
 using Ordering.Domain.Models;
 using System.Security.Claims;
 
@@ -12,10 +13,36 @@ namespace Ordering.API.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly IOrderService _orderService;
+    private readonly IMapper _mapper;
 
-    public OrderController(IOrderService orderService)
+    public OrderController(
+        IOrderService orderService,
+        IMapper mapper)
     {
         _orderService = orderService;
+        _mapper = mapper;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllOrders([FromQuery] int page = 1, int size = 50)
+    {
+        var orders = await _orderService.Get(page, size);
+        return Ok(orders);
+    }
+
+    [HttpGet("user")]
+    public async Task<IActionResult> GetOrdersByUser([FromQuery] int page = 1, [FromQuery] int size = 50)
+    {
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+        var orders = await _orderService.GetByUser(userId, page, size);
+        return Ok(orders);
+    }
+
+    [HttpGet("user/{userId}")]
+    public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
+    {
+        var orders = await _orderService.GetByUser(userId, page, size);
+        return Ok(orders);
     }
 
     [HttpGet("{id}")]
@@ -40,5 +67,40 @@ public class OrderController : ControllerBase
         var createdOrder = await _orderService.Add(order, User);
 
         return Ok(createdOrder.Id);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateOrder(int id, [FromBody] OrderUpdateRequest orderUpdateRequest)
+    {
+        var order = _mapper.Map<Order>(orderUpdateRequest);
+        order.Id = id;
+
+        try
+        {
+            var updatedOrder = await _orderService.Update(order, User);
+            return Ok(updatedOrder);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound("Order not found");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            return Forbid("You do not have permission to update this order");
+        }
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteOrder(int id)
+    {
+        try
+        {
+            var order = await _orderService.Delete(id);
+            return Ok(order.Id);
+        }
+        catch (KeyNotFoundException)
+        {
+            return NotFound("Order not found");
+        }
     }
 }

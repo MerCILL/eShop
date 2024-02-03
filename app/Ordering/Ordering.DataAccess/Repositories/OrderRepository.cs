@@ -16,26 +16,39 @@ public class OrderRepository : IOrderRepository<OrderEntity>
 
     public async Task<IEnumerable<OrderEntity>> Get(int page, int size)
     {
-        return await _dbContext.Orders
-          .Include(order => order.User)
-          .Include(order => order.Items)
-          .AsNoTracking()
-          .Skip((page - 1) * size)
-          .Take(size)
-          .OrderBy(order => order.Id)
-          .ToListAsync();
+        IQueryable<OrderEntity> query = _dbContext.Orders
+            .Include(order => order.User)
+            .Include(order => order.Items)
+            .AsNoTracking()
+            .OrderBy(order => order.Id);
+
+        if (page > 0 && size > 0)
+        {
+            query = query
+                .Skip((page - 1) * size)
+                .Take(size);
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<IEnumerable<OrderEntity>> GetByUser(string userId, int page, int size)
     {
-        return await _dbContext.Orders
+        IQueryable<OrderEntity> query = _dbContext.Orders
             .Where(order => order.UserId == userId)
             .Include(order => order.User)
             .Include(order => order.Items)
-            .Skip((page - 1) * size)
-            .Take(size)
-            .OrderBy(order => order.Id)
-            .ToListAsync();
+            .AsNoTracking()
+            .OrderBy(order => order.Id);
+
+        if (page > 0 && size > 0)
+        {
+            query = query
+                .Skip((page - 1) * size)
+                .Take(size);
+        }
+
+        return await query.ToListAsync();
     }
 
     public async Task<OrderEntity> GetById(int id)

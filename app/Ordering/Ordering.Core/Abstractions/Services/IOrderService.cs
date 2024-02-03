@@ -1,7 +1,7 @@
 ﻿using Ordering.Domain.Models;
 using System.Security.Claims;
 
-namespace Ordering.Application.Services;
+namespace Ordering.Core.Abstractions.Services;
 
 public interface IOrderService
 {
@@ -9,4 +9,6 @@ public interface IOrderService
     Task<IEnumerable<Order>> Get(int page, int size);
     Task<IEnumerable<Order>> GetByUser(string userId, int page, int size);
     Task<Order> GeyById(int id);
+    Task<Order> Update(Order order, ClaimsPrincipal userClaims);
+    Task<Order> Delete(int id);
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using IdentityModel;
 using Ordering.Core.Abstractions.Repositories;
+using Ordering.Core.Abstractions.Services;
 using Ordering.DataAccess.Entities;
 using Ordering.Domain.Models;
 using System.Security.Claims;
@@ -24,49 +25,9 @@ public class UserService : IUserService
     {
         var userEntities = await _userRepository.Get(page, size);
 
-        var users = userEntities.Select(
-            userEntity => new User
-            {
-                UserId = userEntity.UserId,
-                UserName = userEntity.UserName,
-                UserEmail = userEntity.UserEmail
-            });
+        var users = _mapper.Map<IEnumerable<User>>(userEntities);  
 
         return users;
-    }
-
-    public async Task<User> Add(ClaimsPrincipal userClaims)
-    {
-        var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
-        var userName = userClaims.FindFirst(JwtClaimTypes.Name)?.Value;
-        var userEmail = userClaims.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
-
-        foreach (var claim in userClaims.Claims)
-        {
-            Console.WriteLine($"Claim Type: {claim.Type}, Claim Value: {claim.Value}");
-        }
-
-        var userEntity = new UserEntity
-        {
-            UserId = userId,
-            UserName = userName,
-            UserEmail = userEmail
-        };
-
-        var existedUserEntity = await _userRepository.GetUserById(userId);
-
-        if (existedUserEntity != null) throw new Exception("User already exists");
-
-        var userEnttiy2 = await _userRepository.Add(userEntity);
-
-        var user = new User
-        {
-            UserId = userEntity.UserId,
-            UserName = userEntity.UserName,
-            UserEmail = userEntity.UserEmail
-        };
-
-        return user;
     }
 
     public async Task<User> GetUserById(string userId)
@@ -76,6 +37,37 @@ public class UserService : IUserService
         var user = _mapper.Map<User>(existedUserEntity);
 
         return user;
+    }
+
+    public async Task<User> Add(ClaimsPrincipal userClaims)
+    {
+        var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
+        var userName = userClaims.FindFirst(JwtClaimTypes.Name)?.Value;
+        var userEmail = userClaims.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+
+        var userEntity = await _userRepository.GetUserById(userId);
+
+        if (userEntity != null)
+        {
+            throw new Exception("User already exists");
+        }
+
+        userEntity = new UserEntity
+        {
+            UserId = userId,
+            UserName = userName,
+            UserEmail = userEmail
+        };
+
+        userEntity = await _userRepository.Add(userEntity);
+
+        return _mapper.Map<User>(userEntity);
+    }
+
+    public string GetActiveUserId(ClaimsPrincipal userClaims)
+    {
+        var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
+        return userId;
     }
 
 }

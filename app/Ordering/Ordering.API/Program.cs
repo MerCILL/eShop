@@ -5,10 +5,10 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Ordering.Application.Services;
 using Ordering.Core.Abstractions.Repositories;
+using Ordering.Core.Abstractions.Services;
 using Ordering.DataAccess.Entities;
 using Ordering.DataAccess.Infrastructure;
 using Ordering.DataAccess.Repositories;
-using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +21,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IOrderRepository<OrderEntity>, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+
+builder.Services.AddScoped<ITransactionService, TransactionService>();
 
 
 builder.Services.AddHttpClient();
