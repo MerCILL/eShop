@@ -61,25 +61,15 @@ public class OrderService : IOrderService
         return order;
     }
 
-    public async Task<Order> Add(Order order, ClaimsPrincipal userClaims)
+    public async Task<Order> Add(Order order, string userId)
     {
         Order createdOrder = null;
         await _transactionService.ExecuteInTransactionAsync(async () =>
         {
-            var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
-            var userName = userClaims.FindFirst(JwtClaimTypes.Name)?.Value;
-            var userEmail = userClaims.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
-
             var user = await _userService.GetUserById(userId);
             if (user == null)
             {
-                user = new User
-                {
-                    UserId = userId,
-                    UserName = userName,
-                    UserEmail = userEmail
-                };
-                user = await _userService.Add(userClaims);
+                throw new Exception("User not found");
             }
 
             var client = _httpClientFactory.CreateClient();

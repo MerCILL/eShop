@@ -30,15 +30,15 @@ public class OrderController : ControllerBase
         return Ok(orders);
     }
 
-    [HttpGet("user")]
-    public async Task<IActionResult> GetOrdersByUser([FromQuery] int page = 1, [FromQuery] int size = 50)
+    [HttpGet("users")]
+    public async Task<IActionResult> GetOrdersByActiveUser([FromQuery] int page = 1, [FromQuery] int size = 50)
     {
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         var orders = await _orderService.GetByUser(userId, page, size);
         return Ok(orders);
     }
 
-    [HttpGet("user/{userId}")]
+    [HttpGet("users/{userId}")]
     public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
     {
         var orders = await _orderService.GetByUser(userId, page, size);
@@ -63,10 +63,8 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> AddOrder(OrderRequest orderRequest)
     {
         var order = new Order { Address = orderRequest.Address };
-
-        var createdOrder = await _orderService.Add(order, User);
-
-        return Ok(createdOrder.Id);
+        var createdOrder = await _orderService.Add(order, orderRequest.UserId);
+        return Ok(createdOrder);
     }
 
     [HttpPut("{id}")]
@@ -93,14 +91,13 @@ public class OrderController : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrder(int id)
     {
-        try
-        {
-            var order = await _orderService.Delete(id);
-            return Ok(order.Id);
-        }
-        catch (KeyNotFoundException)
+        var order = await _orderService.Delete(id);
+
+        if (order == null)
         {
             return NotFound("Order not found");
         }
+
+        return Ok(order);
     }
 }

@@ -32,8 +32,7 @@ public class BasketService : IBasketService
 
         var apiClient = _httpClientFactory.CreateClient();
         apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-        //var response = await apiClient.GetAsync($"http://localhost:5004/api/v1/basket/{userId}");
+;
         var response = await apiClient.GetAsync($"http://localhost:5004/api/v1/basket/{userId}");
 
         var content = await response.Content.ReadAsStringAsync();
