@@ -20,3 +20,27 @@
         </div>
     </div>
 </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $(".btn-custom").click(function () {
+            var itemId = @Model.Id; // Предполагая, что у вас есть Id в модели
+            $.ajax({
+                type: "POST",
+                url: "/Basket/AddBasketItem", // Замените ControllerName на имя вашего контроллера
+                data: {
+                    UserId: "", // Это поле будет заполнено на сервере
+                    ItemId: itemId
+                },
+                success: function (data) {
+                    alert("Item added to basket");
+                },
+                error: function () {
+                    alert("Error while adding item to basket");
+                }
+            });
+        });
+    });
+</script>
