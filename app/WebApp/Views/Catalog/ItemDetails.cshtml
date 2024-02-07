@@ -26,12 +26,12 @@
 <script>
     $(document).ready(function () {
         $(".btn-custom").click(function () {
-            var itemId = @Model.Id; // Предполагая, что у вас есть Id в модели
+            var itemId = @Model.Id; 
             $.ajax({
                 type: "POST",
-                url: "/Basket/AddBasketItem", // Замените ControllerName на имя вашего контроллера
+                url: "/Basket/AddBasketItem", 
                 data: {
-                    UserId: "", // Это поле будет заполнено на сервере
+                    UserId: "",
                     ItemId: itemId
                 },
                 success: function (data) {

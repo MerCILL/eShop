@@ -1,11 +1,7 @@
-﻿@{
-    Layout = ViewData["Layout"].ToString();
-}
-
-@model IEnumerable<OrderModel>
+﻿@model IEnumerable<OrderModel>
 
 
-<link rel="stylesheet" href="~/css/Order.css" />
+<link rel="stylesheet" href="~/css/Basket.css" />
 
 <div class="d-flex flex-column align-items-center card-container">
     <h2 class="text-center">Orders</h2>
@@ -29,7 +25,7 @@
                             </div>
                         </div>
                     </div>
-                }
+                }        
             </div>
             <h4 class="text-center"><strong>Order Cost:</strong> @order.TotalPrice</h4>
             <h4 class="text-center"><strong>Order Date:</strong> @order.OrderDate</h4>
