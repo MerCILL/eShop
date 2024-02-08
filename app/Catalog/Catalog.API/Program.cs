@@ -23,7 +23,7 @@ ConfigureLogging(builder);
 
 var app = builder.Build();
 
-// Configure Swagger UI and Middleware
+// Configure Swagger UI and Middlewares
 ConfigureApp(app);
 
 app.Run();
@@ -105,7 +105,6 @@ void ConfigureServices(WebApplicationBuilder builder)
 
     builder.Services.AddAutoMapper(
         typeof(EntityToModelMapperProfile),
-        typeof(ModelToResponseMapperProfile),
         typeof(RequestToModelMapperProfile));
 
     builder.Services.AddFluentValidationAutoValidation();
@@ -130,9 +129,7 @@ void ConfigureApp(WebApplication app)
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-        });
+        app.UseSwaggerUI();
     }
 
     app.UseMiddleware<ExceptionMiddleware>();

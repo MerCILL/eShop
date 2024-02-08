@@ -1,9 +1,4 @@
-﻿using Basket.Core.Abstractions;
-using Basket.Domain.Models;
-using IdentityModel.Client;
-using Newtonsoft.Json;
-
-namespace Basket.API.Services
+﻿namespace Basket.API.Services
 {
     public class CatalogService : ICatalogService
     {

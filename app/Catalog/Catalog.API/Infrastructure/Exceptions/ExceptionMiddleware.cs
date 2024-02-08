@@ -1,4 +1,4 @@
-﻿namespace Catalog.API.Infrastructure;
+﻿namespace Catalog.API.Infrastructure.Exceptions;
 
 public class ExceptionMiddleware
 {
@@ -55,10 +55,4 @@ public class ExceptionMiddleware
             Message = ex.Message
         }));
     }
-}
-
-public class ErrorDetails
-{
-    public int StatusCode { get; set; }
-    public string Message { get; set; }
 }

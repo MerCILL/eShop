@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿namespace Catalog.Application.Services;
 
 public class CatalogItemService : ICatalogItemService
 {

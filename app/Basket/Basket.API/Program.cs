@@ -1,10 +1,3 @@
-using Basket.API.Services;
-using Basket.Core.Abstractions;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using StackExchange.Redis;
-using System.Security.Claims;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();

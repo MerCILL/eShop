@@ -35,15 +35,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Basket.Domain", "Basket\Bas
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ordering", "Ordering", "{064D984E-5522-474E-BCD9-5AD8FE7B2016}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.API", "Ordering\Ordering.API\Ordering.API.csproj", "{E1E8B09D-C89F-4869-A20E-933F9C3B8C21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.API", "Ordering\Ordering.API\Ordering.API.csproj", "{E1E8B09D-C89F-4869-A20E-933F9C3B8C21}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.DataAccess", "Ordering\Ordering.DataAccess\Ordering.DataAccess.csproj", "{F8E77878-2975-434B-A367-BF83DF49AEF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.DataAccess", "Ordering\Ordering.DataAccess\Ordering.DataAccess.csproj", "{F8E77878-2975-434B-A367-BF83DF49AEF6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Core", "Ordering\Ordering.Core\Ordering.Core.csproj", "{55766949-33D7-4499-8C95-AD8976682484}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Core", "Ordering\Ordering.Core\Ordering.Core.csproj", "{55766949-33D7-4499-8C95-AD8976682484}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Application", "Ordering\Ordering.Application\Ordering.Application.csproj", "{887D72A0-FD7B-4EE0-92D0-F95D0CC91AA1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Application", "Ordering\Ordering.Application\Ordering.Application.csproj", "{887D72A0-FD7B-4EE0-92D0-F95D0CC91AA1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ordering.Domain", "Ordering\Ordering.Domain\Ordering.Domain.csproj", "{679C9349-BD15-4165-855D-AE2BE1CCE64E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.Domain", "Ordering\Ordering.Domain\Ordering.Domain.csproj", "{679C9349-BD15-4165-855D-AE2BE1CCE64E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Basket.Application", "Basket\Basket.Application\Basket.Application.csproj", "{952F53FE-38F8-48A4-A7D2-B5FF7D5423D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -115,6 +117,10 @@ Global
 		{679C9349-BD15-4165-855D-AE2BE1CCE64E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{679C9349-BD15-4165-855D-AE2BE1CCE64E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{679C9349-BD15-4165-855D-AE2BE1CCE64E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952F53FE-38F8-48A4-A7D2-B5FF7D5423D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952F53FE-38F8-48A4-A7D2-B5FF7D5423D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952F53FE-38F8-48A4-A7D2-B5FF7D5423D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952F53FE-38F8-48A4-A7D2-B5FF7D5423D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -135,6 +141,7 @@ Global
 		{55766949-33D7-4499-8C95-AD8976682484} = {064D984E-5522-474E-BCD9-5AD8FE7B2016}
 		{887D72A0-FD7B-4EE0-92D0-F95D0CC91AA1} = {064D984E-5522-474E-BCD9-5AD8FE7B2016}
 		{679C9349-BD15-4165-855D-AE2BE1CCE64E} = {064D984E-5522-474E-BCD9-5AD8FE7B2016}
+		{952F53FE-38F8-48A4-A7D2-B5FF7D5423D1} = {D804500B-3D1D-4F1D-8CA0-82BC70432DB7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384E27E0-63BF-4899-B808-19EDADB8EA5D}

@@ -1,9 +1,4 @@
-﻿using Basket.Core.Abstractions;
-using Newtonsoft.Json;
-using StackExchange.Redis;
-using System.Security.Claims;
-
-namespace Basket.API.Services;
+﻿namespace Basket.API.Services;
 
 public class CacheService : ICacheService
 {

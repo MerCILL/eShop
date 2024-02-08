@@ -1,4 +1,4 @@
-﻿namespace Catalog.API.Validations;
+﻿namespace Catalog.API.Infrastructure.Validations;
 
 public class CatalogTypeRequestValidator : AbstractValidator<CatalogTypeRequest>
 {
