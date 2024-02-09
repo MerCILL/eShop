@@ -1,6 +1,6 @@
 ﻿namespace BFF.Web.Responses;
 
-public class BasketItem
+public class BasketItemResponse
 {
     public int ItemId { get; set; }
     public string ItemTitle { get; set; } = string.Empty;

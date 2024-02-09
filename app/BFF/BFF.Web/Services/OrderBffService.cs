@@ -1,15 +1,15 @@
 ﻿namespace BFF.Web.Services;
 
-public class OrderService : IOrderService
+public class OrderBffService : IOrderBffService
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public OrderService(IHttpClientFactory httpClientFactory)
+    public OrderBffService(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<Order> GetOrderById(int id)
+    public async Task<OrderResponse> GetOrderById(int id)
     {
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -30,14 +30,14 @@ public class OrderService : IOrderService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<Order>(content);
+            var result = JsonConvert.DeserializeObject<OrderResponse>(content);
             return result;
         }
 
         return null;
     }
 
-    public async Task<IEnumerable<Order>> GetOrdersByUser(string userId, int page, int size)
+    public async Task<IEnumerable<OrderResponse>> GetOrdersByUser(string userId, int page, int size)
     {
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -58,14 +58,14 @@ public class OrderService : IOrderService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<IEnumerable<Order>>(content);
+            var result = JsonConvert.DeserializeObject<IEnumerable<OrderResponse>>(content);
             return result;
         }
 
         return null;
     }
 
-    public async Task<IEnumerable<Order>> GetOrders(int page, int size)
+    public async Task<IEnumerable<OrderResponse>> GetOrders(int page, int size)
     {
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -86,14 +86,14 @@ public class OrderService : IOrderService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<IEnumerable<Order>>(content);
+            var result = JsonConvert.DeserializeObject<IEnumerable<OrderResponse>>(content);
             return result;
         }
 
         return null;
     }
 
-    public async Task<Order> AddOrder(OrderRequest orderRequest)
+    public async Task<OrderResponse> AddOrder(OrderRequest orderRequest)
     {
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -114,14 +114,14 @@ public class OrderService : IOrderService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<Order>(content);
+            var result = JsonConvert.DeserializeObject<OrderResponse>(content);
             return result;
         }
 
         return null;
     }
 
-    public async Task<Order> DeleteOrder(int id)
+    public async Task<OrderResponse> DeleteOrder(int id)
     {
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -142,7 +142,7 @@ public class OrderService : IOrderService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<Order>(content);
+            var result = JsonConvert.DeserializeObject<OrderResponse>(content);
             return result;
         }
 

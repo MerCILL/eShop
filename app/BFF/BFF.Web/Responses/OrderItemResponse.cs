@@ -1,6 +1,6 @@
 ﻿namespace BFF.Web.Responses;
 
-public class OrderItem
+public class OrderItemResponse
 {
     public int Id { get; set; }
     public int ItemId { get; set; }

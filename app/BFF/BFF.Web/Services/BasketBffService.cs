@@ -1,15 +1,15 @@
 ﻿namespace BFF.Web.Services;
 
-public class BasketService : IBasketService
+public class BasketBffService : IBasketBffService
 {
     private readonly IHttpClientFactory _httpClientFactory;
 
-    public BasketService(IHttpClientFactory httpClientFactory)
+    public BasketBffService(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
     }
 
-    public async Task<Basket> GetBasket(string userId)
+    public async Task<BasketResponse> GetBasket(string userId)
     {
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -29,7 +29,7 @@ public class BasketService : IBasketService
         var response = await apiClient.GetAsync($"http://localhost:5004/api/v1/basket/{userId}");
 
         var content = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<Basket>(content);
+        var result = JsonConvert.DeserializeObject<BasketResponse>(content);
         return result;
     }
 

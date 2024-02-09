@@ -18,10 +18,10 @@ builder.Services.AddHttpClient();
 //    return ConnectionMultiplexer.Connect(configuration);
 //});
 
-builder.Services.AddScoped<ICatalogService, CatalogService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IBasketService, BasketService>();
-builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<ICatalogBffService, CatalogBffService>();
+builder.Services.AddScoped<IUserBffService, UserBffService>();
+builder.Services.AddScoped<IBasketBffService, BasketBffService>();
+builder.Services.AddScoped<IOrderBffService, OrderBffService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

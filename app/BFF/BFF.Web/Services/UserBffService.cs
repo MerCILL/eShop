@@ -1,6 +1,6 @@
 ﻿namespace BFF.Web.Services;
 
-public class UserService : IUserService
+public class UserBffService : IUserBffService
 {
     public string GetUserId(ClaimsPrincipal user)
     {

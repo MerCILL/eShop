@@ -1,34 +1,34 @@
 ﻿namespace BFF.Web.Services;
 
-public class CatalogService : ICatalogService
+public class CatalogBffService : ICatalogBffService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    private readonly ILogger<CatalogService> _logger;
+    private readonly ILogger<CatalogBffService> _logger;
 
-    public CatalogService(IHttpClientFactory httpClientFactory, ILogger<CatalogService> logger)
+    public CatalogBffService(IHttpClientFactory httpClientFactory, ILogger<CatalogBffService> logger)
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;
     }
 
-    public async Task<PaginatedResponse<CatalogBrand>> GetBrands(int page, int size)
+    public async Task<PaginatedResponse<CatalogBrandResponse>> GetBrands(int page, int size)
     {
-        return await GetPaginatedResponse<CatalogBrand>("brands", page, size);
+        return await GetPaginatedResponse<CatalogBrandResponse>("brands", page, size);
     }
 
-    public async Task<PaginatedResponse<CatalogType>> GetTypes(int page, int size)
+    public async Task<PaginatedResponse<CatalogTypeResponse>> GetTypes(int page, int size)
     {
-        return await GetPaginatedResponse<CatalogType>("types", page, size);
+        return await GetPaginatedResponse<CatalogTypeResponse>("types", page, size);
     }
 
-    public async Task<PaginatedResponse<CatalogItem>> GetItems(int page, int size)
+    public async Task<PaginatedResponse<CatalogItemResponse>> GetItems(int page, int size)
     {
-        return await GetPaginatedResponse<CatalogItem>("items", page, size);
+        return await GetPaginatedResponse<CatalogItemResponse>("items", page, size);
     }
 
-    public async Task<CatalogItem> GetItemById(int id)
+    public async Task<CatalogItemResponse> GetItemById(int id)
     {
-        return await GetUnitById<CatalogItem>("items", id);
+        return await GetUnitById<CatalogItemResponse>("items", id);
     }
 
     private async Task<PaginatedResponse<T>> GetPaginatedResponse<T>(string endpoint, int page, int size)

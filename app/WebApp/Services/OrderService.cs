@@ -22,7 +22,7 @@ public class OrderService : IOrderService
 
         var userId = FindUserId(httpContext);
 
-        var response = await httpClient.GetAsync($"http://localhost:5002/bff/orders/users/{userId}");
+        var response = await httpClient.GetAsync($"http://localhost:5002/bff/users/{userId}/orders");
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<IEnumerable<OrderModel>>(content);

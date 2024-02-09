@@ -2,6 +2,6 @@
 
 public class DeleteResponse
 {
-    public string Type { get; set; }
-    public string Id { get; set; }
+    public string Type { get; set; } = string.Empty;
+    public string Id { get; set; } = string.Empty;
 }

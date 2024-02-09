@@ -1,9 +1,9 @@
 ﻿namespace BFF.Web.Responses;
 
-public class Basket
+public class BasketResponse
 {
     public string UserId { get; set; } = string.Empty;
-    public List<BasketItem> Items { get; set; } = new List<BasketItem>();
+    public List<BasketItemResponse> Items { get; set; } = new List<BasketItemResponse>();
     public decimal TotalPrice { get; set; }
     public int TotalCount { get; set; } 
 }
