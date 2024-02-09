@@ -4,16 +4,13 @@ public class BasketService : IBasketService
 {
     private readonly ICatalogService _catalogService;
     private readonly ICacheService _cacheService;
-    private readonly IUserService _userService;
 
     public BasketService(
         ICatalogService catalogService,
-        ICacheService cacheService,
-        IUserService userService)
+        ICacheService cacheService)
     {
         _catalogService = catalogService;
         _cacheService = cacheService;
-        _userService = userService;
     }
 
     public async Task<Domain.Models.Basket> GetBasket(string userId)

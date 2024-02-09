@@ -4,7 +4,8 @@ global using Basket.Domain.Models;
 //Core Layer
 global using Basket.Core.Abstractions;
 
-//Application Layer
+//Settings
+global using Settings;
 
 //Packages
 global using Newtonsoft.Json;

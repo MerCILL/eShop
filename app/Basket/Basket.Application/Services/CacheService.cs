@@ -9,18 +9,9 @@ public class CacheService : ICacheService
         _database = redis.GetDatabase();
     }
 
-    public async Task<string> Get(string key)
-    {
-        return await _database.StringGetAsync(key);
-    }
+    public async Task<string> Get(string key) => await _database.StringGetAsync(key);
+    
+    public async Task<bool> Set(string key, string value) => await _database.StringSetAsync(key, value);
 
-    public async Task<bool> Set(string key, string value)
-    {
-        return await _database.StringSetAsync(key, value);
-    }
-
-    public async Task<bool> Delete(string key)
-    {
-        return await _database.KeyDeleteAsync(key);
-    }
+    public async Task<bool> Delete(string key) => await _database.KeyDeleteAsync(key);
 }

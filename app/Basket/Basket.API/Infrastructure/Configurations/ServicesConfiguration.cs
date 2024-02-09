@@ -1,10 +1,15 @@
-﻿namespace Basket.API.Infrastructure.Configurations;
+﻿using Settings;
+
+namespace Basket.API.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
     public static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Services.AddHttpClient();
+
+        builder.Services.Configure<ApiClientSettings>
+            (builder.Configuration.GetSection("CatalogApiClientSettings"));
 
         builder.Services.AddScoped<ICatalogService, CatalogService>();
         builder.Services.AddScoped<ICacheService, CacheService>();

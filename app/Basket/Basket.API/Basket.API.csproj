@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Common\Settings\Settings.csproj" />
     <ProjectReference Include="..\Basket.Application\Basket.Application.csproj" />
     <ProjectReference Include="..\Basket.Core\Basket.Core.csproj" />
     <ProjectReference Include="..\Basket.Domain\Basket.Domain.csproj" />

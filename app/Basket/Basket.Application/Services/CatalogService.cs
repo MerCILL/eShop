@@ -1,11 +1,17 @@
-﻿namespace Basket.Application.Services;
+﻿using Microsoft.Extensions.Options;
+
+namespace Basket.Application.Services;
 
 public class CatalogService : ICatalogService
 {
     private readonly IHttpClientFactory _httpClientFactory;
-    public CatalogService(IHttpClientFactory httpClientFactory)
+    private readonly ApiClientSettings _apiClientSettigns;
+    public CatalogService(
+        IHttpClientFactory httpClientFactory, 
+        IOptions<ApiClientSettings> apiClientSettings)
     {
         _httpClientFactory = httpClientFactory;
+        _apiClientSettigns = apiClientSettings.Value;
     }
 
     public async Task<CatalogItem> GetItemById(int id)
@@ -23,20 +29,20 @@ public class CatalogService : ICatalogService
     private async Task<CatalogItem> GetCatalogResponseById(string endpoint, int id)
     {
         var client = _httpClientFactory.CreateClient();
-        var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
+        var disco = await client.GetDiscoveryDocumentAsync(_apiClientSettigns.DiscoveryUrl);
 
         var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
         {
             Address = disco.TokenEndpoint,
-            ClientId = "catalog_api_client",
-            ClientSecret = "catalog_api_client_secret",
-            Scope = "CatalogAPI"
+            ClientId = _apiClientSettigns.ClientId,
+            ClientSecret = _apiClientSettigns.ClientSecret,
+            Scope = _apiClientSettigns.Scope
         });
 
         var apiClient = _httpClientFactory.CreateClient();
         apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-        var response = await apiClient.GetAsync($"http://localhost:5000/api/v1/catalog/{endpoint}/{id}");
+        var response = await apiClient.GetAsync($"{_apiClientSettigns.ApiUrl}/{endpoint}/{id}");
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<CatalogItem>(content);
