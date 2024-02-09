@@ -17,6 +17,9 @@ global using Ordering.Application.Services;
 global using Ordering.API.Requests;
 global using Ordering.API.Infrastructure.Configurations;
 
+//Settings
+global using Settings;
+
 //Packages
 global using Microsoft.EntityFrameworkCore.Migrations;
 global using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;

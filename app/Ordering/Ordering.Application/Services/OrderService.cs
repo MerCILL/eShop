@@ -1,25 +1,35 @@
-﻿namespace Ordering.Application.Services;
+﻿using Helpers;
+using Microsoft.Extensions.Options;
+
+namespace Ordering.Application.Services;
 
 public class OrderService : IOrderService
 {
     private readonly IOrderRepository<OrderEntity> _orderRepository;
     private readonly IMapper _mapper;
-    private readonly IHttpClientFactory _httpClientFactory;
     private readonly IUserService _userService;
     private readonly ITransactionService _transactionService;
+    private readonly ApiClientSettings _catalogSettings;
+    private readonly ApiClientSettings _basketSettings;
+    private readonly ApiClientHelper _apiClientHelper;
 
     public OrderService(
         IOrderRepository<OrderEntity> orderRepository,
         IMapper mapper,
         IHttpClientFactory httpClientFactory,
         IUserService userService,
-        ITransactionService transactionService)
+        ITransactionService transactionService,
+        IOptions<ApiClientSettings> catalogSettings,
+        IOptions<ApiClientSettings> basketSettings,
+        ApiClientHelper apiClientHelper)
     {
         _orderRepository = orderRepository;
         _mapper = mapper;
-        _httpClientFactory = httpClientFactory;
         _userService = userService;
         _transactionService = transactionService;
+        _catalogSettings = catalogSettings.Value;
+        _basketSettings = basketSettings.Value;
+        _apiClientHelper = apiClientHelper;
     }
 
     public async Task<IEnumerable<Order>> Get(int page, int size)
@@ -61,24 +71,7 @@ public class OrderService : IOrderService
                 throw new Exception("User not found");
             }
 
-            var client = _httpClientFactory.CreateClient();
-            var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = "basket_api_client",
-                ClientSecret = "basket_api_client_secret",
-                Scope = "BasketAPI",
-            });
-
-            var apiClient = _httpClientFactory.CreateClient();
-            apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-            var getBasketResponse = await apiClient.GetAsync($"http://localhost:5004/api/v1/basket/{userId}");
-
-            var getBasketcontent = await getBasketResponse.Content.ReadAsStringAsync();
-            var basket = JsonConvert.DeserializeObject<Basket>(getBasketcontent);
+            var basket = await GetBasketByUserId(userId);
 
             if (basket.Items.Count == 0 || basket.Items == null)
             {
@@ -99,7 +92,8 @@ public class OrderService : IOrderService
 
             orderEntity = await _orderRepository.Add(orderEntity);
 
-            var deleteBasketResponse = await apiClient.DeleteAsync($"http://localhost:5004/api/v1/basket/{orderEntity.UserId}");
+            var apiClient = await _apiClientHelper.CreateClientWithToken(_basketSettings);
+            var deleteBasketResponse = await apiClient.DeleteAsync($"{_basketSettings.ApiUrl}/{orderEntity.UserId}");
 
             createdOrder = _mapper.Map<Order>(orderEntity);
         });
@@ -120,7 +114,7 @@ public class OrderService : IOrderService
 
         foreach (var item in order.Items)
         {
-            var catalogItem = await GetCatalogResponseById(item.ItemId);
+            var catalogItem = await GetCatalogItemById(item.ItemId);
             if (catalogItem == null)
             {
                 throw new KeyNotFoundException($"Item with id {item.ItemId} not found in catalog.");
@@ -154,26 +148,23 @@ public class OrderService : IOrderService
         return _mapper.Map<Order>(orderEntity);
     }
 
-    private async Task<CatalogItem> GetCatalogResponseById(int id)
+    private async Task<CatalogItem> GetCatalogItemById(int id)
     {
-        var client = _httpClientFactory.CreateClient();
-        var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-
-        var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = disco.TokenEndpoint,
-            ClientId = "catalog_api_client",
-            ClientSecret = "catalog_api_client_secret",
-            Scope = "CatalogAPI"
-        });
-
-        var apiClient = _httpClientFactory.CreateClient();
-        apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-        var response = await apiClient.GetAsync($"http://localhost:5000/api/v1/catalog/items/{id}");
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_catalogSettings);
+        var response = await apiClient.GetAsync($"{_catalogSettings.ApiUrl}/items/{id}");
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<CatalogItem>(content);
+        return result;
+    }
+
+    private async Task<Basket> GetBasketByUserId(string userId)
+    {
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_basketSettings);
+        var response = await apiClient.GetAsync($"{_basketSettings.ApiUrl}/{userId}");
+
+        var content = await response.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<Basket>(content);
         return result;
     }
 }

@@ -1,4 +1,5 @@
-﻿using Settings;
+﻿using Helpers;
+using Settings;
 
 namespace Basket.API.Infrastructure.Configurations;
 
@@ -10,6 +11,8 @@ public static class ServicesConfiguration
 
         builder.Services.Configure<ApiClientSettings>
             (builder.Configuration.GetSection("CatalogApiClientSettings"));
+
+        builder.Services.AddScoped<ApiClientHelper>();
 
         builder.Services.AddScoped<ICatalogService, CatalogService>();
         builder.Services.AddScoped<ICacheService, CacheService>();

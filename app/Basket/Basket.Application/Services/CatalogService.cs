@@ -1,22 +1,23 @@
-﻿using Microsoft.Extensions.Options;
+﻿using Helpers;
+using Microsoft.Extensions.Options;
 
 namespace Basket.Application.Services;
 
 public class CatalogService : ICatalogService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
-    private readonly ApiClientSettings _apiClientSettigns;
+    private readonly ApiClientSettings _catalogSettigns;
+    private readonly ApiClientHelper _apiClientHelper;
     public CatalogService(
-        IHttpClientFactory httpClientFactory, 
-        IOptions<ApiClientSettings> apiClientSettings)
+        IOptions<ApiClientSettings> catalogSettigns,
+        ApiClientHelper apiClientHelper)
     {
-        _httpClientFactory = httpClientFactory;
-        _apiClientSettigns = apiClientSettings.Value;
+        _catalogSettigns = catalogSettigns.Value;
+        _apiClientHelper = apiClientHelper;
     }
 
     public async Task<CatalogItem> GetItemById(int id)
     {
-        var itemResponse = await GetCatalogResponseById("items", id);
+        var itemResponse = await GetCatalogItemById(id);
 
         if (itemResponse == null || itemResponse.Id == 0)
         {
@@ -26,23 +27,10 @@ public class CatalogService : ICatalogService
         return itemResponse;
     }
 
-    private async Task<CatalogItem> GetCatalogResponseById(string endpoint, int id)
+    private async Task<CatalogItem> GetCatalogItemById(int id)
     {
-        var client = _httpClientFactory.CreateClient();
-        var disco = await client.GetDiscoveryDocumentAsync(_apiClientSettigns.DiscoveryUrl);
-
-        var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = disco.TokenEndpoint,
-            ClientId = _apiClientSettigns.ClientId,
-            ClientSecret = _apiClientSettigns.ClientSecret,
-            Scope = _apiClientSettigns.Scope
-        });
-
-        var apiClient = _httpClientFactory.CreateClient();
-        apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-        var response = await apiClient.GetAsync($"{_apiClientSettigns.ApiUrl}/{endpoint}/{id}");
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_catalogSettigns);
+        var response = await apiClient.GetAsync($"{_catalogSettigns.ApiUrl}/items/{id}");
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<CatalogItem>(content);

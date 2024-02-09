@@ -9,6 +9,9 @@ global using Ordering.Domain.Models;
 global using Ordering.Core.Abstractions.Services;
 global using Ordering.Core.Abstractions.Repositories;
 
+//Settings
+global using Settings;
+
 //Packages
 global using AutoMapper;
 global using IdentityModel;

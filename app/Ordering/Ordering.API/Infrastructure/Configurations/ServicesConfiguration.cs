@@ -1,10 +1,20 @@
-﻿namespace Ordering.API.Infrastructure.Configurations;
+﻿using Helpers;
+
+namespace Ordering.API.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
     public static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Services.AddHttpClient();
+
+        builder.Services.AddScoped<ApiClientHelper>();
+
+        builder.Services.Configure<ApiClientSettings>
+            (builder.Configuration.GetSection("CatalogApiClientSettings"));
+
+        builder.Services.Configure<ApiClientSettings>
+          (builder.Configuration.GetSection("BasketApiClientSettings"));
 
         builder.Services.AddScoped<IUserRepository<UserEntity>, UserRepository>();
         builder.Services.AddScoped<IUserService, UserService>();

@@ -51,6 +51,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{F3F884
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Settings", "Common\Settings\Settings.csproj", "{C55CB11A-3B3A-467A-8677-2A6F196323A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Helpers", "Common\Helpers\Helpers.csproj", "{D58B62D6-D0FE-4F2E-A0C6-806A380BA0ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -129,6 +131,10 @@ Global
 		{C55CB11A-3B3A-467A-8677-2A6F196323A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C55CB11A-3B3A-467A-8677-2A6F196323A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C55CB11A-3B3A-467A-8677-2A6F196323A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D58B62D6-D0FE-4F2E-A0C6-806A380BA0ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D58B62D6-D0FE-4F2E-A0C6-806A380BA0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D58B62D6-D0FE-4F2E-A0C6-806A380BA0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D58B62D6-D0FE-4F2E-A0C6-806A380BA0ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -151,6 +157,7 @@ Global
 		{679C9349-BD15-4165-855D-AE2BE1CCE64E} = {064D984E-5522-474E-BCD9-5AD8FE7B2016}
 		{952F53FE-38F8-48A4-A7D2-B5FF7D5423D1} = {D804500B-3D1D-4F1D-8CA0-82BC70432DB7}
 		{C55CB11A-3B3A-467A-8677-2A6F196323A3} = {F3F88469-2155-41E5-8332-404A943A725E}
+		{D58B62D6-D0FE-4F2E-A0C6-806A380BA0ED} = {F3F88469-2155-41E5-8332-404A943A725E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {384E27E0-63BF-4899-B808-19EDADB8EA5D}

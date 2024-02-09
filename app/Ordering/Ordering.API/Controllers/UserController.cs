@@ -1,7 +1,7 @@
 ﻿namespace Ordering.API.Controllers;
 
 [ApiController]
-[Route("api/v1/orders-users")]
+[Route("api/v1/users")]
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
@@ -34,7 +34,7 @@ public class UserController : ControllerBase
         }
     }
 
-    [HttpGet("active-user-id")]
+    [HttpGet("me")]
     public IActionResult GetActiveUserId()
     {
         var userId = _userService.GetActiveUserId(User);
