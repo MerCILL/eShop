@@ -1,6 +1,4 @@
-﻿using BFF.Web.Responses;
-
-namespace BFF.Web.Services.Abstractions;
+﻿namespace BFF.Web.Services.Abstractions;
 
 public interface IOrderService
 {

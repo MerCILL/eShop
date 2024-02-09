@@ -29,9 +29,9 @@ public class BasketController : Controller
     }
 
     [HttpDelete]
-    public async Task<IActionResult> DeleteBasketItem(string userId, int itemId)
+    public async Task<IActionResult> DeleteBasketItem(int itemId)
     {
-        userId = _basketService.FindUserId(HttpContext);
+        var userId = _basketService.FindUserId(HttpContext);
         var deletedItemId = await _basketService.DeleteBasketItem(userId, itemId);
         return Ok();
     }

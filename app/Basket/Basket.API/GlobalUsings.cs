@@ -1,11 +1,13 @@
 ﻿//Core Layer
 global using Basket.Core.Abstractions;
 
-//Domain Layer
-global using Basket.Domain.Models;
-
 //Application Layer
-global using Basket.API.Services;
+global using Basket.Application.Services;
+
+//API Layer
+global using Basket.API.Requests;
+global using Basket.API.Responses;
+
 
 //Packages
 global using Microsoft.AspNetCore.Mvc;

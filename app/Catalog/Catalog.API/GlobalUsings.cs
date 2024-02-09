@@ -19,9 +19,6 @@ global using Catalog.API.Infrastructure.Validations;
 
 //Aplication Layer
 global using Catalog.Application.Services;
-global using Catalog.Application.Infrastructure;
-global using Catalog.Application.Exceptions;
-
 
 //Packages
 global using Microsoft.EntityFrameworkCore;

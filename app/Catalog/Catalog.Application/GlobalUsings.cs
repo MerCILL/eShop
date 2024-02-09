@@ -9,7 +9,7 @@ global using Catalog.DataAccess.Entities;
 global using Catalog.Domain.Models;
 
 //Application Layer
-global using Catalog.Application.Exceptions;
+global using Catalog.Application.Infrastructure.Exceptions;
 
 
 

@@ -1,8 +1,4 @@
-﻿using AutoMapper;
-using Ordering.DataAccess.Entities;
-using Ordering.Domain.Models;
-
-namespace Ordering.Application.Mapping;
+﻿namespace Ordering.Application.Mapping;
 
 public class MappingProfile : Profile
 {
@@ -15,6 +11,5 @@ public class MappingProfile : Profile
             .ReverseMap();
 
         CreateMap<OrderItemEntity, OrderItem>().ReverseMap();
-
     }
 }

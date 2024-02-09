@@ -1,4 +1,4 @@
-﻿namespace Catalog.Application.Infrastructure;
+﻿namespace Catalog.Application.Infrastructure.Mapping;
 
 public class EntityToModelMapperProfile : Profile
 {

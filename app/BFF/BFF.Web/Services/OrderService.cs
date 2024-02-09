@@ -1,9 +1,4 @@
-﻿using BFF.Web.Responses;
-using BFF.Web.Services.Abstractions;
-using IdentityModel.Client;
-using Newtonsoft.Json;
-
-namespace BFF.Web.Services;
+﻿namespace BFF.Web.Services;
 
 public class OrderService : IOrderService
 {

@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using IdentityModel;
-using Microsoft.AspNetCore.Mvc;
-using Ordering.API.Requests;
-using Ordering.Core.Abstractions.Services;
-using Ordering.Domain.Models;
-using System.Security.Claims;
-
-namespace Ordering.API.Controllers;
+﻿namespace Ordering.API.Controllers;
 
 [ApiController]
 [Route("api/v1/orders")]

@@ -1,11 +1,4 @@
-﻿using BFF.Web.Responses;
-using BFF.Web.Services.Abstractions;
-using IdentityModel.Client;
-using Newtonsoft.Json;
-using System.Net.Http;
-using System.Text;
-
-namespace BFF.Web.Services;
+﻿namespace BFF.Web.Services;
 
 public class BasketService : IBasketService
 {
@@ -67,7 +60,7 @@ public class BasketService : IBasketService
         return result;
     }
 
-    public async Task<int> DeleteBasketItem(string userId, int itemId)
+    public async Task<DeleteBasketResponse> DeleteBasketItem(string userId, int itemId)
     {
         var client = _httpClientFactory.CreateClient();
         var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -83,21 +76,15 @@ public class BasketService : IBasketService
         var apiClient = _httpClientFactory.CreateClient();
         apiClient.SetBearerToken(tokenResponse.AccessToken);
 
-        var response = await apiClient.DeleteAsync($"http://localhost:5004/api/v1/basket/{userId}/{itemId}");
+        var response = await apiClient.DeleteAsync($"http://localhost:5004/api/v1/basket/{userId}?itemId={itemId}");
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception($"Failed to delete item: {response.ReasonPhrase}");
         }
 
         var responseString = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<int>(responseString);
+        var result = JsonConvert.DeserializeObject<DeleteBasketResponse>(responseString);
         return result;
     }
 
-}
-
-public class ItemRequest
-{
-    public string UserId { get; set; }
-    public int ItemId { get; set; }
 }

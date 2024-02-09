@@ -1,4 +1,4 @@
-﻿namespace Basket.API.Services;
+﻿namespace Basket.Application.Services;
 
 public class CacheService : ICacheService
 {

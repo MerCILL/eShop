@@ -1,9 +1,6 @@
-﻿using System.Security.Claims;
+﻿namespace BFF.Web.Services.Abstractions;
 
-namespace BFF.Web.Services.Abstractions
+public interface IUserService
 {
-    public interface IUserService
-    {
-        string GetUserId(ClaimsPrincipal user);
-    }
+    string GetUserId(ClaimsPrincipal user);
 }

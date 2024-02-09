@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using WebApp.Models;
+using WebApp.Responses;
 using WebApp.Services.Abstractions;
 
 namespace WebApp.Services;
@@ -44,16 +45,20 @@ public class BasketService : IBasketService
         return result;
     }
 
-    public async Task<int> DeleteBasketItem(string userId, int itemId)
+    public async Task<DeleteBasketResponse> DeleteBasketItem(string userId, int itemId)
     {
         var httpClient = _httpClientFactory.CreateClient();
         var accessToken = await GetAccessToken();
         httpClient.SetBearerToken(accessToken);
 
-        var response = await httpClient.DeleteAsync($"http://localhost:5002/bff/basket/{userId}/{itemId}");
+        var response = await httpClient.DeleteAsync($"http://localhost:5002/bff/basket/{userId}?itemId={itemId}");
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new Exception($"Failed to delete item: {response.ReasonPhrase}");
+        }
 
         var responseString = await response.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<int>(responseString);
+        var result = JsonConvert.DeserializeObject<DeleteBasketResponse>(responseString);
         return result;
     }
 

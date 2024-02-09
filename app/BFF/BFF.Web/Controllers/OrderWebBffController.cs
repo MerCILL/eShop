@@ -1,7 +1,4 @@
-﻿using BFF.Web.Responses;
-using BFF.Web.Services.Abstractions;
-
-namespace BFF.Web.Controllers;
+﻿namespace BFF.Web.Controllers;
 
 [ApiController]
 [Route("bff")]

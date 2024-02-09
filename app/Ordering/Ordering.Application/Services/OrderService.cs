@@ -1,16 +1,4 @@
-﻿using AutoMapper;
-using IdentityModel;
-using IdentityModel.Client;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using Ordering.Core.Abstractions.Repositories;
-using Ordering.Core.Abstractions.Services;
-using Ordering.DataAccess.Entities;
-using Ordering.Domain.Models;
-using System.Net.Http.Json;
-using System.Security.Claims;
-
-namespace Ordering.Application.Services;
+﻿namespace Ordering.Application.Services;
 
 public class OrderService : IOrderService
 {
@@ -43,6 +31,15 @@ public class OrderService : IOrderService
         return orders;
     }
 
+    public async Task<Order> GeyById(int id)
+    {
+        var orderEntity = await _orderRepository.GetById(id);
+
+        var order = _mapper.Map<Order>(orderEntity);
+
+        return order;
+    }
+
     public async Task<IEnumerable<Order>> GetByUser(string userId, int page, int size)
     {
         var ordersEntities = await _orderRepository.GetByUser(userId, page, size);
@@ -52,14 +49,6 @@ public class OrderService : IOrderService
         return orders;
     }
 
-    public async Task<Order> GeyById(int id)
-    {
-        var orderEntity = await _orderRepository.GetById(id);
-
-        var order = _mapper.Map<Order>(orderEntity);
-
-        return order;
-    }
 
     public async Task<Order> Add(Order order, string userId)
     {
@@ -127,11 +116,6 @@ public class OrderService : IOrderService
             throw new KeyNotFoundException("Order not found.");
         }
 
-        //if (!userClaims.Identity.Name.Equals(order.User.UserId))
-        //{
-        //    throw new UnauthorizedAccessException("You do not have permission to update this order.");
-        //}
-
         currentOrder.Address = order.Address;
 
         foreach (var item in order.Items)
@@ -164,7 +148,11 @@ public class OrderService : IOrderService
         return _mapper.Map<Order>(currentOrder);
     }
 
-
+    public async Task<Order> Delete(int id)
+    {
+        var orderEntity = await _orderRepository.Delete(id);
+        return _mapper.Map<Order>(orderEntity);
+    }
 
     private async Task<CatalogItem> GetCatalogResponseById(int id)
     {
@@ -187,12 +175,6 @@ public class OrderService : IOrderService
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<CatalogItem>(content);
         return result;
-    }
-
-    public async Task<Order> Delete(int id)
-    {
-        var orderEntity = await _orderRepository.Delete(id);
-        return _mapper.Map<Order>(orderEntity);
     }
 }
 

@@ -1,18 +1,5 @@
-using IdentityServer.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using Ordering.Application.Services;
-using Ordering.Core.Abstractions.Repositories;
-using Ordering.Core.Abstractions.Services;
-using Ordering.DataAccess.Entities;
-using Ordering.DataAccess.Infrastructure;
-using Ordering.DataAccess.Repositories;
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("OrderDb");
 builder.Services.AddDbContext<OrderDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("Ordering.API")));
 
@@ -49,7 +36,7 @@ builder.Services.AddAuthorization(options =>
 
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
@@ -83,7 +70,6 @@ builder.Services.AddSwaggerGen(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

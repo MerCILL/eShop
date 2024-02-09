@@ -1,4 +1,4 @@
-﻿namespace Catalog.Application.Exceptions;
+﻿namespace Catalog.Application.Infrastructure.Exceptions;
 
 public class FluentValidationException : Exception
 {

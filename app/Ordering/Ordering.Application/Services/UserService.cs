@@ -1,12 +1,4 @@
-﻿using AutoMapper;
-using IdentityModel;
-using Ordering.Core.Abstractions.Repositories;
-using Ordering.Core.Abstractions.Services;
-using Ordering.DataAccess.Entities;
-using Ordering.Domain.Models;
-using System.Security.Claims;
-
-namespace Ordering.Application.Services;
+﻿namespace Ordering.Application.Services;
 
 public class UserService : IUserService
 {
@@ -39,6 +31,12 @@ public class UserService : IUserService
         return user;
     }
 
+    public string GetActiveUserId(ClaimsPrincipal userClaims)
+    {
+        var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
+        return userId;
+    }
+
     public async Task<User> Add(ClaimsPrincipal userClaims)
     {
         var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -63,11 +61,4 @@ public class UserService : IUserService
 
         return _mapper.Map<User>(userEntity);
     }
-
-    public string GetActiveUserId(ClaimsPrincipal userClaims)
-    {
-        var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
-        return userId;
-    }
-
 }

@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Ordering.Core.Abstractions.Services;
-using System.Security.Claims;
-
-namespace Ordering.API.Controllers;
+﻿namespace Ordering.API.Controllers;
 
 [ApiController]
 [Route("api/v1/orders-users")]
@@ -27,6 +23,7 @@ public class UserController : ControllerBase
     {
         userId = userId ?? User.FindFirstValue(ClaimTypes.NameIdentifier);
         var user = await _userService.GetUserById(userId);
+
         if (user != null)
         {
             return Ok(user);

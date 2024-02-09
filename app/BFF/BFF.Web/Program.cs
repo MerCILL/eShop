@@ -9,8 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHttpClient();
 
-var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
-builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString));
+//var connectionString = builder.Configuration.GetConnectionString("CatalogDb");
+//builder.Services.AddDbContext<CatalogDbContext>(options => options.UseNpgsql(connectionString));
 
 //builder.Services.AddSingleton<IConnectionMultiplexer>(x =>
 //{

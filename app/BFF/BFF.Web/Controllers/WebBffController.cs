@@ -1,8 +1,4 @@
-﻿using BFF.Web.Services;
-using BFF.Web.Services.Abstractions;
-using System.Security.Claims;
-
-namespace BFF.Web.Controllers;
+﻿namespace BFF.Web.Controllers;
 
 [ApiController]
 [Route("/bff")]
@@ -105,8 +101,8 @@ public class WebBffController : ControllerBase
         return Ok(addedItemId);
     }
 
-    [HttpDelete("basket/{userId}/{itemId}")]
-    public async Task<IActionResult> DeleteItem(string userId, int itemId)
+    [HttpDelete("basket/{userId}")]
+    public async Task<IActionResult> DeleteItem(string userId, [FromQuery] int itemId)
     {
         var deletedItemId = await _basketService.DeleteBasketItem(userId, itemId);
         return Ok(deletedItemId);

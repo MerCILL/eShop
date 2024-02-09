@@ -1,7 +1,4 @@
-﻿using Ordering.Core.Abstractions.Services;
-using Ordering.DataAccess.Infrastructure;
-
-namespace Ordering.Application.Services;
+﻿namespace Ordering.Application.Services;
 
 public class TransactionService : ITransactionService
 {

@@ -31,7 +31,7 @@ public class BasketController : ControllerBase
         try
         {
             var userId = itemRequest.UserId; 
-            var createdItem = await _basketService.AddItem(userId, itemRequest);
+            var createdItem = await _basketService.AddItem(userId, itemRequest.ItemId);
             return Ok(itemRequest.ItemId);
         }
         catch (ArgumentException ex)
@@ -50,7 +50,7 @@ public class BasketController : ControllerBase
                 var deleted = await _basketService.DeleteBasket(userId);
                 if (deleted)
                 {
-                    return Ok(userId);
+                    return Ok(new DeleteResponse { Type = "Basket", Id = userId });
                 }
                 else
                 {
@@ -67,7 +67,7 @@ public class BasketController : ControllerBase
             try
             {
                 var deletedItem = await _basketService.RemoveItem(userId, itemId);
-                return Ok(deletedItem.ItemId);
+                return Ok(new DeleteResponse { Type = "Item", Id = deletedItem.ItemId.ToString() });
             }
             catch (ArgumentException ex)
             {

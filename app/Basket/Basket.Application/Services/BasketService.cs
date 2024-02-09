@@ -1,4 +1,4 @@
-﻿namespace Basket.API.Services;
+﻿namespace Basket.Application.Services;
 
 public class BasketService : IBasketService
 {
@@ -31,12 +31,12 @@ public class BasketService : IBasketService
         return JsonConvert.DeserializeObject<Domain.Models.Basket>(data);
     }
 
-    public async Task<BasketItem> AddItem(string userId, ItemRequest itemRequest)
+    public async Task<BasketItem> AddItem(string userId, int itemId)
     {
-        var item = await _catalogService.GetItemById(itemRequest.ItemId);
+        var item = await _catalogService.GetItemById(itemId);
         if (item == null)
         {
-            throw new ArgumentException($"Item with id = {itemRequest.ItemId} not found");
+            throw new ArgumentException($"Item with id = {itemId} not found");
         }
 
         var basket = await GetBasket(userId);

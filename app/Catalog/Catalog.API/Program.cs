@@ -1,3 +1,5 @@
+using Catalog.Application.Infrastructure.Mapping;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configure Authentication

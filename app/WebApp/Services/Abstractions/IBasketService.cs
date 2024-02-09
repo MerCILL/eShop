@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using WebApp.Models;
+using WebApp.Responses;
 
 namespace WebApp.Services.Abstractions;
 
@@ -9,5 +10,5 @@ public interface IBasketService
 
     string FindUserId(HttpContext httpContext);
     Task<int> AddBasketItem(ItemRequest itemRequest);
-    Task<int> DeleteBasketItem(string userId, int itemId);
+    Task<DeleteBasketResponse> DeleteBasketItem(string userId, int itemId);
 }

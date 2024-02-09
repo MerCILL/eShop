@@ -1,11 +1,4 @@
-﻿using BFF.Web.Responses;
-using BFF.Web.Services.Abstractions;
-using Catalog.API.Responses;
-using Catalog.Domain.Models;
-using IdentityModel.Client;
-using Newtonsoft.Json;
-
-namespace BFF.Web.Services;
+﻿namespace BFF.Web.Services;
 
 public class CatalogService : ICatalogService
 {
@@ -18,24 +11,24 @@ public class CatalogService : ICatalogService
         _logger = logger;
     }
 
-    public async Task<PaginatedResponse<CatalogBrandResponse>> GetBrands(int page, int size)
+    public async Task<PaginatedResponse<CatalogBrand>> GetBrands(int page, int size)
     {
-        return await GetPaginatedResponse<CatalogBrandResponse>("brands", page, size);
+        return await GetPaginatedResponse<CatalogBrand>("brands", page, size);
     }
 
-    public async Task<PaginatedResponse<CatalogTypeResponse>> GetTypes(int page, int size)
+    public async Task<PaginatedResponse<CatalogType>> GetTypes(int page, int size)
     {
-        return await GetPaginatedResponse<CatalogTypeResponse>("types", page, size);
+        return await GetPaginatedResponse<CatalogType>("types", page, size);
     }
 
-    public async Task<PaginatedResponse<CatalogItemResponse>> GetItems(int page, int size)
+    public async Task<PaginatedResponse<CatalogItem>> GetItems(int page, int size)
     {
-        return await GetPaginatedResponse<CatalogItemResponse>("items", page, size);
+        return await GetPaginatedResponse<CatalogItem>("items", page, size);
     }
 
-    public async Task<CatalogItemResponse> GetItemById(int id)
+    public async Task<CatalogItem> GetItemById(int id)
     {
-        return await GetUnitById<CatalogItemResponse>("items", id);
+        return await GetUnitById<CatalogItem>("items", id);
     }
 
     private async Task<PaginatedResponse<T>> GetPaginatedResponse<T>(string endpoint, int page, int size)
