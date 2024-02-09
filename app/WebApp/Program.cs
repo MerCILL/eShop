@@ -8,10 +8,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpClient();
 
-builder.Services.AddScoped<IWeatherForecastService, WeatherForecastService>();
 builder.Services.AddScoped<ICatalogService, CatalogService>();
 builder.Services.AddScoped<IBasketService, BasketService>();
 builder.Services.AddScoped<IOrderService,OrderService>();
+builder.Services.AddScoped<ILoginService, LoginService>();
 
 // Add IdentityModel
 builder.Services.AddAuthentication(options =>
@@ -32,7 +32,6 @@ builder.Services.AddAuthentication(options =>
 });
 
 
-builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 
