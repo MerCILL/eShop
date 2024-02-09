@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebApp.Models;
-using WebApp.Services;
-using WebApp.Services.Abstractions;
-
-namespace WebApp.Controllers;
+﻿namespace WebApp.Controllers;
 
 public class OrderController : Controller
 {

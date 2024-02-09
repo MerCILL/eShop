@@ -1,11 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using WebApp.Models;
-using WebApp.Services;
-using WebApp.Services.Abstractions;
-
-namespace WebApp.Controllers;
+﻿namespace WebApp.Controllers;
 
 public class CatalogController : Controller
 {

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebApp.Services.Abstractions;
-
-namespace WebApp.Controllers;
+﻿namespace WebApp.Controllers;
 
 public class AccountController : Controller
 {

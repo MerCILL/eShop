@@ -1,12 +1,9 @@
-﻿using WebApp.Models;
+﻿namespace WebApp.Services.Abstractions;
 
-namespace WebApp.Services.Abstractions
+public interface ICatalogService
 {
-    public interface ICatalogService
-    {
-        Task<PaginatedResponse<CatalogItemModel>> GetCatalogItems(int page, int size, string sort, List<int> types = null, List<int> brands = null);
-        Task<PaginatedResponse<CatalogTypeModel>> GetCatalogTypes();
-        Task<PaginatedResponse<CatalogBrandModel>> GetCatalogBrands();
-        Task<CatalogItemModel> GetCatalogItemById(int id);
-    }
+    Task<PaginatedDataModel<CatalogItemModel>> GetCatalogItems(int page, int size, string sort, List<int> types = null, List<int> brands = null);
+    Task<PaginatedDataModel<CatalogTypeModel>> GetCatalogTypes();
+    Task<PaginatedDataModel<CatalogBrandModel>> GetCatalogBrands();
+    Task<CatalogItemModel> GetCatalogItemById(int id);
 }

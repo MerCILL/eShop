@@ -1,12 +1,4 @@
-﻿using IdentityModel.Client;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System.Security.Claims;
-using WebApp.Models;
-using WebApp.Responses;
-using WebApp.Services.Abstractions;
-
-namespace WebApp.Services;
+﻿namespace WebApp.Services;
 
 public class BasketService : IBasketService
 {

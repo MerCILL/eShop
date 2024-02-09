@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WebApp.Models;
-using WebApp.Services.Abstractions;
-
-namespace WebApp.Controllers;
+﻿namespace WebApp.Controllers;
 
 public class BasketController : Controller
 {

@@ -1,8 +1,4 @@
-﻿using System.Security.Claims;
-using WebApp.Models;
-using WebApp.Responses;
-
-namespace WebApp.Services.Abstractions;
+﻿namespace WebApp.Services.Abstractions;
 
 public interface IBasketService
 {

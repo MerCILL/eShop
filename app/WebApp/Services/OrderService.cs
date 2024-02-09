@@ -1,9 +1,4 @@
-﻿using IdentityModel.Client;
-using Newtonsoft.Json;
-using WebApp.Models;
-using WebApp.Services.Abstractions;
-
-namespace WebApp.Services;
+﻿namespace WebApp.Services;
 
 public class OrderService : IOrderService
 {

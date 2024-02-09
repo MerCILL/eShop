@@ -1,11 +1,4 @@
-﻿using IdentityModel.Client;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Newtonsoft.Json;
-using System.Drawing;
-using WebApp.Models;
-using WebApp.Services.Abstractions;
-
-namespace WebApp.Services;
+﻿namespace WebApp.Services;
 
 public class CatalogService : ICatalogService
 {
@@ -16,7 +9,7 @@ public class CatalogService : ICatalogService
         _clientFactory = clientFactory;
     }
 
-    public async Task<PaginatedResponse<CatalogItemModel>> GetCatalogItems(int page, int size, string sort, List<int> types = null, List<int> brands = null)
+    public async Task<PaginatedDataModel<CatalogItemModel>> GetCatalogItems(int page, int size, string sort, List<int> types = null, List<int> brands = null)
     {
         var httpClient = _clientFactory.CreateClient();
         var accessToken = await GetAccessToken();
@@ -27,7 +20,7 @@ public class CatalogService : ICatalogService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PaginatedResponse<CatalogItemModel>>(content);
+            var result = JsonConvert.DeserializeObject<PaginatedDataModel<CatalogItemModel>>(content);
 
             if (types != null && types.Any())
             {
@@ -69,7 +62,7 @@ public class CatalogService : ICatalogService
         }
     }
 
-    public async Task<PaginatedResponse<CatalogTypeModel>> GetCatalogTypes()
+    public async Task<PaginatedDataModel<CatalogTypeModel>> GetCatalogTypes()
     {
         var httpClient = _clientFactory.CreateClient();
         var accessToken = await GetAccessToken();
@@ -79,7 +72,7 @@ public class CatalogService : ICatalogService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PaginatedResponse<CatalogTypeModel>>(content);
+            var result = JsonConvert.DeserializeObject<PaginatedDataModel<CatalogTypeModel>>(content);
             return result;
         }
         else
@@ -88,7 +81,7 @@ public class CatalogService : ICatalogService
         }
     }
 
-    public async Task<PaginatedResponse<CatalogBrandModel>> GetCatalogBrands()
+    public async Task<PaginatedDataModel<CatalogBrandModel>> GetCatalogBrands()
     {
         var httpClient = _clientFactory.CreateClient();
         var accessToken = await GetAccessToken();
@@ -98,7 +91,7 @@ public class CatalogService : ICatalogService
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
-            var result = JsonConvert.DeserializeObject<PaginatedResponse<CatalogBrandModel>>(content);
+            var result = JsonConvert.DeserializeObject<PaginatedDataModel<CatalogBrandModel>>(content);
             return result;
         }
         else
