@@ -4,6 +4,7 @@ global using WebApp.Requests;
 global using WebApp.Responses;
 global using WebApp.Services.Abstractions;
 global using WebApp.Services;
+global using WebApp.Infrastructure.Configurations;
 
 //Packages
 global using Microsoft.AspNetCore.Mvc;

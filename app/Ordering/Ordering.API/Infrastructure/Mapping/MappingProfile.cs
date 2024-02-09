@@ -1,4 +1,4 @@
-﻿namespace Ordering.API.Mapping;
+﻿namespace Ordering.API.Infrastructure.Mapping;
 
 public class MappingProfile : Profile
 {

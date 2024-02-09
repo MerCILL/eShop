@@ -7,6 +7,7 @@ global using Basket.Application.Services;
 //API Layer
 global using Basket.API.Requests;
 global using Basket.API.Responses;
+global using Basket.API.Infrastructure.Configurations;
 
 
 //Packages

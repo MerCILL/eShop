@@ -15,6 +15,7 @@ global using Ordering.Application.Services;
 
 //API Layer
 global using Ordering.API.Requests;
+global using Ordering.API.Infrastructure.Configurations;
 
 //Packages
 global using Microsoft.EntityFrameworkCore.Migrations;

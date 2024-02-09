@@ -2,7 +2,7 @@
 global using BFF.Web.Requests;
 global using BFF.Web.Services.Abstractions;
 global using BFF.Web.Services;
-
+global using BFF.Web.Infrastructure.Configurations;
 
 
 //Packages
