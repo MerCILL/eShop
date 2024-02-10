@@ -12,13 +12,14 @@ global using Ordering.Core.Abstractions.Services;
 
 //Application Layer
 global using Ordering.Application.Services;
+global using Ordering.Application.Infrastructure.Settings;
 
 //API Layer
 global using Ordering.API.Requests;
 global using Ordering.API.Infrastructure.Configurations;
 
 //Settings
-global using Settings;
+global using Helpers;
 
 //Packages
 global using Microsoft.EntityFrameworkCore.Migrations;

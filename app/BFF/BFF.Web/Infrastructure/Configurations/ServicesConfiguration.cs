@@ -1,8 +1,4 @@
-﻿using BFF.Web.Infrastructure.Settings;
-using Helpers;
-using Settings;
-
-namespace BFF.Web.Infrastructure.Configurations;
+﻿namespace BFF.Web.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {

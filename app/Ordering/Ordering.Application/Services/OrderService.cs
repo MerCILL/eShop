@@ -1,8 +1,4 @@
-﻿using Helpers;
-using Microsoft.Extensions.Options;
-using Ordering.Application.Infrastructure.Settings;
-
-namespace Ordering.Application.Services;
+﻿namespace Ordering.Application.Services;
 
 public class OrderService : IOrderService
 {

@@ -1,7 +1,4 @@
-﻿using Helpers;
-using Ordering.Application.Infrastructure.Settings;
-
-namespace Ordering.API.Infrastructure.Configurations;
+﻿namespace Ordering.API.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {

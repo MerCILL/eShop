@@ -1,7 +1,4 @@
-﻿using Helpers;
-using Settings;
-
-namespace Basket.API.Infrastructure.Configurations;
+﻿namespace Basket.API.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {

@@ -11,6 +11,9 @@ global using Ordering.Core.Abstractions.Repositories;
 
 //Settings
 global using Settings;
+global using Helpers;
+global using Microsoft.Extensions.Options;
+global using Ordering.Application.Infrastructure.Settings;
 
 //Packages
 global using AutoMapper;

@@ -1,9 +1,4 @@
-﻿using Helpers;
-using Microsoft.Extensions.Options;
-using Settings;
-using WebApp.Infrastructure.Settings;
-
-namespace WebApp.Services;
+﻿namespace WebApp.Services;
 
 public class CatalogService : ICatalogService
 {

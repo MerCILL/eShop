@@ -1,10 +1,4 @@
-﻿using BFF.Web.Infrastructure.Settings;
-using Helpers;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Settings;
-
-namespace BFF.Web.Services;
+﻿namespace BFF.Web.Services;
 
 public class CatalogBffService : ICatalogBffService
 {

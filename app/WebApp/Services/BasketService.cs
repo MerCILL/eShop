@@ -1,11 +1,4 @@
-﻿using Helpers;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Options;
-using Settings;
-using System.Drawing;
-using WebApp.Infrastructure.Settings;
-
-namespace WebApp.Services;
+﻿namespace WebApp.Services;
 
 public class BasketService : IBasketService
 {

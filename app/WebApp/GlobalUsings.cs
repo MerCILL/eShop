@@ -5,6 +5,11 @@ global using WebApp.Responses;
 global using WebApp.Services.Abstractions;
 global using WebApp.Services;
 global using WebApp.Infrastructure.Configurations;
+global using WebApp.Infrastructure.Settings;
+
+//Common
+global using Helpers;
+global using Settings;
 
 //Packages
 global using Microsoft.AspNetCore.Mvc;
@@ -15,3 +20,4 @@ global using Microsoft.AspNetCore.Authorization;
 global using IdentityModel.Client;
 global using Newtonsoft.Json;
 global using System.Security.Claims;
+global using Microsoft.Extensions.Options;

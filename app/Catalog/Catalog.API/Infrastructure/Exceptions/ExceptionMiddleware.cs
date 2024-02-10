@@ -1,6 +1,4 @@
-﻿using Catalog.Application.Infrastructure.Exceptions;
-
-namespace Catalog.API.Infrastructure.Exceptions;
+﻿namespace Catalog.API.Infrastructure.Exceptions;
 
 public class ExceptionMiddleware
 {

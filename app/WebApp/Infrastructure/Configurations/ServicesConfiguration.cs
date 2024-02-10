@@ -1,7 +1,4 @@
-﻿using Helpers;
-using WebApp.Infrastructure.Settings;
-
-namespace WebApp.Infrastructure.Configurations;
+﻿namespace WebApp.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {

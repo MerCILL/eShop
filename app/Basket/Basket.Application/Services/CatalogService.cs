@@ -1,7 +1,4 @@
-﻿using Helpers;
-using Microsoft.Extensions.Options;
-
-namespace Basket.Application.Services;
+﻿namespace Basket.Application.Services;
 
 public class CatalogService : ICatalogService
 {
