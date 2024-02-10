@@ -1,32 +1,26 @@
-﻿namespace BFF.Web.Services;
+﻿using Helpers;
+using Microsoft.Extensions.Options;
+using Settings;
+
+namespace BFF.Web.Services;
 
 public class BasketBffService : IBasketBffService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ApiClientSettings _basketSettings;
+    private readonly ApiClientHelper _apiClientHelper;
 
-    public BasketBffService(IHttpClientFactory httpClientFactory)
+    public BasketBffService(
+        IOptions<ApiClientSettings> basketSettings,
+        ApiClientHelper apiClientHelper)
     {
-        _httpClientFactory = httpClientFactory;
+        _basketSettings = basketSettings.Value;
+        _apiClientHelper = apiClientHelper;
     }
 
     public async Task<BasketResponse> GetBasket(string userId)
     {
-        var client = _httpClientFactory.CreateClient();
-        var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-
-
-        var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = disco.TokenEndpoint,
-            ClientId = "basket_api_client",
-            ClientSecret = "basket_api_client_secret",
-            Scope = "BasketAPI",
-        });
-
-        var apiClient = _httpClientFactory.CreateClient();
-        apiClient.SetBearerToken(tokenResponse.AccessToken);
-;
-        var response = await apiClient.GetAsync($"http://localhost:5004/api/v1/basket/{userId}");
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_basketSettings);
+        var response = await apiClient.GetAsync($"{_basketSettings.ApiUrl}/{userId}");
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<BasketResponse>(content);
@@ -35,25 +29,8 @@ public class BasketBffService : IBasketBffService
 
     public async Task<int> AddBasketItem(ItemRequest itemRequest)
     {
-        var client = _httpClientFactory.CreateClient();
-        var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-
-        var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = disco.TokenEndpoint,
-            ClientId = "basket_api_client",
-            ClientSecret = "basket_api_client_secret",
-            Scope = "BasketAPI",
-        });
-
-        var apiClient = _httpClientFactory.CreateClient();
-        apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-        var response = await apiClient.PostAsJsonAsync($"http://localhost:5004/api/v1/basket", itemRequest);
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Failed to add item: {response.ReasonPhrase}");
-        }
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_basketSettings);
+        var response = await apiClient.PostAsJsonAsync($"{_basketSettings.ApiUrl}", itemRequest);
 
         var responseString = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<int>(responseString);
@@ -62,29 +39,11 @@ public class BasketBffService : IBasketBffService
 
     public async Task<DeleteBasketResponse> DeleteBasketItem(string userId, int itemId)
     {
-        var client = _httpClientFactory.CreateClient();
-        var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-
-        var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = disco.TokenEndpoint,
-            ClientId = "basket_api_client",
-            ClientSecret = "basket_api_client_secret",
-            Scope = "BasketAPI",
-        });
-
-        var apiClient = _httpClientFactory.CreateClient();
-        apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-        var response = await apiClient.DeleteAsync($"http://localhost:5004/api/v1/basket/{userId}?itemId={itemId}");
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new Exception($"Failed to delete item: {response.ReasonPhrase}");
-        }
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_basketSettings);
+        var response = await apiClient.DeleteAsync($"{_basketSettings.ApiUrl}/{userId}?itemId={itemId}");
 
         var responseString = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<DeleteBasketResponse>(responseString);
         return result;
     }
-
 }

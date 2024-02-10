@@ -1,5 +1,6 @@
 ﻿using Helpers;
 using Microsoft.Extensions.Options;
+using Ordering.Application.Infrastructure.Settings;
 
 namespace Ordering.Application.Services;
 
@@ -16,11 +17,10 @@ public class OrderService : IOrderService
     public OrderService(
         IOrderRepository<OrderEntity> orderRepository,
         IMapper mapper,
-        IHttpClientFactory httpClientFactory,
         IUserService userService,
         ITransactionService transactionService,
-        IOptions<ApiClientSettings> catalogSettings,
-        IOptions<ApiClientSettings> basketSettings,
+        IOptions<CatalogApiClientSettings> catalogSettings,
+        IOptions<BasketApiClientSettings> basketSettings,
         ApiClientHelper apiClientHelper)
     {
         _orderRepository = orderRepository;

@@ -1,14 +1,25 @@
-﻿namespace BFF.Web.Services;
+﻿using BFF.Web.Infrastructure.Settings;
+using Helpers;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.Extensions.Options;
+using Settings;
+
+namespace BFF.Web.Services;
 
 public class CatalogBffService : ICatalogBffService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
     private readonly ILogger<CatalogBffService> _logger;
+    private readonly ApiClientSettings _catalogSettings;
+    private readonly ApiClientHelper _apiClientHelper;
 
-    public CatalogBffService(IHttpClientFactory httpClientFactory, ILogger<CatalogBffService> logger)
+    public CatalogBffService(
+        ILogger<CatalogBffService> logger,
+        IOptions<CatalogApiClientSettings> catalogSettings,
+        ApiClientHelper apiClientHelper)
     {
-        _httpClientFactory = httpClientFactory;
         _logger = logger;
+        _catalogSettings = catalogSettings.Value;
+        _apiClientHelper = apiClientHelper;
     }
 
     public async Task<PaginatedResponse<CatalogBrandResponse>> GetBrands(int page, int size)
@@ -33,107 +44,24 @@ public class CatalogBffService : ICatalogBffService
 
     private async Task<PaginatedResponse<T>> GetPaginatedResponse<T>(string endpoint, int page, int size)
     {
-        try
-        {
-            var client = _httpClientFactory.CreateClient();
-            var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-            if (disco.IsError)
-            {
-                _logger.LogError(disco.Error);
-                throw new Exception("Discovery document error");
-            }
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_catalogSettings);
+        var response = await apiClient.GetAsync($"{_catalogSettings.ApiUrl}/{endpoint}?page={page}&size={size}");
 
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = "catalog_api_client",
-                ClientSecret = "catalog_api_client_secret",
-                Scope = "CatalogAPI"
-            });
-
-            if (tokenResponse.IsError)
-            {
-                _logger.LogError(tokenResponse.Error);
-                throw new Exception("Token request error");
-            }
-
-            var apiClient = _httpClientFactory.CreateClient();
-            apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = await apiClient.GetAsync($"http://localhost:5000/api/v1/catalog/{endpoint}?page={page}&size={size}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<PaginatedResponse<T>>(content);
-                return result;
-            }
-            else
-            {
-                _logger.LogError($"WebBff API request failed with status code: {response.StatusCode}");
-                throw new Exception("API request error");
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"An error occurred: {ex.Message}");
-            throw;
-        }
+        var content = await response.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<PaginatedResponse<T>>(content);
+        return result;
     }
 
     private async Task<T> GetUnitById<T>(string endpoint, int id)
     {
-        try
-        {
-            var client = _httpClientFactory.CreateClient();
-            var disco = await client.GetDiscoveryDocumentAsync("https://localhost:5001");
-            if (disco.IsError)
-            {
-                _logger.LogError(disco.Error);
-                throw new Exception("Discovery document error");
-            }
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_catalogSettings);
+        var response = await apiClient.GetAsync($"{_catalogSettings.ApiUrl}/{endpoint}/{id}");
 
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = disco.TokenEndpoint,
-                ClientId = "catalog_api_client",
-                ClientSecret = "catalog_api_client_secret",
-                Scope = "CatalogAPI"
-            });
-
-            if (tokenResponse.IsError)
-            {
-                _logger.LogError(tokenResponse.Error);
-                throw new Exception("Token request error");
-            }
-
-            var apiClient = _httpClientFactory.CreateClient();
-            apiClient.SetBearerToken(tokenResponse.AccessToken);
-
-            var response = await apiClient.GetAsync($"http://localhost:5000/api/v1/catalog/{endpoint}/{id}");
-
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<T>(content);
-                return result;
-            }
-            else
-            {
-                _logger.LogError($"WebBff API request failed with status code: {response.StatusCode}");
-                throw new Exception("API request error");
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError($"An error occurred: {ex.Message}");
-            throw;
-        }
+        var content = await response.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<T>(content);
+        return result;
     }
-
 }
 
 
 
-
-       

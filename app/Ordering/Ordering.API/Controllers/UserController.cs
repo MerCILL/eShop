@@ -5,20 +5,31 @@
 public class UserController : ControllerBase
 {
     private readonly IUserService _userService;
+    private readonly IOrderService _orderService;
 
-    public UserController(IUserService userService)
+    public UserController(
+        IUserService userService, 
+        IOrderService orderService)
     {
         _userService = userService;
+        _orderService = orderService;
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllOrderUsers([FromQuery] int page, int size) 
+    public async Task<IActionResult> GetAllUsersWithAtLeastOneOrder([FromQuery] int page, int size) 
     {
         var users = await _userService.Get(page, size);
         return Ok(users);
     }
 
-    [HttpGet("{userId?}")]
+    [HttpGet("{userId}/orders")]
+    public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
+    {
+        var orders = await _orderService.GetByUser(userId, page, size);
+        return Ok(orders);
+    }
+
+    [HttpGet("{userId?}/details")]
     public async Task<IActionResult> GetUserById(string userId)
     {
         userId = userId ?? User.FindFirstValue(ClaimTypes.NameIdentifier);

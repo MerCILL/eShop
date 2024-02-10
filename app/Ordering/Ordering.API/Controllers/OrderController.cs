@@ -22,21 +22,6 @@ public class OrderController : ControllerBase
         return Ok(orders);
     }
 
-    [HttpGet("users")]
-    public async Task<IActionResult> GetOrdersByActiveUser([FromQuery] int page = 1, [FromQuery] int size = 50)
-    {
-        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-        var orders = await _orderService.GetByUser(userId, page, size);
-        return Ok(orders);
-    }
-
-    [HttpGet("users/{userId}")]
-    public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
-    {
-        var orders = await _orderService.GetByUser(userId, page, size);
-        return Ok(orders);
-    }
-
     [HttpGet("{id}")]
     public async Task<IActionResult> GetOrderById(int id)
     {

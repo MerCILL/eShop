@@ -21,7 +21,5 @@ public static class ServicesConfiguration
 
         builder.Services.AddControllers();       
         builder.Services.AddEndpointsApiExplorer();
-
-
     }
 }

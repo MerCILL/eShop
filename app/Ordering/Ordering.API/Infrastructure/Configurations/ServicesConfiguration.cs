@@ -1,4 +1,5 @@
 ﻿using Helpers;
+using Ordering.Application.Infrastructure.Settings;
 
 namespace Ordering.API.Infrastructure.Configurations;
 
@@ -10,10 +11,10 @@ public static class ServicesConfiguration
 
         builder.Services.AddScoped<ApiClientHelper>();
 
-        builder.Services.Configure<ApiClientSettings>
+        builder.Services.Configure<CatalogApiClientSettings>
             (builder.Configuration.GetSection("CatalogApiClientSettings"));
 
-        builder.Services.Configure<ApiClientSettings>
+        builder.Services.Configure<BasketApiClientSettings>
           (builder.Configuration.GetSection("BasketApiClientSettings"));
 
         builder.Services.AddScoped<IUserRepository<UserEntity>, UserRepository>();

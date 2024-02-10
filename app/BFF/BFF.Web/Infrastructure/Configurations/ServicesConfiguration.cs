@@ -1,10 +1,25 @@
-﻿namespace BFF.Web.Infrastructure.Configurations;
+﻿using BFF.Web.Infrastructure.Settings;
+using Helpers;
+using Settings;
+
+namespace BFF.Web.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
     public static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Services.AddHttpClient();
+
+        builder.Services.Configure<CatalogApiClientSettings>
+            (builder.Configuration.GetSection("CatalogApiClientSettings"));
+
+        builder.Services.Configure<BasketApiClientSettings>
+            (builder.Configuration.GetSection("BasketApiClientSettings"));
+
+        builder.Services.Configure<OrderApiClientSettings>
+            (builder.Configuration.GetSection("OrderApiClientSettings"));
+
+        builder.Services.AddScoped<ApiClientHelper>();
 
         builder.Services.AddScoped<ICatalogBffService, CatalogBffService>();
         builder.Services.AddScoped<IUserBffService, UserBffService>();
