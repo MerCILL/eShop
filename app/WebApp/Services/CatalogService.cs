@@ -1,21 +1,28 @@
-﻿namespace WebApp.Services;
+﻿using Helpers;
+using Microsoft.Extensions.Options;
+using Settings;
+using WebApp.Infrastructure.Settings;
+
+namespace WebApp.Services;
 
 public class CatalogService : ICatalogService
 {
-    private readonly IHttpClientFactory _clientFactory;
+    private readonly ApiClientSettings _bffClientSettings;
+    private readonly ApiClientHelper _apiClientHelper;
 
-    public CatalogService(IHttpClientFactory clientFactory)
+    public CatalogService(
+        IOptions<MvcApiClientSettings> bffClientSettings,
+        ApiClientHelper apiClientHelper
+        )
     {
-        _clientFactory = clientFactory;
+        _bffClientSettings = bffClientSettings.Value;
+        _apiClientHelper = apiClientHelper;
     }
 
     public async Task<PaginatedDataModel<CatalogItemModel>> GetCatalogItems(int page, int size, string sort, List<int> types = null, List<int> brands = null)
     {
-        var httpClient = _clientFactory.CreateClient();
-        var accessToken = await GetAccessToken();
-        httpClient.SetBearerToken(accessToken);
-
-        var response = await httpClient.GetAsync($"http://localhost:5002/bff/catalog/items?page={page}&size={size}");
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_bffClientSettings);
+        var response = await apiClient.GetAsync($"{_bffClientSettings.ApiUrl}/catalog/items?page={page}&size={size}");
 
         if (response.IsSuccessStatusCode)
         {
@@ -64,11 +71,9 @@ public class CatalogService : ICatalogService
 
     public async Task<PaginatedDataModel<CatalogTypeModel>> GetCatalogTypes()
     {
-        var httpClient = _clientFactory.CreateClient();
-        var accessToken = await GetAccessToken();
-        httpClient.SetBearerToken(accessToken);
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_bffClientSettings);
+        var response = await apiClient.GetAsync($"{_bffClientSettings.ApiUrl}/catalog/types");
 
-        var response = await httpClient.GetAsync("http://localhost:5002/bff/catalog/types");
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
@@ -83,11 +88,9 @@ public class CatalogService : ICatalogService
 
     public async Task<PaginatedDataModel<CatalogBrandModel>> GetCatalogBrands()
     {
-        var httpClient = _clientFactory.CreateClient();
-        var accessToken = await GetAccessToken();
-        httpClient.SetBearerToken(accessToken);
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_bffClientSettings);
+        var response = await apiClient.GetAsync($"{_bffClientSettings.ApiUrl}/catalog/brands");
 
-        var response = await httpClient.GetAsync("http://localhost:5002/bff/catalog/brands");
         if (response.IsSuccessStatusCode)
         {
             var content = await response.Content.ReadAsStringAsync();
@@ -102,11 +105,9 @@ public class CatalogService : ICatalogService
 
     public async Task<CatalogItemModel> GetCatalogItemById(int id)
     {
-        var httpClient = _clientFactory.CreateClient();
-        var accessToken = await GetAccessToken();
-        httpClient.SetBearerToken(accessToken);
-
-        var response = await httpClient.GetAsync($"http://localhost:5002/bff/catalog/items/{id}");
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_bffClientSettings);
+        var response = await apiClient.GetAsync($"{_bffClientSettings.ApiUrl}/catalog/items/{id}");
+     
         if (response.IsSuccessStatusCode) 
         {
             var content = await response.Content.ReadAsStringAsync();
@@ -118,32 +119,4 @@ public class CatalogService : ICatalogService
             throw new Exception("API request error");
         }
     }
-
-
-    private async Task<string> GetAccessToken()
-    {
-        var httpClient = _clientFactory.CreateClient();
-
-        var disco = await httpClient.GetDiscoveryDocumentAsync("https://localhost:5001");
-        if (disco.IsError)
-        {
-            throw new Exception("Discovery document error");
-        }
-
-        var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = disco.TokenEndpoint,
-            ClientId = "mvc_client",
-            ClientSecret = "mvc_secret",
-            Scope = "WebBffAPI"
-        });
-
-        if (tokenResponse.IsError)
-        {
-            throw new Exception("Token request error");
-        }
-
-        return tokenResponse.AccessToken;
-    }
-
 }

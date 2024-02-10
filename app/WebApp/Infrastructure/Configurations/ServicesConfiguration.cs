@@ -1,4 +1,7 @@
-﻿namespace WebApp.Infrastructure.Configurations;
+﻿using Helpers;
+using WebApp.Infrastructure.Settings;
+
+namespace WebApp.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
@@ -7,6 +10,11 @@ public static class ServicesConfiguration
         builder.Services.AddControllersWithViews();
         builder.Services.AddSession();
         builder.Services.AddHttpClient();
+
+        builder.Services.AddScoped<ApiClientHelper>();
+
+        builder.Services.Configure<MvcApiClientSettings>
+            (builder.Configuration.GetSection("MvcApiClientSettings"));
 
         builder.Services.AddScoped<ICatalogService, CatalogService>();
         builder.Services.AddScoped<IBasketService, BasketService>();

@@ -1,23 +1,30 @@
-﻿namespace WebApp.Services;
+﻿using Helpers;
+using Microsoft.Extensions.Options;
+using Settings;
+using WebApp.Infrastructure.Settings;
+
+namespace WebApp.Services;
 
 public class OrderService : IOrderService
 {
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly ApiClientSettings _bffClientSettings;
+    private readonly ApiClientHelper _apiClientHelper;
 
-    public OrderService(IHttpClientFactory httpClientFactory)
+    public OrderService(
+        IOptions<MvcApiClientSettings> bffClientSettings,
+        ApiClientHelper apiClientHelper)
     {
-        _httpClientFactory = httpClientFactory;
+        _bffClientSettings = bffClientSettings.Value;
+        _apiClientHelper = apiClientHelper;
     }
 
     public async Task<IEnumerable<OrderModel>> GetOrdersByUser(HttpContext httpContext)
     {
-        var httpClient = _httpClientFactory.CreateClient();
-        var accessToken = await GetAccessToken();
-        httpClient.SetBearerToken(accessToken);
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_bffClientSettings);
 
         var userId = FindUserId(httpContext);
 
-        var response = await httpClient.GetAsync($"http://localhost:5002/bff/users/{userId}/orders");
+        var response = await apiClient.GetAsync($"{_bffClientSettings.ApiUrl}/users/{userId}/orders");
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<IEnumerable<OrderModel>>(content);
@@ -26,11 +33,9 @@ public class OrderService : IOrderService
 
     public async Task<OrderModel> AddOrder(OrderRequest orderRequest)
     {
-        var httpClient = _httpClientFactory.CreateClient();
-        var accessToken = await GetAccessToken();
-        httpClient.SetBearerToken(accessToken);
+        var apiClient = await _apiClientHelper.CreateClientWithToken(_bffClientSettings);
 
-        var response = await httpClient.PostAsJsonAsync($"http://localhost:5002/bff/orders", orderRequest);
+        var response = await apiClient.PostAsJsonAsync($"{_bffClientSettings.ApiUrl}/orders", orderRequest);
 
         var content = await response.Content.ReadAsStringAsync();
         var result = JsonConvert.DeserializeObject<OrderModel>(content);
@@ -41,32 +46,6 @@ public class OrderService : IOrderService
     {
         var userIdClaim = httpContext.User.Claims.FirstOrDefault(c => c.Type == "sub");
         return userIdClaim.Value;
-    }
-
-    private async Task<string> GetAccessToken()
-    {
-        var httpClient = _httpClientFactory.CreateClient();
-
-        var disco = await httpClient.GetDiscoveryDocumentAsync("https://localhost:5001");
-        if (disco.IsError)
-        {
-            throw new Exception("Discovery document error");
-        }
-
-        var tokenResponse = await httpClient.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-        {
-            Address = disco.TokenEndpoint,
-            ClientId = "mvc_client",
-            ClientSecret = "mvc_secret",
-            Scope = "WebBffAPI"
-        });
-
-        if (tokenResponse.IsError)
-        {
-            throw new Exception("Token request error");
-        }
-
-        return tokenResponse.AccessToken;
     }
 }
 

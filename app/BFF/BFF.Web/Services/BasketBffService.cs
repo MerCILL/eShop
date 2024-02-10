@@ -1,4 +1,5 @@
-﻿using Helpers;
+﻿using BFF.Web.Infrastructure.Settings;
+using Helpers;
 using Microsoft.Extensions.Options;
 using Settings;
 
@@ -10,7 +11,7 @@ public class BasketBffService : IBasketBffService
     private readonly ApiClientHelper _apiClientHelper;
 
     public BasketBffService(
-        IOptions<ApiClientSettings> basketSettings,
+        IOptions<BasketApiClientSettings> basketSettings,
         ApiClientHelper apiClientHelper)
     {
         _basketSettings = basketSettings.Value;
