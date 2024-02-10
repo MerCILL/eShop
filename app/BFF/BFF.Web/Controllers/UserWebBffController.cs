@@ -5,21 +5,18 @@
 [Authorize(Policy = "ApiScope")]
 public class UserWebBffController : ControllerBase
 {
-    private readonly IUserBffService _userBffService;
     private readonly IOrderBffService _orderBffService;
 
     public UserWebBffController(
-        IUserBffService userBffService, 
         IOrderBffService orderBffService)
     {
-        _userBffService = userBffService;
         _orderBffService = orderBffService;
     }
 
     [HttpGet("me")]
     public IActionResult GetActiveUserId()
     {
-        var userId = _userBffService.GetUserId(User);
+        var userId = User.GetUserId();
         if (userId == null)
             return NotFound("User is null");
         else

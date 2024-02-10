@@ -9,9 +9,10 @@ global using Basket.API.Requests;
 global using Basket.API.Responses;
 global using Basket.API.Infrastructure.Configurations;
 
-//Settings
+//Common
 global using Settings;
 global using Helpers;
+global using Helpers.Extensions;
 
 //Packages
 global using Microsoft.AspNetCore.Mvc;

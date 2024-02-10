@@ -13,7 +13,6 @@ public static class ServicesConfiguration
 
         builder.Services.AddScoped<ICatalogService, CatalogService>();
         builder.Services.AddScoped<ICacheService, CacheService>();
-        builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IBasketService, BasketService>();
 
         builder.Services.AddControllers();       

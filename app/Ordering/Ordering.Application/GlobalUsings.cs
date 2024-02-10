@@ -9,17 +9,18 @@ global using Ordering.Domain.Models;
 global using Ordering.Core.Abstractions.Services;
 global using Ordering.Core.Abstractions.Repositories;
 
-//Settings
+//Application Layer
+global using Ordering.Application.Infrastructure.Settings;
+
+//Common
 global using Settings;
 global using Helpers;
-global using Microsoft.Extensions.Options;
-global using Ordering.Application.Infrastructure.Settings;
+global using Helpers.Extensions;
 
 //Packages
 global using AutoMapper;
-global using IdentityModel;
 global using System.Security.Claims;
-global using IdentityModel.Client;
 global using Newtonsoft.Json;
+global using Microsoft.Extensions.Options;
 
 

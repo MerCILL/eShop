@@ -9,6 +9,7 @@ global using BFF.Web.Infrastructure.Settings;
 //Common
 global using Helpers;
 global using Settings;
+global using Helpers.Extensions;
 
 //Packages
 global using Microsoft.AspNetCore.Authorization;

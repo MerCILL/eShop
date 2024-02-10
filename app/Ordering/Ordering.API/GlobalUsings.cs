@@ -18,8 +18,9 @@ global using Ordering.Application.Infrastructure.Settings;
 global using Ordering.API.Requests;
 global using Ordering.API.Infrastructure.Configurations;
 
-//Settings
+//Common
 global using Helpers;
+global using Helpers.Extensions;
 
 //Packages
 global using Microsoft.EntityFrameworkCore.Migrations;

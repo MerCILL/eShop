@@ -1,4 +1,6 @@
-﻿namespace Ordering.API.Controllers;
+﻿using Helpers.Extensions;
+
+namespace Ordering.API.Controllers;
 
 [ApiController]
 [Route("api/v1/users")]
@@ -32,7 +34,7 @@ public class UserController : ControllerBase
     [HttpGet("{userId?}/details")]
     public async Task<IActionResult> GetUserById(string userId)
     {
-        userId = userId ?? User.FindFirstValue(ClaimTypes.NameIdentifier);
+        userId = userId ?? User.GetUserId();
         var user = await _userService.GetUserById(userId);
 
         if (user != null)

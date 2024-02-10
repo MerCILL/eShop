@@ -18,7 +18,6 @@ public static class ServicesConfiguration
         builder.Services.AddScoped<ApiClientHelper>();
 
         builder.Services.AddScoped<ICatalogBffService, CatalogBffService>();
-        builder.Services.AddScoped<IUserBffService, UserBffService>();
         builder.Services.AddScoped<IBasketBffService, BasketBffService>();
         builder.Services.AddScoped<IOrderBffService, OrderBffService>();
 

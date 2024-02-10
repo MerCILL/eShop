@@ -1,4 +1,6 @@
-﻿namespace Ordering.Application.Services;
+﻿using Helpers.Extensions;
+
+namespace Ordering.Application.Services;
 
 public class UserService : IUserService
 {
@@ -39,9 +41,9 @@ public class UserService : IUserService
 
     public async Task<User> Add(ClaimsPrincipal userClaims)
     {
-        var userId = userClaims.FindFirstValue(ClaimTypes.NameIdentifier);
-        var userName = userClaims.FindFirst(JwtClaimTypes.Name)?.Value;
-        var userEmail = userClaims.FindFirst("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress")?.Value;
+        var userId = userClaims.GetUserId();
+        var userName = userClaims.GetUserName();
+        var userEmail = userClaims.GetUserEmail();
 
         var userEntity = await _userRepository.GetUserById(userId);
 
