@@ -17,11 +17,6 @@ public class OrderWebBffController : ControllerBase
     {
         var orders = await _orderBffService.GetOrders(page, size);
 
-        if (orders == null)
-        {
-            return NotFound();
-        }
-
         return Ok(orders);
     }
 
@@ -31,41 +26,23 @@ public class OrderWebBffController : ControllerBase
     {
         var order = await _orderBffService.GetOrderById(id);
 
-        if (order == null) 
-        {
-            return NotFound();
-        }
-
         return Ok(order);
     }
 
     [HttpPost]
     public async Task<IActionResult> AddOrder(OrderRequest orderRequest)
     {
-        try
-        {
-            var addedOrder = await _orderBffService.AddOrder(orderRequest);
 
-            return Ok(addedOrder);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var addedOrder = await _orderBffService.AddOrder(orderRequest);
+
+        return Ok(addedOrder);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteOrder(int id)
     {
-
         var deletedOrder = await _orderBffService.DeleteOrder(id);
 
-        if (deletedOrder == null)
-        {
-            return NotFound();
-        }
-
         return Ok(deletedOrder);
-       
     }
 }

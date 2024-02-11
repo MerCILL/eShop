@@ -5,6 +5,8 @@ global using BFF.Web.Services.Abstractions;
 global using BFF.Web.Services;
 global using BFF.Web.Infrastructure.Configurations;
 global using BFF.Web.Infrastructure.Settings;
+global using BFF.Web.Infrastructure.Exceptions;
+global using BFF.Web.Infrastructure.Validations;
 
 //Common
 global using Helpers;
@@ -20,3 +22,6 @@ global using Microsoft.OpenApi.Models;
 global using Newtonsoft.Json;
 global using System.Security.Claims;
 global using Microsoft.Extensions.Options;
+global using Serilog;
+global using FluentValidation;
+global using FluentValidation.AspNetCore;

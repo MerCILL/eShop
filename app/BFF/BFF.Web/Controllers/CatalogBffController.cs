@@ -15,43 +15,23 @@ public class CatalogBffController : ControllerBase
     [HttpGet("brands")]
     public async Task<IActionResult> GetBrands(int page = 1, int size = 3)
     {
-        try
-        {
-            var brands = await _catalogBffService.GetBrands(page, size);
-            return Ok(brands);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500);
-        }
+
+        var brands = await _catalogBffService.GetBrands(page, size);
+        return Ok(brands);
     }
 
     [HttpGet("types")]
     public async Task<IActionResult> GetTypes(int page = 1, int size = 3)
     {
-        try
-        {
-            var types = await _catalogBffService.GetTypes(page, size);
-            return Ok(types);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500);
-        }
+        var types = await _catalogBffService.GetTypes(page, size);
+        return Ok(types);
     }
 
     [HttpGet("items")]
     public async Task<IActionResult> GetItems(int page = 1, int size = 10)
     {
-        try
-        {
-            var items = await _catalogBffService.GetItems(page, size);
-            return Ok(items);
-        }
-        catch (Exception)
-        {
-            return StatusCode(500);
-        }
+        var items = await _catalogBffService.GetItems(page, size);
+        return Ok(items);
     }
 
     [HttpGet("items/{id}")]

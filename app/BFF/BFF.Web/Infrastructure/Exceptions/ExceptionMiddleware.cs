@@ -1,4 +1,4 @@
-﻿namespace Ordering.API.Infrastructure.Exceptions;
+﻿namespace BFF.Web.Infrastructure.Exceptions;
 
 public class ExceptionMiddleware
 {
@@ -11,7 +11,8 @@ public class ExceptionMiddleware
         { typeof(ArgumentOutOfRangeException), StatusCodes.Status400BadRequest },
         { typeof(ArgumentException), StatusCodes.Status400BadRequest },
         { typeof(JsonReaderException), StatusCodes.Status400BadRequest },
-        { typeof(Exception), StatusCodes.Status500InternalServerError }
+        { typeof(Exception), StatusCodes.Status500InternalServerError },
+        { typeof(NotFoundException), StatusCodes.Status404NotFound }
     };
 
     public ExceptionMiddleware(RequestDelegate next)

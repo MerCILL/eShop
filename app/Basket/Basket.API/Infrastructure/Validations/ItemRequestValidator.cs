@@ -4,12 +4,14 @@ public class ItemRequestValidator : AbstractValidator<ItemRequest>
 {
     public ItemRequestValidator()
     {
-        RuleFor(request => request.ItemId)
-            .NotEmpty().WithMessage("ItemId is required")
-            .Must(item => item > 0).WithMessage("Item must be a number and greather than 0");
+        RuleFor(x => x.UserId)
+            .NotNull()
+            .NotEmpty()
+            .MinimumLength(10)
+            .WithMessage("UserId must not be null, empty, and should contain more than 10 characters");
 
-        RuleFor(request => request.UserId)
-            .NotEmpty().WithMessage("UserId is required")
-            .Length(1, 100).WithMessage("UserId has to be minimum 1 length and max 100 length");
+        RuleFor(x => x.ItemId)
+            .GreaterThan(0)
+            .WithMessage("ItemId must be greater than 0");
     }
 }

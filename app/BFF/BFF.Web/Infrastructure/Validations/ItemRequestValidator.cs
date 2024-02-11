@@ -1,4 +1,4 @@
-﻿namespace Ordering.API.Infrastructure.Validations;
+﻿namespace BFF.Web.Infrastructure.Validations;
 
 public class ItemRequestValidator : AbstractValidator<ItemRequest>
 {

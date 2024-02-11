@@ -1,4 +1,6 @@
-﻿namespace WebApp.Infrastructure.Configurations;
+﻿using Serilog;
+
+namespace WebApp.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
@@ -17,5 +19,8 @@ public static class ServicesConfiguration
         builder.Services.AddScoped<IBasketService, BasketService>();
         builder.Services.AddScoped<IOrderService, OrderService>();
         builder.Services.AddScoped<ILoginService, LoginService>();
+
+        builder.Services.AddLogging(loggingBuilder =>
+            loggingBuilder.AddSerilog(dispose: true));
     }
 }

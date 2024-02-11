@@ -1,4 +1,6 @@
-﻿namespace Ordering.API.Infrastructure.Configurations;
+﻿using Ordering.API.Infrastructure.Validations;
+
+namespace Ordering.API.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
@@ -22,8 +24,11 @@ public static class ServicesConfiguration
 
         builder.Services.AddScoped<ITransactionService, TransactionService>();
 
-        builder.Services.AddFluentValidationAutoValidation();
-        builder.Services.AddFluentValidationClientsideAdapters();
+        builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        builder.Services.AddValidatorsFromAssemblyContaining<ItemRequestValidator>();
+        builder.Services.AddValidatorsFromAssemblyContaining<OrderItemUpdateRequestValidator>();
+        builder.Services.AddValidatorsFromAssemblyContaining<OrderRequestValidator>();
+        builder.Services.AddValidatorsFromAssemblyContaining<OrderUpdateRequestValidator>();
 
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

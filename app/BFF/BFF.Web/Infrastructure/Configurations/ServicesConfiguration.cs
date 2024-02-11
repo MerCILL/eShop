@@ -23,6 +23,13 @@ public static class ServicesConfiguration
 
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+        builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        builder.Services.AddValidatorsFromAssemblyContaining<ItemRequestValidator>();
+        builder.Services.AddValidatorsFromAssemblyContaining<OrderRequestValidator>();
+
+        builder.Services.AddLogging(loggingBuilder =>
+            loggingBuilder.AddSerilog(dispose: true)); 
+
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
     }

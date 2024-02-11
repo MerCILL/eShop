@@ -3,13 +3,13 @@
 public static class AppConfiguration
 {
     public static void ConfigureApp(WebApplication app)
-    {    
+    {
+
         if (app.Environment.IsDevelopment())
         {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
         app.UseMiddleware<ExceptionMiddleware>();
         app.UseAuthentication();
         app.UseAuthorization();

@@ -17,21 +17,14 @@ public class UserWebBffController : ControllerBase
     public IActionResult GetActiveUserId()
     {
         var userId = User.GetUserId();
-        if (userId == null)
-            return NotFound("User is null");
-        else
-            return Ok(userId);
+
+        return Ok(userId);
     }
 
     [HttpGet("{userId}/orders")]
     public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
     {
         var orders = await _orderBffService.GetOrdersByUser(userId, page, size);
-
-        if (orders == null)
-        {
-            return NotFound();
-        }
 
         return Ok(orders);
     }

@@ -17,13 +17,13 @@ public static class ServicesConfiguration
         builder.Services.AddScoped<ICacheService, CacheService>();
         builder.Services.AddScoped<IBasketService, BasketService>();
 
-        builder.Services.AddFluentValidationAutoValidation();
-        builder.Services.AddFluentValidationClientsideAdapters();
+        builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
+        builder.Services.AddValidatorsFromAssemblyContaining<ItemRequestValidator>();
 
         builder.Services.AddLogging(loggingBuilder =>
             loggingBuilder.AddSerilog(dispose: true));
 
-        builder.Services.AddControllers(); 
+        builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();
     }
 }

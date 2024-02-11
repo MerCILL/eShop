@@ -10,6 +10,7 @@ public class ExceptionMiddleware
         { typeof(NullReferenceException), StatusCodes.Status400BadRequest },
         { typeof(ArgumentOutOfRangeException), StatusCodes.Status400BadRequest },
         { typeof(ArgumentException), StatusCodes.Status400BadRequest },
+        { typeof(JsonReaderException), StatusCodes.Status400BadRequest },
         { typeof(Exception), StatusCodes.Status500InternalServerError }
     };
 

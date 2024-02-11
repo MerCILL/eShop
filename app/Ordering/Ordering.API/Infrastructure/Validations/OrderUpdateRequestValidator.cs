@@ -4,16 +4,20 @@ public class OrderUpdateRequestValidator : AbstractValidator<OrderUpdateRequest>
 {
     public OrderUpdateRequestValidator()
     {
-        RuleFor(request => request.Address)
-           .NotEmpty().WithMessage("Address is required")
-           .Length(1, 300).WithMessage("Address has to be minimum 1 length and max 300 length")
-           .Matches("^[a-zA-Z0-9 ]*$").WithMessage("Address can only contain alphanumeric characters and spaces");
+        RuleFor(x => x.Address)
+            .NotNull()
+            .NotEmpty()
+            .MinimumLength(10)
+            .MaximumLength(200)
+            .WithMessage("Address must not be null, empty, and should contain between 10 and 200 characters");
 
-        RuleFor(request => request.Items)
-          .Must(items => items.Count > 0).WithMessage("Number of items has to be > 0");
+        RuleFor(x => x.Items)
+            .NotNull()
+            .Must(items => items != null && items.Count > 0)
+            .WithMessage("Items must not be null and should contain at least one item");
 
-        RuleForEach(request => request.Items)
+        RuleForEach(x => x.Items)
             .SetValidator(new OrderItemUpdateRequestValidator())
-            .WithMessage("Error in OrderItemUpdateRequest");
+            .When(x => x.Items != null && x.Items.Any());
     }
 }
