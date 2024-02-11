@@ -15,7 +15,6 @@ global using Catalog.API.Requests;
 global using Catalog.API.Responses;
 global using Catalog.API.Infrastructure.Exceptions;
 global using Catalog.API.Infrastructure.Mapping;
-global using Catalog.API.Infrastructure.Validations;
 global using Catalog.API.Infrastructure.Configurations;
 
 //Aplication Layer

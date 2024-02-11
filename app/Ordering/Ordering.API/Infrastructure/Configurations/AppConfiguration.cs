@@ -10,9 +10,19 @@ public static class AppConfiguration
             app.UseSwaggerUI();
         }
 
+        app.UseMiddleware<ExceptionMiddleware>();
         app.UseAuthentication();
         app.UseAuthorization();
 
         app.MapControllers().RequireAuthorization("OrderApiScope");
+
+        var serilogConfig = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("serilog.json")
+            .Build();
+
+        Log.Logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(serilogConfig)
+            .CreateLogger();
     }
 }

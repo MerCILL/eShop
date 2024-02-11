@@ -1,6 +1,4 @@
-﻿using Helpers.Extensions;
-
-namespace Ordering.API.Controllers;
+﻿namespace Ordering.API.Controllers;
 
 [ApiController]
 [Route("api/v1/users")]
@@ -10,7 +8,7 @@ public class UserController : ControllerBase
     private readonly IOrderService _orderService;
 
     public UserController(
-        IUserService userService, 
+        IUserService userService,
         IOrderService orderService)
     {
         _userService = userService;
@@ -18,8 +16,9 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllUsersWithAtLeastOneOrder([FromQuery] int page, int size) 
+    public async Task<IActionResult> GetAllUsersWithAtLeastOneOrder([FromQuery] int page, int size)
     {
+
         var users = await _userService.Get(page, size);
         return Ok(users);
     }
@@ -27,6 +26,7 @@ public class UserController : ControllerBase
     [HttpGet("{userId}/orders")]
     public async Task<IActionResult> GetOrdersByUser(string userId, [FromQuery] int page = 1, [FromQuery] int size = 50)
     {
+
         var orders = await _orderService.GetByUser(userId, page, size);
         return Ok(orders);
     }
@@ -34,22 +34,16 @@ public class UserController : ControllerBase
     [HttpGet("{userId?}/details")]
     public async Task<IActionResult> GetUserById(string userId)
     {
+
         userId = userId ?? User.GetUserId();
         var user = await _userService.GetUserById(userId);
-
-        if (user != null)
-        {
-            return Ok(user);
-        }
-        else
-        {
-            return NotFound();
-        }
+        return Ok(user);
     }
 
     [HttpGet("me")]
     public IActionResult GetActiveUserId()
     {
+
         var userId = _userService.GetActiveUserId(User);
         return Ok(userId);
     }
@@ -57,14 +51,7 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> AddUser()
     {
-        try
-        {
-            var user = await _userService.Add(User);
-            return Ok(user.UserId);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(ex.Message);
-        }
+        var user = await _userService.Add(User);
+        return Ok(user.UserId);
     }
 }

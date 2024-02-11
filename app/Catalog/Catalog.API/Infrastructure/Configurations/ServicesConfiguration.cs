@@ -19,7 +19,6 @@ public static class ServicesConfiguration
 
         builder.Services.AddFluentValidationAutoValidation();
         builder.Services.AddFluentValidationClientsideAdapters();
-        builder.Services.AddValidatorsFromAssemblyContaining<CatalogTypeRequestValidator>();
 
         builder.Services.AddLogging(loggingBuilder =>
            loggingBuilder.AddSerilog(dispose: true));

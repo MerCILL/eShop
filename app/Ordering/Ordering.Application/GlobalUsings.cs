@@ -11,6 +11,7 @@ global using Ordering.Core.Abstractions.Repositories;
 
 //Application Layer
 global using Ordering.Application.Infrastructure.Settings;
+global using Ordering.Application.Infrastructure.Exceptions;
 
 //Common
 global using Settings;
@@ -22,5 +23,6 @@ global using AutoMapper;
 global using System.Security.Claims;
 global using Newtonsoft.Json;
 global using Microsoft.Extensions.Options;
+global using Microsoft.Extensions.Logging;
 
 

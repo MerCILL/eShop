@@ -12,6 +12,5 @@ global using Microsoft.Extensions.Options;
 //Packages
 global using Newtonsoft.Json;
 global using StackExchange.Redis;
-global using IdentityModel.Client;
-global using System.Security.Claims;
+global using Microsoft.Extensions.Logging; 
 

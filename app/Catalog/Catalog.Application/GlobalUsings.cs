@@ -11,8 +11,6 @@ global using Catalog.Domain.Models;
 //Application Layer
 global using Catalog.Application.Infrastructure.Exceptions;
 
-
-
 //Packages
 global using AutoMapper;
 global using Microsoft.Extensions.Logging;

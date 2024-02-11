@@ -22,7 +22,13 @@ public static class ServicesConfiguration
 
         builder.Services.AddScoped<ITransactionService, TransactionService>();
 
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddFluentValidationClientsideAdapters();
+
         builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+        builder.Services.AddLogging(loggingBuilder =>
+            loggingBuilder.AddSerilog(dispose: true));
 
         builder.Services.AddControllers();
         builder.Services.AddEndpointsApiExplorer();

@@ -1,4 +1,6 @@
-﻿namespace Basket.API.Infrastructure.Configurations;
+﻿using Basket.API.Infrastructure.Validations;
+
+namespace Basket.API.Infrastructure.Configurations;
 
 public static class ServicesConfiguration
 {
@@ -15,7 +17,13 @@ public static class ServicesConfiguration
         builder.Services.AddScoped<ICacheService, CacheService>();
         builder.Services.AddScoped<IBasketService, BasketService>();
 
-        builder.Services.AddControllers();       
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddFluentValidationClientsideAdapters();
+
+        builder.Services.AddLogging(loggingBuilder =>
+            loggingBuilder.AddSerilog(dispose: true));
+
+        builder.Services.AddControllers(); 
         builder.Services.AddEndpointsApiExplorer();
     }
 }

@@ -8,6 +8,7 @@ global using Basket.Application.Services;
 global using Basket.API.Requests;
 global using Basket.API.Responses;
 global using Basket.API.Infrastructure.Configurations;
+global using Basket.API.Infrastructure.Exceptions;
 
 //Common
 global using Settings;
@@ -20,4 +21,8 @@ global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi.Models;
 global using StackExchange.Redis;
 global using System.Security.Claims;
+global using FluentValidation.AspNetCore;
+global using FluentValidation;
+global using Serilog;
+global using Newtonsoft.Json;
 

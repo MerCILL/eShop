@@ -13,10 +13,12 @@ global using Ordering.Core.Abstractions.Services;
 //Application Layer
 global using Ordering.Application.Services;
 global using Ordering.Application.Infrastructure.Settings;
+global using Ordering.Application.Infrastructure.Exceptions;
 
 //API Layer
 global using Ordering.API.Requests;
 global using Ordering.API.Infrastructure.Configurations;
+global using Ordering.API.Infrastructure.Exceptions;
 
 //Common
 global using Helpers;
@@ -29,6 +31,9 @@ global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Infrastructure;
 global using AutoMapper;
 global using Microsoft.AspNetCore.Mvc;
-global using System.Security.Claims;
 global using Microsoft.IdentityModel.Tokens;
 global using Microsoft.OpenApi.Models;
+global using FluentValidation;
+global using FluentValidation.AspNetCore;
+global using Serilog;
+global using Newtonsoft.Json;
