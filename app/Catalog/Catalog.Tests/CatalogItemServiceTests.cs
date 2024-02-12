@@ -1,9 +1,4 @@
-﻿using AutoFixture;
-using Catalog.Core.Abstractions.Services;
-using Moq;
-using System.ComponentModel.DataAnnotations;
-
-namespace Catalog.Tests;
+﻿namespace Catalog.Tests;
 
 public class CatalogItemServiceTests
 {
