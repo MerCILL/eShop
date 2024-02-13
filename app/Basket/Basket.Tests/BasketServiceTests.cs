@@ -1,6 +1,4 @@
-﻿using Basket.Core.Abstractions;
-
-namespace Basket.Tests;
+﻿namespace Basket.Tests;
 
 public class BasketServiceTests
 {

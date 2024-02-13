@@ -10,7 +10,7 @@ public static class ServicesConfiguration
         builder.Services.AddSession();
         builder.Services.AddHttpClient();
 
-        builder.Services.AddScoped<ApiClientHelper>();
+        builder.Services.AddScoped<IApiClientHelper, ApiClientHelper>();
 
         builder.Services.Configure<MvcApiClientSettings>
             (builder.Configuration.GetSection("MvcApiClientSettings"));

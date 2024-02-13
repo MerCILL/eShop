@@ -11,6 +11,7 @@ global using WebApp.Infrastructure.Exceptions;
 //Common
 global using Helpers;
 global using Settings;
+global using Helpers.Abstractions;
 
 //Packages
 global using Microsoft.AspNetCore.Mvc;

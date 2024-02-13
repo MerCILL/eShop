@@ -3,12 +3,12 @@
 public class OrderService : IOrderService
 {
     private readonly ApiClientSettings _bffClientSettings;
-    private readonly ApiClientHelper _apiClientHelper;
+    private readonly IApiClientHelper _apiClientHelper;
     private readonly ILogger<OrderService> _logger;
 
     public OrderService(
         IOptions<MvcApiClientSettings> bffClientSettings,
-        ApiClientHelper apiClientHelper,
+        IApiClientHelper apiClientHelper,
         ILogger<OrderService> logger)
     {
         _bffClientSettings = bffClientSettings.Value;

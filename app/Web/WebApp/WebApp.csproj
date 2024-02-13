@@ -20,12 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Helpers\Helpers.csproj" />
-    <ProjectReference Include="..\Common\Settings\Settings.csproj" />
+    <Folder Include="Infrastructure\Logs\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\Logs\" />
+    <ProjectReference Include="..\..\Common\Helpers\Helpers.csproj" />
+    <ProjectReference Include="..\..\Common\Settings\Settings.csproj" />
   </ItemGroup>
 
 </Project>

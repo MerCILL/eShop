@@ -3,12 +3,12 @@
 public class CatalogService : ICatalogService
 {
     private readonly ApiClientSettings _bffClientSettings;
-    private readonly ApiClientHelper _apiClientHelper;
+    private readonly IApiClientHelper _apiClientHelper;
     private readonly ILogger<CatalogService> _logger;
 
     public CatalogService(
         IOptions<MvcApiClientSettings> bffClientSettings,
-        ApiClientHelper apiClientHelper,
+        IApiClientHelper apiClientHelper,
         ILogger<CatalogService> logger      
         )
     {

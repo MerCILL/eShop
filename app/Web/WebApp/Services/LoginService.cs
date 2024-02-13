@@ -2,17 +2,11 @@
 
 public class LoginService : ILoginService
 {
-    private readonly ApiClientSettings _bffClientSettings;
-    private readonly ApiClientHelper _apiClientHelper;
     private readonly ILogger<LoginService> _logger;
 
     public LoginService(
-        IOptions<MvcApiClientSettings> bffClientSettings,
-        ApiClientHelper apiClientHelper,
         ILogger<LoginService> logger)
     {
-        _bffClientSettings = bffClientSettings.Value;
-        _apiClientHelper = apiClientHelper;
         _logger = logger;
     }
 
