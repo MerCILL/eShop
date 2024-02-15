@@ -51,10 +51,11 @@ internal static class HostingExtensions
                 options.ClientSecret = "copy client secret from Google here";
             });
 
-        builder.Services.ConfigureApplicationCookie(options =>
-        {
-            options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-        });
+        //docker-compose
+        //builder.Services.ConfigureApplicationCookie(options =>
+        //{
+        //    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+        //});
 
         builder.Services.AddCors(options =>
         {
