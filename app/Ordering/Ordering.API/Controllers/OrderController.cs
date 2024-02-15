@@ -56,7 +56,7 @@ public class OrderController : ControllerBase
         try
         {
             var order = new Order { Address = orderRequest.Address };
-            var addedUser = await _userService.GetOrCreate(User);
+            //var addedUser = await _userService.GetOrCreate(User);
 
             var createdOrder = await _orderService.Add(order, orderRequest.UserId);
             return Ok(createdOrder);

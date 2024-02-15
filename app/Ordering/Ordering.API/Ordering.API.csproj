@@ -39,7 +39,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Helpers\Helpers.csproj" />
     <ProjectReference Include="..\..\Common\Settings\Settings.csproj" />
-    <ProjectReference Include="..\..\Identity\IdentityServer\IdentityServer.csproj" />
     <ProjectReference Include="..\Ordering.Application\Ordering.Application.csproj" />
     <ProjectReference Include="..\Ordering.Core\Ordering.Core.csproj" />
     <ProjectReference Include="..\Ordering.DataAccess\Ordering.DataAccess.csproj" />
